@@ -2,15 +2,17 @@
 
 using namespace std;
 
-struct carta1 {
+struct Carta{
+string tipo;
 int ataque;
 int defesa;
 int meio;
 int titulos;
 int aparicao_copas;
+bool is_super_trunfo;
 };
 
-// Um Struct para cada Seleção
+
 
 int main()
 
