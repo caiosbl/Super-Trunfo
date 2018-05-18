@@ -26,12 +26,16 @@ void inicializar_cartas();
 string to_string_carta(Carta carta);
 void embaralhar_cartas(Carta *cartas, int size);
 void swap(Carta *cartas, int i, int r);
+void inicializar_pilhas();
 
 // Métodos
 
 int main()
 {   setlocale(LC_ALL, "Portuguese");
     inicializar_cartas();
+    embaralhar_cartas(cartas,32);
+    inicializar_pilhas();
+
     cout << to_string_carta(cartas[0]) << endl;
     return 0;
 }
@@ -61,6 +65,17 @@ cartas[0].aparicao_copas = 4;
 
 
 //  Carta 2 ... até  carta 32, o indice vai de 0 a 31
+
+}
+
+void inicializar_pilhas(){
+for (int i = 0; i < 16; i++){
+stack_1.push(cartas[i]);
+}
+for (int i = 16; i < 32; i++){
+stack_2.push(cartas[i]);
+}
+
 
 }
 
