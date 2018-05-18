@@ -6,7 +6,7 @@
 #include <cstdlib>
 
 using namespace std;
-
+// Struct Carta
 typedef struct
 {
     string tipo;
@@ -19,7 +19,7 @@ typedef struct
     bool super_trunfo = false;
 } Carta;
 
-
+// Atributos
 const int numero_cartas = 32;
 Carta cartas [numero_cartas];
 std::stack<Carta> stack_1;
@@ -34,15 +34,31 @@ void embaralhar_cartas(Carta *cartas, int size);
 void swap(Carta *cartas, int i, int r);
 void inicializar_pilhas();
 void random_set_carta_trunfo();
+void set_random_player_inicia_jogo();
 void setup();
+void select_numero_players();
+void jogada_player(stack<Carta> pilha_jogador, stack<Carta> pilha_adversario);
+bool is_a (string tipo);
 
 // Métodos
 
 int main()
 {
     setup();
+    cout << endl << "Placar" << endl << "PLAYER 1 - " << stack_1.size() << " Cartas" << " x " << stack_2.size() << " - Cartas " << "PLAYER 2"<< endl;
+    if (player_atual == 1)
+        jogada_player(stack_1,stack_2);
+    else
+        jogada_player(stack_2,stack_1);
 
-    cout << to_string_carta(cartas[0]) << endl;
+    /*
+    while(!stack_1.empty() && !stack_2.empty()){
+
+        if (player_atual == 1)
+        jogada_player(stack_1,stack_2);
+        else
+        jogada_player(stack_1,stack_2);
+    } */
     return 0;
 }
 
@@ -54,6 +70,40 @@ void setup()
     inicializar_pilhas();
     random_set_carta_trunfo();
     set_random_player_inicia_jogo();
+    select_numero_players();
+}
+
+void select_numero_players()
+{
+    cout << "Selecione o Número de Jogadores (1 ou 2): " ;
+    int opcao;
+
+
+    cin >> opcao;
+
+    switch (opcao)
+    {
+    case 1:
+        system("cls");
+        cout << "MODO DE JOGO - JOGADOR x PC" << endl  ;
+        break;
+    case 2:
+        is_two_players = true;
+        system("cls");
+        cout << "MODO DE JOGO - JOGADOR1 x JOGADOR2" << endl  ;
+        break;
+    default:
+        system("cls");
+        cout << "OPÇÃO INVÁLIDA!" << endl  ;
+        cin.clear();
+        cin.ignore();
+        select_numero_players();
+
+        break;
+
+
+    }
+
 
 }
 
@@ -125,7 +175,7 @@ void swap (Carta *cartas, int i, int r)
 void random_set_carta_trunfo()
 {
     srand(time(0));
-    int r = rand() % tamanho_vetor;
+    int r = rand() % numero_cartas;
     cartas[r].super_trunfo = true;
 }
 
@@ -134,6 +184,34 @@ void set_random_player_inicia_jogo()
     srand(time(0));
     player_atual  =   1 + rand() % 2;
 }
+
+
+void jogada_player (stack<Carta> pilha_jogador, stack<Carta> pilha_adversario)
+{
+    Carta carta_jogador = pilha_jogador.top();
+    Carta carta_adversario = pilha_adversario.top();
+
+
+
+    cout << endl << "[NOVA JOGADA]" << endl << "PLAYER " << player_atual << endl;
+    cout  << endl << "CARTA:" <<  endl << to_string_carta(carta_jogador);
+
+    if (carta_jogador.super_trunfo)
+    {
+        cout << "CARTA ATUAL É TRUNFO" << endl;
+
+
+
+
+    }
+
+}
+
+bool is_a (string tipo)
+{
+    return tipo.substr(0,1).compare("A") == 0;
+}
+
 
 
 
