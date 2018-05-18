@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <locale.h>
+#include <stack>
 
 using namespace std;
 
@@ -15,11 +16,25 @@ int aparicao_copas;
 bool is_super_trunfo = false;
 }Carta;
 
+// Estruturas de Dados
 Carta cartas [32];
+std::stack<Carta> stack_1;
+std::stack<Carta> stack_2;
 
+// Declaração de Métodos
 void inicializar_cartas();
 string to_string_carta(Carta carta);
+void embaralhar_cartas(Carta *cartas, int size);
+void swap(Carta *cartas, int i, int r);
 
+// Métodos
+
+int main()
+{   setlocale(LC_ALL, "Portuguese");
+    inicializar_cartas();
+    cout << to_string_carta(cartas[0]) << endl;
+    return 0;
+}
 
 string to_string_carta(Carta carta){
 string to_string = "Tipo: " + carta.tipo + "\n" +
@@ -49,9 +64,21 @@ cartas[0].aparicao_copas = 4;
 
 }
 
-int main()
-{   setlocale(LC_ALL, "Portuguese");
-    inicializar_cartas();
-    cout << to_string_carta(cartas[0]) << endl;
-    return 0;
+void embaralhar_cartas(int *cartas, int tamanho_vetor)
+{
+	for (int i = 0; i < tamanho_vetor; i++)
+	{
+		int r = rand() % tamanho_vetor;
+
+		swap(cartas,i,r);
+	}
 }
+
+void swap (int *cartas, int i, int r){
+int temp = cartas[i];
+cartas[i] = cartas[r];
+cartas[r] = temp;
+}
+
+
+
