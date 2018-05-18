@@ -17,7 +17,7 @@ bool is_super_trunfo = false;
 }Carta;
 
 // Estruturas de Dados
-const numero_cartas = 32;
+const int numero_cartas = 32;
 Carta cartas [numero_cartas];
 std::stack<Carta> stack_1;
 std::stack<Carta> stack_2;
@@ -49,7 +49,7 @@ string to_string = "Tipo: " + carta.tipo + "\n" +
 "Títulos: " + std::to_string(carta.titulos) + "\n" +
 "Aparições em Copas: " + std::to_string(carta.aparicao_copas) + "\n" ;
 
-if (cartas[0].is_super_trunfo)
+if (carta.is_super_trunfo)
     to_string += " SUPER TRUNFO ";
 
 return to_string;
