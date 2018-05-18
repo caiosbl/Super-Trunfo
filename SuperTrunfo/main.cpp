@@ -6,9 +6,10 @@
 #include <cstdlib>
 
 using namespace std;
-
+// Struct Carta
 typedef struct
-{   string tipo;
+{
+    string tipo;
     string nome;
     int ataque;
     int defesa;
@@ -18,7 +19,7 @@ typedef struct
     bool super_trunfo = false;
 } Carta;
 
-
+// Atributos
 const int numero_cartas = 32;
 Carta cartas [numero_cartas];
 std::stack<Carta> stack_1;
@@ -36,14 +37,28 @@ void random_set_carta_trunfo();
 void set_random_player_inicia_jogo();
 void setup();
 void select_numero_players();
+void jogada_player(stack<Carta> pilha_jogador, stack<Carta> pilha_adversario);
+bool is_a (string tipo);
 
 // Métodos
 
 int main()
 {
     setup();
+    cout << endl << "Placar" << endl << "PLAYER 1 - " << stack_1.size() << " Cartas" << " x " << stack_2.size() << " - Cartas " << "PLAYER 2"<< endl;
+    if (player_atual == 1)
+        jogada_player(stack_1,stack_2);
+    else
+        jogada_player(stack_2,stack_1);
 
-    cout << to_string_carta(cartas[0]) << endl;
+    /*
+    while(!stack_1.empty() && !stack_2.empty()){
+
+        if (player_atual == 1)
+        jogada_player(stack_1,stack_2);
+        else
+        jogada_player(stack_1,stack_2);
+    } */
     return 0;
 }
 
@@ -56,8 +71,6 @@ void setup()
     random_set_carta_trunfo();
     set_random_player_inicia_jogo();
     select_numero_players();
-
-
 }
 
 void select_numero_players()
@@ -171,6 +184,34 @@ void set_random_player_inicia_jogo()
     srand(time(0));
     player_atual  =   1 + rand() % 2;
 }
+
+
+void jogada_player (stack<Carta> pilha_jogador, stack<Carta> pilha_adversario)
+{
+    Carta carta_jogador = pilha_jogador.top();
+    Carta carta_adversario = pilha_adversario.top();
+
+
+
+    cout << endl << "[NOVA JOGADA]" << endl << "PLAYER " << player_atual << endl;
+    cout  << endl << "CARTA:" <<  endl << to_string_carta(carta_jogador);
+
+    if (carta_jogador.super_trunfo)
+    {
+        cout << "CARTA ATUAL É TRUNFO" << endl;
+
+
+
+
+    }
+
+}
+
+bool is_a (string tipo)
+{
+    return tipo.substr(0,1).compare("A") == 0;
+}
+
 
 
 
