@@ -1,4 +1,9 @@
 # depslib dependency file v1.0
-1526594094 source:c:\users\fjfca\desktop\plp\super-trunfo---plp\supertrunfo\main.cpp
+1526666312 source:c:\users\fjfca\desktop\plp\super-trunfo---plp\supertrunfo\main.cpp
 	<iostream>
+	<string>
+	<locale.h>
+	<stack>
+	<ctime>
+	<cstdlib>
 

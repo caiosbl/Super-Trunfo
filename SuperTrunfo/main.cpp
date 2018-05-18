@@ -8,8 +8,7 @@
 using namespace std;
 
 typedef struct
-{
-    string tipo;
+{   string tipo;
     string nome;
     int ataque;
     int defesa;
@@ -34,7 +33,9 @@ void embaralhar_cartas(Carta *cartas, int size);
 void swap(Carta *cartas, int i, int r);
 void inicializar_pilhas();
 void random_set_carta_trunfo();
+void set_random_player_inicia_jogo();
 void setup();
+void select_numero_players();
 
 // Métodos
 
@@ -54,6 +55,42 @@ void setup()
     inicializar_pilhas();
     random_set_carta_trunfo();
     set_random_player_inicia_jogo();
+    select_numero_players();
+
+
+}
+
+void select_numero_players()
+{
+    cout << "Selecione o Número de Jogadores (1 ou 2): " ;
+    int opcao;
+
+
+    cin >> opcao;
+
+    switch (opcao)
+    {
+    case 1:
+        system("cls");
+        cout << "MODO DE JOGO - JOGADOR x PC" << endl  ;
+        break;
+    case 2:
+        is_two_players = true;
+        system("cls");
+        cout << "MODO DE JOGO - JOGADOR1 x JOGADOR2" << endl  ;
+        break;
+    default:
+        system("cls");
+        cout << "OPÇÃO INVÁLIDA!" << endl  ;
+        cin.clear();
+        cin.ignore();
+        select_numero_players();
+
+        break;
+
+
+    }
+
 
 }
 
@@ -125,7 +162,7 @@ void swap (Carta *cartas, int i, int r)
 void random_set_carta_trunfo()
 {
     srand(time(0));
-    int r = rand() % tamanho_vetor;
+    int r = rand() % numero_cartas;
     cartas[r].super_trunfo = true;
 }
 
