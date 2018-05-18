@@ -28,6 +28,7 @@ string to_string_carta(Carta carta);
 void embaralhar_cartas(Carta *cartas, int size);
 void swap(Carta *cartas, int i, int r);
 void inicializar_pilhas();
+void random_set_carta_trunfo();
 
 // Métodos
 
@@ -36,6 +37,7 @@ int main()
     inicializar_cartas();
     embaralhar_cartas(cartas,numero_cartas);
     inicializar_pilhas();
+    random_set_carta_trunfo();
 
     cout << to_string_carta(cartas[0]) << endl;
     return 0;
@@ -96,6 +98,11 @@ void swap (Carta *cartas, int i, int r){
 Carta temp = cartas[i];
 cartas[i] = cartas[r];
 cartas[r] = temp;
+}
+
+void random_set_carta_trunfo(){
+int r = rand() % tamanho_vetor;
+cartas[r].is_super_trunfo = true;
 }
 
 
