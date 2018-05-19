@@ -63,7 +63,7 @@ int main()
     }
 
     if (stack_1.empty())
-         cout << endl << "FIM DE JOGO - PLAYER 2 VENCEU!!!" << rodada++ << endl;
+        cout << endl << "FIM DE JOGO - PLAYER 2 VENCEU!!!" << rodada++ << endl;
     else
         cout << endl << "FIM DE JOGO - PLAYER 1 VENCEU!!!" << rodada++ << endl;
 
@@ -76,12 +76,13 @@ int main()
 void setup()
 {
     setlocale(LC_ALL, "Portuguese");
+    select_numero_players();
     inicializar_cartas();
     embaralhar_cartas();
     inicializar_pilhas();
     random_set_carta_trunfo();
     set_random_player_inicia_jogo();
-    select_numero_players();
+
 }
 
 void select_numero_players()
@@ -394,7 +395,7 @@ void inicializar_cartas()
     cartas[31].titulos = 0;
     cartas[31].aparicao_copas = 0;
     cartas[31].aparicao_copas = 5;
-//  Carta 2 ... até  carta 32, o indice vai de 0 a 31
+
 
 }
 
@@ -409,6 +410,7 @@ void inicializar_pilhas()
         stack_2.push(cartas[i]);
     }
 
+    cout << "[Pilhas de Cartas Montadas]" << endl ;
 
 }
 
@@ -416,6 +418,7 @@ void embaralhar_cartas()
 {
     srand(time(0));
     random_shuffle(&cartas[0], &cartas[32]);
+    cout << "[Cartas Embaralhadas]" << endl;
 }
 
 
@@ -431,6 +434,8 @@ void set_random_player_inicia_jogo()
 {
     srand(time(0));
     player_atual  =   1 + rand() % 2;
+
+    cout << "[Player " << player_atual << " inicia o Jogo]" << endl;
 }
 
 
@@ -511,7 +516,7 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
 
             string atributo;
 
-            cout << "Selecione um Atributo [ATAQUE|DEFESA|MEIO|TITULOS|APARICOES COPA]: " ;
+            cout << "Selecione um Atributo [ATAQUE|DEFESA|MEIO|TITULOS|APARICOES_COPA]: " ;
             cin >> atributo;
 
             while (!valida_atributo(atributo))
@@ -520,7 +525,7 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
                 cin.ignore();
 
                 cout << "ATRIBUTO INVÁLIDO!" << endl ;
-                cout << "Selecione um Atributo [ATAQUE|DEFESA|MEIO|TITULOS|APARICOES COPA]: " ;
+                cout << "Selecione um Atributo [ATAQUE|DEFESA|MEIO|TITULOS|APARICOES_COPA]: " ;
                 cin >> atributo;
 
             }
