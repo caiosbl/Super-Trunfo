@@ -3,9 +3,7 @@
 #include <locale.h>
 #include <stack>
 #include <ctime>
-#include <cstdlib>
-#include <cstring>
-
+#include <algorithm>
 using namespace std;
 // Struct Carta
 typedef struct
@@ -31,8 +29,7 @@ int player_atual;
 // Declaração de Métodos
 void inicializar_cartas();
 string to_string_carta(Carta carta);
-void embaralhar_cartas(Carta *cartas, int size);
-void swap(Carta *cartas, int i, int r);
+void embaralhar_cartas();
 void inicializar_pilhas();
 void random_set_carta_trunfo();
 void set_random_player_inicia_jogo();
@@ -80,7 +77,7 @@ void setup()
 {
     setlocale(LC_ALL, "Portuguese");
     inicializar_cartas();
-    embaralhar_cartas(cartas,numero_cartas);
+    embaralhar_cartas();
     inicializar_pilhas();
     random_set_carta_trunfo();
     set_random_player_inicia_jogo();
@@ -415,22 +412,13 @@ void inicializar_pilhas()
 
 }
 
-void embaralhar_cartas(Carta *cartas, int tamanho_vetor)
+void embaralhar_cartas()
 {
-    for (int i = 0; i < tamanho_vetor; i++)
-    {
-        int r = rand() % tamanho_vetor;
-
-        swap(cartas,i,r);
-    }
+    srand(time(0));
+    random_shuffle(&cartas[0], &cartas[32]);
 }
 
-void swap (Carta *cartas, int i, int r)
-{
-    Carta temp = cartas[i];
-    cartas[i] = cartas[r];
-    cartas[r] = temp;
-}
+
 
 void random_set_carta_trunfo()
 {
