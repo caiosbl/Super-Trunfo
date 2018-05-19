@@ -38,7 +38,7 @@ void random_set_carta_trunfo();
 void set_random_player_inicia_jogo();
 void setup();
 void select_numero_players();
-void jogada_player(stack<Carta> pilha_jogador, stack<Carta> pilha_adversario);
+void jogada_player(stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario);
 bool is_a (string tipo);
 string escolher_atributo_bot(Carta carta);
 bool valida_atributo(string atributo);
@@ -49,20 +49,30 @@ int compara_cartas(Carta carta1,Carta carta2, string atributo);
 int main()
 {
     setup();
-    cout << endl << "Placar" << endl << "PLAYER 1 - " << stack_1.size() << " Cartas" << " x " << stack_2.size() << " Cartas - " << "PLAYER 2"<< endl;
-    if (player_atual == 1)
-        jogada_player(stack_1,stack_2);
-    else
-        jogada_player(stack_2,stack_1);
+    int rodada = 1;
 
-    /*
-    while(!stack_1.empty() && !stack_2.empty()){
+
+    while(!stack_1.empty() && !stack_2.empty())
+    {
+        system("pause");
+        system("cls");
+        cout << endl << "Placar" << endl << "PLAYER 1 - " << stack_1.size() << " Cartas" << " x " << stack_2.size() << " Cartas - " << "PLAYER 2"<< endl;
+        cout << "Rodada: " << rodada++ << endl;
 
         if (player_atual == 1)
-        jogada_player(stack_1,stack_2);
+            jogada_player(&stack_1,&stack_2);
         else
-        jogada_player(stack_1,stack_2);
-    } */
+            jogada_player(&stack_2,&stack_1);
+    }
+
+    if (stack_1.empty())
+         cout << endl << "FIM DE JOGO - PLAYER 2 VENCEU!!!" << rodada++ << endl;
+    else
+        cout << endl << "FIM DE JOGO - PLAYER 1 VENCEU!!!" << rodada++ << endl;
+
+    cout << "Total de Rodadas: " << rodada;
+
+
     return 0;
 }
 
@@ -117,6 +127,7 @@ string to_string_carta(Carta carta)
     string to_string = "Tipo: " + carta.tipo + "\n" +
                        "Seleção: " + carta.nome + "\n" +
                        "Ataque: " + std::to_string(carta.ataque) + "\n" +
+                       "Meio: " + std::to_string(carta.meio) + "\n" +
                        "Defesa: " + std::to_string(carta.defesa) + "\n" +
                        "Títulos: " + std::to_string(carta.titulos) + "\n" +
                        "Aparições em Copas: " + std::to_string(carta.aparicao_copas) + "\n" ;
@@ -435,10 +446,10 @@ void set_random_player_inicia_jogo()
 }
 
 
-void jogada_player (stack<Carta> pilha_jogador, stack<Carta> pilha_adversario)
+void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
 {
-    Carta carta_jogador = pilha_jogador.top();
-    Carta carta_adversario = pilha_adversario.top();
+    Carta carta_jogador = pilha_jogador->top();
+    Carta carta_adversario = pilha_adversario->top();
 
     int player_adversario;
 
@@ -463,15 +474,15 @@ void jogada_player (stack<Carta> pilha_jogador, stack<Carta> pilha_adversario)
         if(is_a(carta_adversario.tipo))
         {
             cout << endl << "[PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
-            pilha_adversario.push(pilha_jogador.top());
-            pilha_jogador.pop();
+            pilha_adversario->push(pilha_jogador->top());
+            pilha_jogador->pop();
             player_atual = player_adversario;
         }
         else
         {
             cout << endl << "[PLAYER " << player_atual << " Vencedor da Rodada]" << endl;
-            pilha_jogador.push(pilha_adversario.top());
-            pilha_adversario.pop();
+            pilha_jogador->push(pilha_adversario->top());
+            pilha_adversario->pop();
         }
     }
 
@@ -489,16 +500,18 @@ void jogada_player (stack<Carta> pilha_jogador, stack<Carta> pilha_adversario)
             if (compara_cartas(carta_jogador,carta_adversario,atributo) > 0)
             {
                 cout << endl << "[PLAYER " << player_atual << " Vencedor da Rodada]" << endl;
-                pilha_jogador.push(pilha_adversario.top());
-                pilha_adversario.pop();
+                pilha_jogador->push(pilha_adversario->top());
+                pilha_adversario->pop();
+
 
             }
             else
             {
                 cout << endl << "[PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
-                pilha_adversario.push(pilha_jogador.top());
-                pilha_jogador.pop();
+                pilha_adversario->push(pilha_jogador->top());
+                pilha_jogador->pop();
                 player_atual = player_adversario;
+
 
             }
 
@@ -533,16 +546,20 @@ void jogada_player (stack<Carta> pilha_jogador, stack<Carta> pilha_adversario)
             if (compara_cartas(carta_jogador,carta_adversario,atributo) > 0)
             {
                 cout << endl << "[PLAYER " << player_atual << " Vencedor da Rodada]" << endl;
-                pilha_jogador.push(pilha_adversario.top());
-                pilha_adversario.pop();
+                pilha_jogador->push(pilha_adversario->top());
+                pilha_adversario->pop();
+
+
+
 
             }
             else
             {
                 cout << endl << "[PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
-                pilha_adversario.push(pilha_jogador.top());
-                pilha_jogador.pop();
+                pilha_adversario->push(pilha_jogador->top());
+                pilha_jogador->pop();
                 player_atual = player_adversario;
+
 
             }
 
@@ -584,7 +601,7 @@ int compara_cartas(Carta carta1,Carta carta2, string atributo)
             return carta2.tipo.compare(carta1.tipo);
 
     }
-    else if (atributo.compare("APARICOES COPA") == 0)
+    else if (atributo.compare("APARICOES_COPA") == 0)
     {
         if ((carta1.aparicao_copas - carta2.aparicao_copas) != 0)
             return carta1.aparicao_copas - carta2.aparicao_copas;
@@ -617,7 +634,7 @@ bool valida_atributo(string atributo)
         return true;
     else if (atributo.compare("MEIO") == 0)
         return true;
-    else if (atributo.compare("APARICOES COPA") == 0)
+    else if (atributo.compare("APARICOES_COPA") == 0)
         return true;
     else if (atributo.compare("TITULOS") == 0)
         return true;
