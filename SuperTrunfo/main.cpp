@@ -4,9 +4,12 @@
 #include <stack>
 #include <ctime>
 #include <algorithm>
+#include <chrono>
+#include <thread>
+
 using namespace std;
 // Struct Carta
-typedef struct
+struct Carta
 {
     string tipo;
     string nome;
@@ -16,7 +19,7 @@ typedef struct
     int titulos;
     int aparicao_copas;
     bool super_trunfo = false;
-} Carta;
+} ;
 
 // Atributos
 const int numero_cartas = 32;
@@ -47,19 +50,22 @@ int main()
 {
     setup();
     int rodada = 1;
-
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
     while(!stack_1.empty() && !stack_2.empty())
     {
-        system("pause");
-        system("cls");
-        cout << endl << "Placar" << endl << "PLAYER 1 - " << stack_1.size() << " Cartas" << " x " << stack_2.size() << " Cartas - " << "PLAYER 2"<< endl;
+
+        system("clear");
+        cout << endl << "Placar" << endl << "PLAYER 1 - " << stack_1.size() << " Cartas" << " x " << stack_2.size() << " Cartas - " << "PLAYER 2"<< endl << "Player Atual: " << player_atual << endl;
         cout << "Rodada: " << rodada++ << endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
         if (player_atual == 1)
             jogada_player(&stack_1,&stack_2);
         else
             jogada_player(&stack_2,&stack_1);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(5500));
     }
 
     if (stack_1.empty())
@@ -87,7 +93,7 @@ void setup()
 
 void select_numero_players()
 {
-    cout << "Selecione o Número de Jogadores (1 ou 2): " ;
+    cout << "Selecione o Numero de Jogadores (1 ou 2): " ;
     int opcao;
 
 
@@ -96,17 +102,17 @@ void select_numero_players()
     switch (opcao)
     {
     case 1:
-        system("cls");
+        system("clear");
         cout << "MODO DE JOGO - JOGADOR x PC" << endl  ;
         break;
     case 2:
         is_two_players = true;
-        system("cls");
+        system("clear");
         cout << "MODO DE JOGO - JOGADOR1 x JOGADOR2" << endl  ;
         break;
     default:
-        system("cls");
-        cout << "OPÇÃO INVÁLIDA!" << endl  ;
+        system("clear");
+        cout << "OPCAO INVALIDA!" << endl  ;
         cin.clear();
         cin.ignore();
         select_numero_players();
@@ -123,12 +129,12 @@ void select_numero_players()
 string to_string_carta(Carta carta)
 {
     string to_string = "Tipo: " + carta.tipo + "\n" +
-                       "Seleção: " + carta.nome + "\n" +
+                       "Selecao: " + carta.nome + "\n" +
                        "Ataque: " + std::to_string(carta.ataque) + "\n" +
                        "Meio: " + std::to_string(carta.meio) + "\n" +
                        "Defesa: " + std::to_string(carta.defesa) + "\n" +
-                       "Títulos: " + std::to_string(carta.titulos) + "\n" +
-                       "Aparições em Copas: " + std::to_string(carta.aparicao_copas) + "\n" ;
+                       "Titulos: " + std::to_string(carta.titulos) + "\n" +
+                       "Aparicoes em Copas: " + std::to_string(carta.aparicao_copas) + "\n" ;
 
     if (carta.super_trunfo)
         to_string += " SUPER TRUNFO ";
@@ -364,7 +370,7 @@ void inicializar_cartas()
     cartas[27].aparicao_copas = 5;
 
     cartas[28].tipo = "D5";
-    cartas[28].nome = "Panamá";
+    cartas[28].nome = "Panama";
     cartas[28].ataque = 67;
     cartas[28].meio = 68;
     cartas[28].defesa = 69;
@@ -460,7 +466,7 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
 
     if (carta_jogador.super_trunfo)
     {
-        cout << "[É TRUNFO]" << endl;
+        cout << "[E TRUNFO]" << endl;
         cout  << endl << "CARTA PLAYER " << player_adversario <<  endl << to_string_carta(carta_adversario) << endl;
 
 
@@ -486,8 +492,11 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
         {
 
             string atributo = escolher_atributo_bot(carta_jogador);
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
             cout << "ATRIBUTO ESCOLHIDO: " << atributo << endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
             cout  << endl << "CARTA PLAYER " << player_adversario <<  endl << to_string_carta(carta_adversario);
 
             if (compara_cartas(carta_jogador,carta_adversario,atributo) > 0)
@@ -516,7 +525,7 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
 
             string atributo;
 
-            cout << "Selecione um Atributo [ATAQUE|DEFESA|MEIO|TITULOS|APARICOES_COPA]: " ;
+            cout << "Selecione um Atributo [ATAQUE | DEFESA | MEIO | TITULOS | APARICOES_COPA]: " ;
             cin >> atributo;
 
             while (!valida_atributo(atributo))
@@ -524,8 +533,8 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
                 cin.clear();
                 cin.ignore();
 
-                cout << "ATRIBUTO INVÁLIDO!" << endl ;
-                cout << "Selecione um Atributo [ATAQUE|DEFESA|MEIO|TITULOS|APARICOES_COPA]: " ;
+                cout << "ATRIBUTO INVALIDO!" << endl ;
+                cout << "Selecione um Atributo [ATAQUE | DEFESA | MEIO | TITULOS | APARICOES_COPA]: " ;
                 cin >> atributo;
 
             }

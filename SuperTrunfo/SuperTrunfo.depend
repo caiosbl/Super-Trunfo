@@ -7,3 +7,13 @@
 	<ctime>
 	<algorithm>
 
+1527098841 source:/home/caiosbl/Documentos/Super-Trunfo---PLP/SuperTrunfo/main.cpp
+	<iostream>
+	<string>
+	<locale.h>
+	<stack>
+	<ctime>
+	<algorithm>
+	<chrono>
+	<thread>
+
