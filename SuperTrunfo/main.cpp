@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 #include <locale.h>
@@ -42,7 +43,7 @@ Media_Atributos media_atributos;
 
 
 
-// Declaração de Métodos
+// DeclaraÃ§Ã£o de MÃ©todos
 void inicializar_cartas();
 string to_string_carta(Carta carta);
 void embaralhar_cartas();
@@ -59,7 +60,7 @@ bool valida_atributo(string atributo);
 int compara_cartas(Carta carta1,Carta carta2, string atributo);
 void mediaAtributos();
 
-// Métodos
+// MÃ©todos
 
 int main()
 {
