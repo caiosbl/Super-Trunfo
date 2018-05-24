@@ -670,7 +670,7 @@ string escolher_atributo_bot(Carta carta)
         tipo = "DEFESA";
     }
 
-    if (carta.meio > maior)
+    if (meio > maior)
     {
         maior = meio;
         tipo = "MEIO";
