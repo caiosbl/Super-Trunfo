@@ -29,6 +29,7 @@ std::stack<Carta> stack_2;
 bool is_two_players = false;
 int player_atual;
 
+
 // Declaração de Métodos
 void inicializar_cartas();
 string to_string_carta(Carta carta);
