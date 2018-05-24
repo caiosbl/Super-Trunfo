@@ -21,6 +21,16 @@ struct Carta
     bool super_trunfo = false;
 } ;
 
+struct Media_Atributos
+{
+    int ataque = 0;
+    int defesa = 0;
+    int meio = 0;
+    int titulos = 0;
+    int aparicao_copas = 0;
+};
+
+
 // Atributos
 const int numero_cartas = 32;
 Carta cartas [numero_cartas];
@@ -28,6 +38,8 @@ std::stack<Carta> stack_1;
 std::stack<Carta> stack_2;
 bool is_two_players = false;
 int player_atual;
+Media_Atributos media_atributos;
+
 
 // Declaração de Métodos
 void inicializar_cartas();
@@ -43,6 +55,7 @@ bool is_a (string tipo);
 string escolher_atributo_bot(Carta carta);
 bool valida_atributo(string atributo);
 int compara_cartas(Carta carta1,Carta carta2, string atributo);
+void mediaAtributos();
 
 // Métodos
 
@@ -85,6 +98,7 @@ void setup()
     select_numero_players();
     inicializar_cartas();
     embaralhar_cartas();
+    mediaAtributos();
     inicializar_pilhas();
     random_set_carta_trunfo();
     set_random_player_inicia_jogo();
@@ -458,10 +472,8 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
         player_adversario = 2;
 
 
-
     cout << endl << "[NOVA JOGADA]" << endl << "PLAYER " << player_atual << endl;
     cout  << endl << "CARTA PLAYER " << player_atual <<  endl << to_string_carta(carta_jogador) << endl;
-
 
 
     if (carta_jogador.super_trunfo)
@@ -514,9 +526,7 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
                 pilha_jogador->pop();
                 player_atual = player_adversario;
 
-
             }
-
 
         }
 
@@ -539,9 +549,6 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
 
             }
 
-
-
-
             cout << "ATRIBUTO ESCOLHIDO: " << atributo << endl;
             cout  << endl << "CARTA PLAYER " << player_adversario <<  endl << to_string_carta(carta_adversario);
 
@@ -552,8 +559,6 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
                 pilha_adversario->pop();
 
 
-
-
             }
             else
             {
@@ -562,16 +567,9 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
                 pilha_jogador->pop();
                 player_atual = player_adversario;
 
-
             }
 
-
-
-
-
         }
-
-
 
     }
 
@@ -603,13 +601,13 @@ int compara_cartas(Carta carta1,Carta carta2, string atributo)
             return carta2.tipo.compare(carta1.tipo);
 
     }
+
     else if (atributo.compare("APARICOES_COPA") == 0)
     {
         if ((carta1.aparicao_copas - carta2.aparicao_copas) != 0)
             return carta1.aparicao_copas - carta2.aparicao_copas;
         else
             return carta2.tipo.compare(carta1.tipo);
-
 
     }
 
@@ -619,8 +617,6 @@ int compara_cartas(Carta carta1,Carta carta2, string atributo)
             return carta1.titulos - carta2.titulos;
         else
             return carta2.tipo.compare(carta1.tipo);
-
-
     }
 
     return 0;
@@ -646,34 +642,39 @@ bool valida_atributo(string atributo)
 
 string escolher_atributo_bot(Carta carta)
 {
-    string tipo_maior = "ATAQUE";
-    int maior = carta.ataque;
+    int ataque = carta.ataque - media_atributos.ataque;
+    int meio = carta.meio - media_atributos.meio;
+    int defesa = carta.defesa - media_atributos.defesa;
+    int titulos = carta.titulos - media_atributos.titulos;
+    int aparicoes_copa = carta.aparicao_copas - media_atributos.aparicao_copas;
 
-    if (carta.defesa > maior)
-    {
-        tipo_maior = "DEFESA";
-        maior = carta.defesa;
+    int maior = ataque;
+    string tipo = "ATAQUE";
+
+    if (defesa > maior) {
+        maior = defesa;
+        tipo = "DEFESA";
     }
 
     if (carta.meio > maior)
     {
-        tipo_maior = "MEIO";
-        maior = carta.meio;
+        maior = meio;
+        tipo = "MEIO";
     }
 
-    if (carta.aparicao_copas > maior)
+    if (aparicoes_copa> maior)
     {
-        tipo_maior = "APARICOES COPA";
-        maior = carta.aparicao_copas;
+        maior = aparicoes_copa;
+        tipo = "APARICOES COPA";
     }
 
-    if (carta.titulos > maior)
+    if (titulos > maior)
     {
-        tipo_maior = "TITULOS";
-        maior = carta.titulos;
+        maior = titulos;
+        tipo = "TITULOS";
     }
 
-    return tipo_maior;
+    return tipo;
 }
 
 bool is_a (string tipo)
@@ -681,6 +682,27 @@ bool is_a (string tipo)
     return tipo.substr(0,1).compare("A") == 0;
 }
 
+void mediaAtributos()
+{
+    int ataque = 0;
+    int meio = 0;
+    int defesa = 0;
+    int titulos = 0;
+    int aparicoes_copa = 0;
 
+    for (int i = 0; i < numero_cartas; i++) {
+        ataque += cartas[i].ataque;
+        meio += cartas[i].meio;
+        defesa += cartas[i].defesa;
+        titulos += cartas[i].titulos;
+        aparicoes_copa += cartas[i].aparicao_copas;
+    }
 
+    media_atributos.ataque = ataque/numero_cartas;
+    media_atributos.defesa = defesa/numero_cartas;
+    media_atributos.meio = meio/numero_cartas;
+    media_atributos.titulos = titulos/numero_cartas;
+    media_atributos.aparicao_copas = aparicoes_copa/numero_cartas;
+
+}
 
