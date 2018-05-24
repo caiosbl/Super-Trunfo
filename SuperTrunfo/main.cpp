@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 #include <locale.h>
@@ -8,7 +9,7 @@
 #include <thread>
 
 using namespace std;
-// Struct Carta
+
 struct Carta
 {
     string tipo;
@@ -41,7 +42,8 @@ int player_atual;
 Media_Atributos media_atributos;
 
 
-// Declaração de Métodos
+
+// DeclaraÃ§Ã£o de MÃ©todos
 void inicializar_cartas();
 string to_string_carta(Carta carta);
 void embaralhar_cartas();
@@ -52,12 +54,13 @@ void setup();
 void select_numero_players();
 void jogada_player(stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario);
 bool is_a (string tipo);
+void inverte_pilha(stack<Carta> *pilha);
 string escolher_atributo_bot(Carta carta);
 bool valida_atributo(string atributo);
 int compara_cartas(Carta carta1,Carta carta2, string atributo);
 void mediaAtributos();
 
-// Métodos
+// MÃ©todos
 
 int main()
 {
@@ -485,14 +488,18 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
         if(is_a(carta_adversario.tipo))
         {
             cout << endl << "[PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
+            inverte_pilha(pilha_adversario);
             pilha_adversario->push(pilha_jogador->top());
             pilha_jogador->pop();
+            inverte_pilha(pilha_adversario);
             player_atual = player_adversario;
         }
         else
         {
             cout << endl << "[PLAYER " << player_atual << " Vencedor da Rodada]" << endl;
+            inverte_pilha(pilha_jogador);
             pilha_jogador->push(pilha_adversario->top());
+            inverte_pilha(pilha_jogador);
             pilha_adversario->pop();
         }
     }
@@ -514,7 +521,9 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
             if (compara_cartas(carta_jogador,carta_adversario,atributo) > 0)
             {
                 cout << endl << "[PLAYER " << player_atual << " Vencedor da Rodada]" << endl;
+                inverte_pilha(pilha_jogador);
                 pilha_jogador->push(pilha_adversario->top());
+                inverte_pilha(pilha_jogador);
                 pilha_adversario->pop();
 
 
@@ -522,7 +531,9 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
             else
             {
                 cout << endl << "[PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
+                inverte_pilha(pilha_adversario);
                 pilha_adversario->push(pilha_jogador->top());
+                inverte_pilha(pilha_adversario);
                 pilha_jogador->pop();
                 player_atual = player_adversario;
 
@@ -555,7 +566,9 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
             if (compara_cartas(carta_jogador,carta_adversario,atributo) > 0)
             {
                 cout << endl << "[PLAYER " << player_atual << " Vencedor da Rodada]" << endl;
+                inverte_pilha(pilha_jogador);
                 pilha_jogador->push(pilha_adversario->top());
+                inverte_pilha(pilha_jogador);
                 pilha_adversario->pop();
 
 
@@ -563,7 +576,9 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
             else
             {
                 cout << endl << "[PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
+                inverte_pilha(pilha_adversario);
                 pilha_adversario->push(pilha_jogador->top());
+                inverte_pilha(pilha_adversario);
                 pilha_jogador->pop();
                 player_atual = player_adversario;
 
@@ -656,7 +671,7 @@ string escolher_atributo_bot(Carta carta)
         tipo = "DEFESA";
     }
 
-    if (carta.meio > maior)
+    if (meio > maior)
     {
         maior = meio;
         tipo = "MEIO";
@@ -675,6 +690,30 @@ string escolher_atributo_bot(Carta carta)
     }
 
     return tipo;
+}
+
+void inverte_pilha(stack<Carta> *pilha)
+{
+    std::stack<Carta> stack_temp_1;
+    std::stack<Carta> stack_temp_2;
+
+
+    while (!pilha->empty()){
+        stack_temp_1.push(pilha->top());
+        pilha->pop();
+    }
+
+    while (!stack_temp_1.empty()){
+        stack_temp_2.push(stack_temp_1.top());
+        stack_temp_1.pop();
+    }
+
+    while (!stack_temp_2.empty()){
+        pilha->push(stack_temp_2.top());
+        stack_temp_2.pop();
+    }
+
+
 }
 
 bool is_a (string tipo)
