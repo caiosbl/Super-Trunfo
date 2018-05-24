@@ -43,7 +43,7 @@ Media_Atributos media_atributos;
 
 
 
-// DeclaraÃ§Ã£o de MÃ©todos
+// Declaração de Métodos
 void inicializar_cartas();
 string to_string_carta(Carta carta);
 void embaralhar_cartas();
@@ -60,7 +60,7 @@ bool valida_atributo(string atributo);
 int compara_cartas(Carta carta1,Carta carta2, string atributo);
 void mediaAtributos();
 
-// MÃ©todos
+// Métodos
 
 int main()
 {
@@ -666,7 +666,8 @@ string escolher_atributo_bot(Carta carta)
     int maior = ataque;
     string tipo = "ATAQUE";
 
-    if (defesa > maior) {
+    if (defesa > maior)
+    {
         maior = defesa;
         tipo = "DEFESA";
     }
@@ -698,17 +699,20 @@ void inverte_pilha(stack<Carta> *pilha)
     std::stack<Carta> stack_temp_2;
 
 
-    while (!pilha->empty()){
+    while (!pilha->empty())
+    {
         stack_temp_1.push(pilha->top());
         pilha->pop();
     }
 
-    while (!stack_temp_1.empty()){
+    while (!stack_temp_1.empty())
+    {
         stack_temp_2.push(stack_temp_1.top());
         stack_temp_1.pop();
     }
 
-    while (!stack_temp_2.empty()){
+    while (!stack_temp_2.empty())
+    {
         pilha->push(stack_temp_2.top());
         stack_temp_2.pop();
     }
@@ -729,7 +733,8 @@ void mediaAtributos()
     int titulos = 0;
     int aparicoes_copa = 0;
 
-    for (int i = 0; i < numero_cartas; i++) {
+    for (int i = 0; i < numero_cartas; i++)
+    {
         ataque += cartas[i].ataque;
         meio += cartas[i].meio;
         defesa += cartas[i].defesa;
