@@ -353,6 +353,71 @@ cartas[0].tipo = "A1";
     cartas[23].defesa = 69;
     cartas[23].titulos = 0;
     cartas[23].aparicao_copas = 1;
+
+    cartas[24].tipo = "D1";
+    cartas[24].nome = "Servia";
+    cartas[24].ataque = 72;
+    cartas[24].meio = 74;
+    cartas[24].defesa = 74;
+    cartas[24].titulos = 0;
+    cartas[24].aparicao_copas = 12;
+
+    cartas[25].tipo = "D2";
+    cartas[25].nome = "Nigeria";
+    cartas[25].ataque = 73;
+    cartas[25].meio = 71;
+    cartas[25].defesa = 70;
+    cartas[25].titulos = 0;
+    cartas[25].aparicao_copas = 6;
+
+    cartas[26].tipo = "D3";
+    cartas[26].nome = "Japao";
+    cartas[26].ataque = 73;
+    cartas[26].meio = 72;
+    cartas[26].defesa = 73;
+    cartas[26].titulos = 0;
+    cartas[26].aparicao_copas = 6;
+
+    cartas[27].tipo = "D4";
+    cartas[27].nome = "Marrocos";
+    cartas[27].ataque = 71;
+    cartas[27].meio = 71;
+    cartas[27].defesa = 73;
+    cartas[27].titulos = 0;
+    cartas[27].aparicao_copas = 5;
+
+    cartas[28].tipo = "D5";
+    cartas[28].nome = "Panama";
+    cartas[28].ataque = 67;
+    cartas[28].meio = 68;
+    cartas[28].defesa = 69;
+    cartas[28].titulos = 0;
+    cartas[28].aparicao_copas = 1;
+
+    cartas[29].tipo = "D6";
+    cartas[29].nome = "Coreia do Sul";
+    cartas[29].ataque = 73;
+    cartas[29].meio = 72;
+    cartas[29].defesa = 69;
+    cartas[29].titulos = 0;
+    cartas[29].aparicao_copas = 10;
+
+    cartas[30].tipo = "D7";
+    cartas[30].nome = "Arabia Saudita";
+    cartas[30].ataque = 70;
+    cartas[30].meio = 69;
+    cartas[30].defesa = 70;
+    cartas[30].titulos = 0;
+    cartas[30].aparicao_copas = 5;
+
+    cartas[31].tipo = "D8";
+    cartas[31].nome = "Australia";
+    cartas[31].ataque = 69;
+    cartas[31].meio = 73;
+    cartas[31].defesa = 71;
+    cartas[31].titulos = 0;
+    cartas[31].aparicao_copas = 0;
+    cartas[31].aparicao_copas = 5;
 }
 
 void inicializar_pilhas()
