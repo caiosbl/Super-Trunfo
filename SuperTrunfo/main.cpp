@@ -161,6 +161,101 @@ string to_string_carta(Carta carta)
 
 void inicializar_cartas()
 {
+cartas[0].tipo = "A1";
+    cartas[0].nome = "Russia";
+    cartas[0].ataque = 80;
+    cartas[0].defesa = 76;
+    cartas[0].meio = 78;
+    cartas[0].titulos = 0;
+    cartas[0].aparicao_copas = 11;
+
+    cartas[1].tipo = "A2";
+    cartas[1].nome = "Alemanha";
+    cartas[1].ataque = 81;
+    cartas[1].meio = 85;
+    cartas[1].defesa = 84;
+    cartas[1].titulos = 4;
+    cartas[1].aparicao_copas = 19;
+
+    cartas[2].tipo = "A3";
+    cartas[2].nome = "Brasil";
+    cartas[2].ataque = 86;
+    cartas[2].meio = 84;
+    cartas[2].defesa = 85;
+    cartas[2].titulos = 5;
+    cartas[2].aparicao_copas = 21;
+
+    cartas[3].tipo = "A4";
+    cartas[3].nome = "Portugal";
+    cartas[3].ataque = 85;
+    cartas[3].meio = 82;
+    cartas[3].defesa = 80;
+    cartas[3].titulos = 0;
+    cartas[3].aparicao_copas = 7;
+
+    cartas[4].tipo = "A5";
+    cartas[4].nome = "Argentina";
+    cartas[4].ataque = 87;
+    cartas[4].meio = 81;
+    cartas[4].defesa = 80;
+    cartas[4].titulos = 2;
+    cartas[4].aparicao_copas = 17;
+
+    cartas[5].tipo = "A6";
+    cartas[5].nome = "Belgica";
+    cartas[5].ataque = 86;
+    cartas[5].meio = 84;
+    cartas[5].defesa = 85;
+    cartas[5].titulos = 0;
+    cartas[5].aparicao_copas = 13;
+
+    cartas[6].tipo = "A7";
+    cartas[6].nome = "Polonia";
+    cartas[6].ataque = 82;
+    cartas[6].meio = 75;
+    cartas[6].defesa = 79;
+    cartas[6].titulos = 0;
+    cartas[6].aparicao_copas = 8;
+
+    cartas[7].tipo = "A8";
+    cartas[7].nome = "Franca";
+    cartas[7].ataque = 83;
+    cartas[7].meio = 85;
+    cartas[7].defesa = 82;
+    cartas[7].titulos = 1;
+    cartas[7].aparicao_copas = 15;
+
+    cartas[8].tipo = "B1";
+    cartas[8].nome = "Espanha";
+    cartas[8].ataque = 84;
+    cartas[8].meio = 86;
+    cartas[8].defesa = 86;
+    cartas[8].titulos = 1;
+    cartas[8].aparicao_copas = 15;
+
+    cartas[9].tipo = "B2";
+    cartas[9].nome = "Suica";
+    cartas[9].ataque = 74;
+    cartas[9].meio = 78;
+    cartas[9].defesa = 77;
+    cartas[9].titulos = 0;
+    cartas[9].aparicao_copas = 11;
+
+    cartas[10].tipo = "B3";
+    cartas[10].nome = "Inglaterra";
+    cartas[10].ataque = 84;
+    cartas[10].meio = 81;
+    cartas[10].defesa = 81;
+    cartas[10].titulos = 1;
+    cartas[10].aparicao_copas = 15;
+
+    cartas[11].tipo = "B4";
+    cartas[11].nome = "Colombia";
+    cartas[11].ataque = 81;
+    cartas[11].meio = 77;
+    cartas[11].defesa = 78;
+    cartas[11].titulos = 0;
+    cartas[11].aparicao_copas = 6;
 
 }
 
