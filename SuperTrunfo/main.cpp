@@ -489,8 +489,12 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
         if(is_a(carta_adversario.tipo))
         {
             cout << endl << "PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
+
+            Carta temp = pilha_adversario->top();
+            pilha_adversario->pop();
             inverte_pilha(pilha_adversario);
             pilha_adversario->push(pilha_jogador->top());
+            pilha_adversario->push(temp);
             pilha_jogador->pop();
             inverte_pilha(pilha_adversario);
             player_atual = player_adversario;
@@ -498,8 +502,11 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
         else
         {
             cout << endl << "[PLAYER " << player_atual << " Vencedor da Rodada]" << endl;
+            Carta temp = pilha_jogador->top();
+            pilha_jogador->pop();
             inverte_pilha(pilha_jogador);
             pilha_jogador->push(pilha_adversario->top());
+            pilha_jogador->push(temp);
             inverte_pilha(pilha_jogador);
             pilha_adversario->pop();
         }
@@ -522,8 +529,11 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
             if (compara_cartas(carta_jogador,carta_adversario,atributo) > 0)
             {
                 cout << endl << "[PLAYER " << player_atual << " Vencedor da Rodada]" << endl;
+                Carta temp = pilha_jogador->top();
+                pilha_jogador->pop();
                 inverte_pilha(pilha_jogador);
                 pilha_jogador->push(pilha_adversario->top());
+                pilha_jogador->push(temp);
                 inverte_pilha(pilha_jogador);
                 pilha_adversario->pop();
 
@@ -532,8 +542,11 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
             else
             {
                 cout << endl << "[PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
+                Carta temp = pilha_adversario->top();
+                pilha_adversario->pop();
                 inverte_pilha(pilha_adversario);
                 pilha_adversario->push(pilha_jogador->top());
+                pilha_adversario->push(temp);
                 inverte_pilha(pilha_adversario);
                 pilha_jogador->pop();
                 player_atual = player_adversario;
@@ -567,8 +580,11 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
             if (compara_cartas(carta_jogador,carta_adversario,atributo) > 0)
             {
                 cout << endl << "[PLAYER " << player_atual << " Vencedor da Rodada]" << endl;
+                Carta temp = pilha_jogador->top();
+                pilha_jogador->pop();
                 inverte_pilha(pilha_jogador);
                 pilha_jogador->push(pilha_adversario->top());
+                pilha_jogador->push(temp);
                 inverte_pilha(pilha_jogador);
                 pilha_adversario->pop();
 
@@ -577,8 +593,11 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
             else
             {
                 cout << endl << "[PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
+                Carta temp = pilha_adversario->top();
+                pilha_adversario->pop();
                 inverte_pilha(pilha_adversario);
                 pilha_adversario->push(pilha_jogador->top());
+                pilha_adversario->push(temp);
                 inverte_pilha(pilha_adversario);
                 pilha_jogador->pop();
                 player_atual = player_adversario;
