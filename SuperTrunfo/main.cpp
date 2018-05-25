@@ -35,8 +35,8 @@ struct Media_Atributos
 // Atributos
 const int numero_cartas = 32;
 Carta cartas [numero_cartas];
-std::stack<Carta> stack_1;
-std::stack<Carta> stack_2;
+stack<Carta> stack_1;
+stack<Carta> stack_2;
 bool is_two_players = false;
 int player_atual;
 Media_Atributos media_atributos;
@@ -66,7 +66,7 @@ int main()
 {
     setup();
     int rodada = 1;
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    this_thread::sleep_for(chrono::milliseconds(2000));
 
     while(!stack_1.empty() && !stack_2.empty())
     {
@@ -74,14 +74,14 @@ int main()
         system("clear");
         cout << endl << "Placar" << endl << "PLAYER 1 - " << stack_1.size() << " Cartas" << " x " << stack_2.size() << " Cartas - " << "PLAYER 2"<< endl << "Player Atual: " << player_atual << endl;
         cout << "Rodada: " << rodada++ << endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        this_thread::sleep_for(chrono::milliseconds(2000));
 
         if (player_atual == 1)
             jogada_player(&stack_1,&stack_2);
         else
             jogada_player(&stack_2,&stack_1);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(5500));
+        this_thread::sleep_for(chrono::milliseconds(5500));
     }
 
     if (stack_1.empty())
@@ -511,10 +511,10 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
         {
 
             string atributo = escolher_atributo_bot(carta_jogador);
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            this_thread::sleep_for(std::chrono::milliseconds(2000));
 
             cout << "ATRIBUTO ESCOLHIDO: " << atributo << endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+            this_thread::sleep_for(chrono::milliseconds(3000));
 
             cout  << endl << "CARTA PLAYER " << player_adversario <<  endl << to_string_carta(carta_adversario);
 
@@ -695,8 +695,8 @@ string escolher_atributo_bot(Carta carta)
 
 void inverte_pilha(stack<Carta> *pilha)
 {
-    std::stack<Carta> stack_temp_1;
-    std::stack<Carta> stack_temp_2;
+    stack<Carta> stack_temp_1;
+    stack<Carta> stack_temp_2;
 
 
     while (!pilha->empty())
