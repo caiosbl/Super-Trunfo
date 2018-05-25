@@ -66,13 +66,13 @@ int main()
 {
     setup();
     int rodada = 1;
-    this_thread::sleep_for(chrono::milliseconds(2000));
+    this_thread::sleep_for(chrono::milliseconds(5000));
 
     while(!stack_1.empty() && !stack_2.empty())
     {
 
         system("clear");
-        cout << endl << "Placar" << endl << "PLAYER 1 - " << stack_1.size() << " Cartas" << " x " << stack_2.size() << " Cartas - " << "PLAYER 2"<< endl << "Player Atual: " << player_atual << endl;
+        cout << endl << ">>> Placar <<<" << endl << "P1 - " << stack_1.size() << " Cartas" << " x " << stack_2.size() << " Cartas - " << "P2"<< endl << "Player Atual: " << player_atual << endl;
         cout << "Rodada: " << rodada++ << endl;
         this_thread::sleep_for(chrono::milliseconds(2000));
 
@@ -433,7 +433,8 @@ void inicializar_pilhas()
         stack_2.push(cartas[i]);
     }
 
-    cout << "[Pilhas de Cartas Montadas]" << endl ;
+    cout << ">>> Pilhas de Cartas Montadas" << endl ;
+    this_thread::sleep_for(chrono::milliseconds(1000));
 
 }
 
@@ -441,7 +442,8 @@ void embaralhar_cartas()
 {
     srand(time(0));
     random_shuffle(&cartas[0], &cartas[32]);
-    cout << "[Cartas Embaralhadas]" << endl;
+    cout << ">>> Cartas Embaralhadas" << endl;
+    this_thread::sleep_for(chrono::milliseconds(1000));
 }
 
 
@@ -458,7 +460,8 @@ void set_random_player_inicia_jogo()
     srand(time(0));
     player_atual  =   1 + rand() % 2;
 
-    cout << "[Player " << player_atual << " inicia o Jogo]" << endl;
+    cout << ">>> Player " << player_atual << " inicia o Jogo" << endl;
+    this_thread::sleep_for(chrono::milliseconds(1000));
 }
 
 
@@ -481,13 +484,13 @@ void jogada_player (stack<Carta> *pilha_jogador, stack<Carta> *pilha_adversario)
 
     if (carta_jogador.super_trunfo)
     {
-        cout << "[E TRUNFO]" << endl;
+        cout << "[EH TRUNFO]" << endl;
         cout  << endl << "CARTA PLAYER " << player_adversario <<  endl << to_string_carta(carta_adversario) << endl;
 
 
         if(is_a(carta_adversario.tipo))
         {
-            cout << endl << "[PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
+            cout << endl << "PLAYER " << player_adversario << " Vencedor da Rodada]" << endl;
             inverte_pilha(pilha_adversario);
             pilha_adversario->push(pilha_jogador->top());
             pilha_jogador->pop();
