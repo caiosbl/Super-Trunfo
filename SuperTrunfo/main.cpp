@@ -257,6 +257,102 @@ cartas[0].tipo = "A1";
     cartas[11].titulos = 0;
     cartas[11].aparicao_copas = 6;
 
+
+    cartas[12].tipo = "B5";
+    cartas[12].nome = "Mexico";
+    cartas[12].ataque = 79;
+    cartas[12].meio = 79;
+    cartas[12].defesa = 76;
+    cartas[12].titulos = 0;
+    cartas[12].aparicao_copas = 16;
+
+    cartas[13].tipo = "B6";
+    cartas[13].nome = "Uruguai";
+    cartas[13].ataque = 86;
+    cartas[13].meio = 76;
+    cartas[13].defesa = 79;
+    cartas[13].titulos = 2;
+    cartas[13].aparicao_copas = 13;
+
+    cartas[14].tipo = "B7";
+    cartas[14].nome = "Croacia";
+    cartas[14].ataque = 76;
+    cartas[14].meio = 83;
+    cartas[14].defesa = 77;
+    cartas[14].titulos = 0;
+    cartas[14].aparicao_copas = 5;
+
+    cartas[15].tipo = "B8";
+    cartas[15].nome = "Peru";
+    cartas[15].ataque = 74;
+    cartas[15].meio = 72;
+    cartas[15].defesa = 71;
+    cartas[15].titulos = 0;
+    cartas[15].aparicao_copas = 5;
+
+    cartas[16].tipo = "C1";
+    cartas[16].nome = "Costa Rica";
+    cartas[16].ataque = 70;
+    cartas[16].meio = 70;
+    cartas[16].defesa = 75;
+    cartas[16].titulos = 0;
+    cartas[16].aparicao_copas = 5;
+
+    cartas[17].tipo = "C2";
+    cartas[17].nome = "Suecia";
+    cartas[17].ataque = 74;
+    cartas[17].meio = 73;
+    cartas[17].defesa = 74;
+    cartas[17].titulos = 0;
+    cartas[17].aparicao_copas = 12;
+
+    cartas[18].tipo = "C3";
+    cartas[18].nome = "Tunisia";
+    cartas[18].ataque = 69;
+    cartas[18].meio = 69;
+    cartas[18].defesa = 70;
+    cartas[18].titulos = 0;
+    cartas[18].aparicao_copas = 5;
+
+    cartas[19].tipo = "C4";
+    cartas[19].nome = "Egito";
+    cartas[19].ataque = 78;
+    cartas[19].meio = 72;
+    cartas[19].defesa = 71;
+    cartas[19].titulos = 0;
+    cartas[19].aparicao_copas = 3;
+
+    cartas[20].tipo = "C5";
+    cartas[20].nome = "Senegal";
+    cartas[20].ataque = 76;
+    cartas[20].meio = 72;
+    cartas[20].defesa = 70;
+    cartas[20].titulos = 0;
+    cartas[20].aparicao_copas = 2;
+
+    cartas[21].tipo = "C6";
+    cartas[21].nome = "Ira";
+    cartas[21].ataque = 70;
+    cartas[21].meio = 69;
+    cartas[21].defesa = 69;
+    cartas[21].titulos = 0;
+    cartas[21].aparicao_copas = 5;
+
+    cartas[22].tipo = "C7";
+    cartas[22].nome = "Dinamarca";
+    cartas[22].ataque = 75;
+    cartas[22].meio = 77;
+    cartas[22].defesa = 77;
+    cartas[22].titulos = 0;
+    cartas[22].aparicao_copas = 5;
+
+    cartas[23].tipo = "C8";
+    cartas[23].nome = "Islandia ";
+    cartas[23].ataque = 73;
+    cartas[23].meio = 74;
+    cartas[23].defesa = 69;
+    cartas[23].titulos = 0;
+    cartas[23].aparicao_copas = 1;
 }
 
 void inicializar_pilhas()
