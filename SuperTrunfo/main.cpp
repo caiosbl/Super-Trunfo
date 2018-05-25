@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>
 #include <locale.h>
@@ -674,7 +673,11 @@ bool valida_atributo(string atributo)
     else
         return false;
 }
-
+/*  Esse método realiza os cálculos da carta passada como parâmetro em relação
+    à média total das cartas em cada atributo, individualmente. O atributo que tiver
+    a maior diferença positiva em relação às médias será o escolhido e será retornado
+    uma string contendo o nome que o representa.
+*/
 string escolher_atributo_bot(Carta carta)
 {
     int ataque = carta.ataque - media_atributos.ataque;
@@ -744,6 +747,12 @@ bool is_a (string tipo)
 {
     return tipo.substr(0,1).compare("A") == 0;
 }
+
+
+/* Esse método faz o cálculo da média dos atributos de maneira individual,
+    sendo o resultado desse cálculo o que determinará a escolha do bot, ou seja,
+    a sua inteligência em relação à melhor escolha.
+*/
 
 void mediaAtributos()
 {
