@@ -58,11 +58,64 @@ string escolher_atributo_bot(Carta carta);
 bool valida_atributo(string atributo);
 int compara_cartas(Carta carta1,Carta carta2, string atributo);
 void mediaAtributos();
+void opcoes_jogo();
+void creditos();
+void banner();
 
 // Métodos
 
 int main()
 {
+    setlocale(LC_ALL, "Portuguese");
+
+    banner();
+    this_thread::sleep_for(chrono::milliseconds(3000));
+    int opcao = 0;
+
+    while (opcao != 1)
+    {
+
+        system("clear");
+
+
+
+        int numero_players;
+
+        if(is_two_players)
+            numero_players = 2;
+        else
+            numero_players = 1;
+
+        cout << "SUPER TRUNFO - MODO DE JOGO " << numero_players << "P" <<endl;
+
+        opcoes_jogo();
+
+        cin >> opcao;
+
+        switch (opcao)
+        {
+        case 1:
+            break;
+        case 2:
+            select_numero_players();
+            break;
+        case 3:
+            creditos();
+            this_thread::sleep_for(chrono::milliseconds(5000));
+            break;
+
+        default:
+            cout << endl << "OPÇÃO INVÁLIDA!" << endl;
+            break;
+
+
+
+        }
+
+    }
+
+
+    system("clear");
     setup();
     int rodada = 1;
     this_thread::sleep_for(chrono::milliseconds(5000));
@@ -94,10 +147,54 @@ int main()
     return 0;
 }
 
+void creditos()
+{
+    cout << endl << "DESENVOLVIDO POR: " << endl << "Caio Sanches" << endl <<"Thallyson Alves" << endl << "Daniel José" << endl << "Higor Ferreira" << endl << "Domingos Gabriel" << endl;
+}
+
+void banner()
+{
+
+    cout << ".:;," << endl;
+    cout << " 8@@8@@t  ,@@fi:@@f:  @@@@@@L   @@@@@@L1 t@@@@@@;" << endl;
+    cout << "i@@L;,t1C ,@@Lt:@@f:  @@Lf;@@L, @@LC:::  t@@L,C@Cf" << endl;
+    cout << " L@@L;    ,@@ft:@@f:  @@LL:@@f: @@C;.    t@@L,C@Cf" << endl;
+    cout << "   C@@@0   L@@ft:@@Ci.t@@@@@@L0 t@@@@@Lt ,0@@@@@@fi" << endl;
+    cout << " .,  C@8; ,@@ft:@@f:  @@f8G1.   @@Lf..   t@@fL@@L:" << endl;
+    cout << ";@@Gi8@8f  @@0iG@@f:  @@LL      @@01ii:  t@@L;@@LC" << endl;
+    cout << " .f@@@LC,  .f@@@Cf;   8@LL      8@@@@@fL 1@8L,f@@Li" << endl << endl;
+
+
+    cout << "G@@@@@t:@@@@@i  t@C:t@L: L@@i @@i ,@@@@@t.,8@@@C" << endl;
+    cout << " 10@fL1,@@t:@01 t@Ctt@Lt L@@Ct@@L ,@0Ltt1 C@C;0@C." << endl;
+    cout << "  0@f, ,@@t.@0t t@Ctt@Lt L@@@i@@L ,@81,   C@C:0@f:" << endl;
+    cout << "  0@f, ,@@@@@Lt t@Ctt@Lt L@G8@@@L ,@@@@f: C@C:0@f:" << endl;
+    cout << "  0@f, ,@@10@L1 t@Ctt@Lt L@LC@@@L ,@0t    C@C:0@f:" << endl;
+    cout << "  0@f, ,@@ti@8L i@@f8@L1 L@LiG@@L ,@0t    L@8G@@L," << endl;
+    cout << "  iLG, .tLC 1LL1 .tCLLi  ;ffi.fLC  tfL     ,tCLC," << endl << endl;
+
+    cout << "   f8@G,  .L@@8;  ,@@@8f.  ,8@C" << endl;
+    cout << "  C@Ct@@1 C@Ci8@f ,@@tL@8: t@@@L" << endl;
+    cout << "  C@C,tLL,C@C:0@L:,@@t @@f G@@@L;" << endl;
+    cout << "  C@C,    C@C:0@f:,@@8@@Cf,@81@Gf"  << endl;
+    cout << "  C@C,C0, C@C:0@f:,@@fLL; t@@@@@L"  << endl;
+    cout << "  C@L;@@L.C@C1@@L:,@@t    G@Lf0@L;" << endl;
+    cout << "   f@@0Li  t8@GLt ,@8f   ,@@C.t@LL" << endl << endl;
+
+}
+
+
+void opcoes_jogo()
+{
+    cout << "OPCOES DE JOGO:" << endl;
+    cout << "[1] - INICIAR JOGO" << endl;
+    cout << "[2] - MODO DE JOGO" << endl;
+    cout << "[3] - CREDITOS" << endl;
+    cout << "Opcao: ";
+}
+
 void setup()
 {
-    setlocale(LC_ALL, "Portuguese");
-    select_numero_players();
     inicializar_cartas();
     embaralhar_cartas();
     mediaAtributos();
@@ -109,7 +206,7 @@ void setup()
 
 void select_numero_players()
 {
-    cout << "Selecione o Numero de Jogadores (1 ou 2): " ;
+    cout << "SELECIONE O NÚMERO DE JOGADORES (1 ou 2): " ;
     int opcao;
 
 
@@ -118,16 +215,12 @@ void select_numero_players()
     switch (opcao)
     {
     case 1:
-        system("clear");
-        cout << "MODO DE JOGO - JOGADOR x PC" << endl  ;
+        is_two_players = false;
         break;
     case 2:
         is_two_players = true;
-        system("clear");
-        cout << "MODO DE JOGO - JOGADOR1 x JOGADOR2" << endl  ;
         break;
     default:
-        system("clear");
         cout << "OPCAO INVALIDA!" << endl  ;
         cin.clear();
         cin.ignore();
@@ -518,7 +611,7 @@ void mediaAtributos()
 
 void inicializar_cartas()
 {
-cartas[0].tipo = "A1";
+    cartas[0].tipo = "A1";
     cartas[0].nome = "Russia";
     cartas[0].ataque = 80;
     cartas[0].defesa = 76;
