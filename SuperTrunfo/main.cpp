@@ -42,7 +42,7 @@ Media_Atributos media_atributos;
 
 
 
-// Declaração de Métodos
+// DeclaraÃ§Ã£o de MÃ©todos
 void inicializar_cartas();
 string to_string_carta(Carta carta);
 void embaralhar_cartas();
@@ -62,7 +62,7 @@ void opcoes_jogo();
 void creditos();
 void banner();
 
-// Métodos
+// MÃ©todos
 
 int main()
 {
@@ -105,7 +105,7 @@ int main()
             break;
 
         default:
-            cout << endl << "OPÇÃO INVÁLIDA!" << endl;
+            cout << endl << "OPÃ‡ÃƒO INVÃLIDA!" << endl;
             break;
 
 
@@ -149,7 +149,7 @@ int main()
 
 void creditos()
 {
-    cout << endl << "DESENVOLVIDO POR: " << endl << "Caio Sanches" << endl <<"Thallyson Alves" << endl << "Daniel José" << endl << "Higor Ferreira" << endl << "Domingos Gabriel" << endl;
+    cout << endl << "DESENVOLVIDO POR: " << endl << "Caio Sanches" << endl <<"Thallyson Alves" << endl << "Daniel Jose" << endl << "Higor Ferreira" << endl << "Domingos Gabriel" << endl;
 }
 
 void banner()
@@ -206,7 +206,7 @@ void setup()
 
 void select_numero_players()
 {
-    cout << "SELECIONE O NÚMERO DE JOGADORES (1 ou 2): " ;
+    cout << "SELECIONE O NÃšMERO DE JOGADORES (1 ou 2): " ;
     int opcao;
 
 
@@ -503,9 +503,9 @@ bool valida_atributo(string atributo)
     else
         return false;
 }
-/*  Esse método realiza os cálculos da carta passada como parâmetro em relação
-    à média total das cartas em cada atributo, individualmente. O atributo que tiver
-    a maior diferença positiva em relação às médias será o escolhido e será retornado
+/*  Esse mÃ©todo realiza os cÃ¡lculos da carta passada como parÃ¢metro em relaÃ§Ã£o
+    Ã  mÃ©dia total das cartas em cada atributo, individualmente. O atributo que tiver
+    a maior diferenÃ§a positiva em relaÃ§Ã£o Ã s mÃ©dias serÃ¡ o escolhido e serÃ¡ retornado
     uma string contendo o nome que o representa.
 */
 string escolher_atributo_bot(Carta carta)
@@ -579,9 +579,9 @@ bool is_a (string tipo)
 }
 
 
-/* Esse método faz o cálculo da média dos atributos de maneira individual,
-    sendo o resultado desse cálculo o que determinará a escolha do bot, ou seja,
-    a sua inteligência em relação à melhor escolha.
+/* Esse mÃ©todo faz o cÃ¡lculo da mÃ©dia dos atributos de maneira individual,
+    sendo o resultado desse cÃ¡lculo o que determinarÃ¡ a escolha do bot, ou seja,
+    a sua inteligÃªncia em relaÃ§Ã£o Ã  melhor escolha.
 */
 
 void mediaAtributos()
