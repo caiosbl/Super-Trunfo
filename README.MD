@@ -1,4 +1,4 @@
-**
+
 
 ![HEADER](https://blog.umbler.com/wp-content/uploads/2016/09/post-16-08-15-trunfo-hosting-logo.png)
 
@@ -11,7 +11,6 @@ Projeto para a disciplina de **Paradigmas de Linguagem de Programação** 2017.2
 
 ## Detalhes
 
- **Versão:** 1.0
  **Autores:**
  -  [Caio Sanches](http://github.com/caiosbl) 
  - [Thallyson Alves](https://github.com/thallysonjsa)
@@ -21,5 +20,7 @@ Projeto para a disciplina de **Paradigmas de Linguagem de Programação** 2017.2
 
 **Linguagens:** 
 - C++
+
+ **Versão:** 1.0
  
 
