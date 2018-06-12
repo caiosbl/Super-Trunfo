@@ -137,9 +137,9 @@ int main()
     }
 
     if (stack_1.empty())
-        cout << endl << "FIM DE JOGO - PLAYER 2 VENCEU!!!" << rodada++ << endl;
+        cout << endl << "FIM DE JOGO - PLAYER 2 VENCEU!!!" << endl << endl;
     else
-        cout << endl << "FIM DE JOGO - PLAYER 1 VENCEU!!!" << rodada++ << endl;
+        cout << endl << "FIM DE JOGO - PLAYER 1 VENCEU!!!" << endl << endl;
 
     cout << "Total de Rodadas: " << rodada;
 
