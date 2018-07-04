@@ -37,5 +37,6 @@ iniciarCartas = do
 
 
 
-mapeiaCartas :: [String] -> [Carta]
-mapeiaCartas = 
+mapeiaCartas :: [String] -> Carta
+mapeiaCartas lista = Carta{tipo = (lista) !! 0, nome = (lista) !! 1, ataque = read((lista) !! 2),
+defesa = read((lista) !! 3), meio =  read((lista) !! 4), titulos =  read((lista) !! 5), aparicoes_copas =  read((lista) !! 6), is_trunfo = False}
