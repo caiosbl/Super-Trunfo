@@ -1,5 +1,7 @@
 ﻿import Data.List.Split
-import System.IO
+import System.IO.Unsafe(unsafeDupablePerformIO)
+
+
 data Carta = Carta { tipo :: String  
                      , nome :: String  
                      , ataque :: Int  
@@ -25,18 +27,25 @@ toStringCarta (Carta {tipo = tip, nome = nom, ataque = ata,
 main :: IO()
 
 main = do 
-  putStrLn ("oi")
-  iniciarCartas
+  putStrLn (show(iniciarCartas))
 
-iniciarCartas :: IO() 
+iniciarCartas :: [Carta]
 
 iniciarCartas = do
-    file <- readFile "selecoes.txt" 
-    putStrLn (show(((map ( splitOn ",") (lines file)) !! 0) !! 0))
-
-
+    let file = unsafeDupablePerformIO (readFile "selecoes.txt")
+    let lista =  ((map ( splitOn ",") (lines file))) 
+    let lista_cartas = ((map (mapeiaCartas) (lista))) 
+    return lista_cartas !! 0 
+   
 
 
 mapeiaCartas :: [String] -> Carta
-mapeiaCartas lista = Carta{tipo = (lista) !! 0, nome = (lista) !! 1, ataque = read((lista) !! 2),
-defesa = read((lista) !! 3), meio =  read((lista) !! 4), titulos =  read((lista) !! 5), aparicoes_copas =  read((lista) !! 6), is_trunfo = False}
+mapeiaCartas lista = 
+  Carta{tipo = (lista) !! 0, 
+  nome = (lista) !! 1,
+   ataque = read((lista) !! 2),
+defesa = read((lista) !! 3),
+ meio =  read((lista) !! 4),
+  titulos =  read((lista) !! 5),
+ aparicoes_copas =  read((lista) !! 6),
+  is_trunfo = False}
