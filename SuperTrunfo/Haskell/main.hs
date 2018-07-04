@@ -1,4 +1,7 @@
-﻿data Carta = Carta { tipo :: String  
+﻿let NUMERO_CARTAS = 32
+Cartas::[Carta]
+
+data Carta = Carta { tipo :: String  
                      , nome :: String  
                      , ataque :: Int  
                      , defesa :: Int
@@ -19,6 +22,10 @@ toStringCarta (Carta {tipo = tip, nome = nom, ataque = ata,
                        "Titulos: " ++ show(tit) ++ "\n" ++
                        "Aparicoes em Copas: " ++  show(apa) ++ "\n" ++
                        if is then "É TRUNFO" else ""
+
+
+
+    
 main :: IO()
 
 main = do 
@@ -26,3 +33,10 @@ main = do
   titulos = 6, aparicoes_copas = 7, is_trunfo = True}
    
   putStrLn (toStringCarta carta)
+
+
+
+iniciarCartas :: IO() -> [Carta]
+
+iniciarCartas =
+    file <- readFile "/selecoes.txt"
