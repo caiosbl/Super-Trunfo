@@ -22,25 +22,20 @@ toStringCarta (Carta {tipo = tip, nome = nom, ataque = ata,
                        "Aparicoes em Copas: " ++  show(apa) ++ "\n" ++
                        if is then "É TRUNFO" else ""
 
-
-
-    
 main :: IO()
 
 main = do 
-  let carta = Carta {tipo = "A1", nome = "Brasil", ataque = 87, defesa = 86, meio = 50,
-  titulos = 6, aparicoes_copas = 7, is_trunfo = True}
-   
   putStrLn ("oi")
   iniciarCartas
-
-
 
 iniciarCartas :: IO() 
 
 iniciarCartas = do
     file <- readFile "selecoes.txt" 
-    putStrLn (show(map ( splitOn ",") (lines file)))
-    
+    putStrLn (show(((map ( splitOn ",") (lines file)) !! 0) !! 0))
 
-   
+
+
+
+mapeiaCartas :: [String] -> [Carta]
+mapeiaCartas = 
