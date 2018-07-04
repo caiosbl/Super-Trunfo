@@ -1,6 +1,4 @@
-﻿let NUMERO_CARTAS = 32
-Cartas::[Carta]
-
+﻿import Data.List.Split
 data Carta = Carta { tipo :: String  
                      , nome :: String  
                      , ataque :: Int  
@@ -32,11 +30,16 @@ main = do
   let carta = Carta {tipo = "A1", nome = "Brasil", ataque = 87, defesa = 86, meio = 50,
   titulos = 6, aparicoes_copas = 7, is_trunfo = True}
    
-  putStrLn (toStringCarta carta)
+  putStrLn ("oi")
+  iniciarCartas
 
 
 
-iniciarCartas :: IO() -> [Carta]
+iniciarCartas :: IO() 
 
-iniciarCartas =
-    file <- readFile "/selecoes.txt"
+iniciarCartas = do
+    file <- readFile "selecoes.txt" 
+    putStrLn show((lines file))
+    
+
+   
