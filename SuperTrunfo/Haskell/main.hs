@@ -1,4 +1,5 @@
 ﻿import Data.List.Split
+import System.IO
 data Carta = Carta { tipo :: String  
                      , nome :: String  
                      , ataque :: Int  
@@ -39,7 +40,7 @@ iniciarCartas :: IO()
 
 iniciarCartas = do
     file <- readFile "selecoes.txt" 
-    putStrLn show((lines file))
+    putStrLn (show(map ( splitOn ",") (lines file)))
     
 
    
