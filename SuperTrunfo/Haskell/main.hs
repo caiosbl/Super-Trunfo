@@ -224,7 +224,7 @@ iniciarCartas :: [Carta]
 iniciarCartas = do
     let file = unsafeDupablePerformIO (readFile "selecoes.txt")
     let lista =  ((map ( splitOn ",") (lines file))) 
-    let index_trunfo = 1
+    let index_trunfo = randomTrunfo
     let lista_cartas = ((map (mapeiaCartas index_trunfo) (lista))) 
     return lista_cartas !! 0 
    
@@ -238,7 +238,9 @@ mapeiaCartas lista indexTrunfo =
   titulos =  read((lista) !! 5),
   aparicoes_copas =  read((lista) !! 6), is_trunfo = if ((read(lista) !! 7)  == indexTrunfo) then True else False}
 
-  
+randomTrunfo :: Int
+randomTrunfo = unsafeDupablePerformIO (getStdRandom (randomR (1,32))) 
+
 randomPlayerIniciaJogo :: Int
 randomPlayerIniciaJogo = unsafeDupablePerformIO (getStdRandom (randomR (1,2)))
 
