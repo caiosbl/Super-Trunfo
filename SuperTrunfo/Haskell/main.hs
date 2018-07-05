@@ -91,3 +91,8 @@ defesa = read((lista) !! 3),
   
 randomPlayerIniciaJogo :: Int
 randomPlayerIniciaJogo = unsafeDupablePerformIO (getStdRandom (randomR (1,2)))
+
+
+comparaCartas :: Carta -> Carta -> Int
+invertePilha :: Stack Carta -> Stack Carta
+isA :: Carta -> Bool
