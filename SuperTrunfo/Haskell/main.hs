@@ -1,5 +1,6 @@
 ﻿import Data.List.Split
 import System.IO.Unsafe(unsafeDupablePerformIO)
+import System.Random
 import System.Random.Shuffle
 
 type Stack a = [a]
@@ -54,14 +55,12 @@ main = do
 
   let pilha_1 = iniciarPilha lista_1
   let pilha_2 = iniciarPilha lista_2
+
+  let player_atual = randomPlayerIniciaJogo
  
-
-
   putStrLn (show(peek pilha_1))
   putStrLn (" ")
   putStrLn (show(peek pilha_2))
-
-
 
 iniciarPilha :: [Carta] -> Stack Carta
 iniciarPilha lista = iniciarPilhaAuxiliar lista create
@@ -72,15 +71,12 @@ iniciarPilhaAuxiliar lista pilha
   | otherwise = iniciarPilhaAuxiliar (tail lista) (push (head lista) pilha)
 
 iniciarCartas :: [Carta]
-
 iniciarCartas = do
     let file = unsafeDupablePerformIO (readFile "selecoes.txt")
     let lista =  ((map ( splitOn ",") (lines file))) 
     let lista_cartas = ((map (mapeiaCartas) (lista))) 
     return lista_cartas !! 0 
    
-
-
 mapeiaCartas :: [String] -> Carta
 mapeiaCartas lista = 
   Carta{tipo = (lista) !! 0, 
@@ -91,3 +87,7 @@ defesa = read((lista) !! 3),
   titulos =  read((lista) !! 5),
  aparicoes_copas =  read((lista) !! 6),
   is_trunfo = False}
+
+  
+randomPlayerIniciaJogo :: Int
+randomPlayerIniciaJogo = unsafeDupablePerformIO (getStdRandom (randomR (1,2)))
