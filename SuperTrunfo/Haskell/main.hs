@@ -35,6 +35,14 @@ data Carta = Carta { tipo :: String
                      , is_trunfo :: Bool
                      } deriving (Show)  
 
+data MediaAtributos = MediaAtributos { contador  :: Int
+     , acumulador_ataque :: Int 
+     , acumulador_defesa :: Int
+     , acumulador_meio :: Int
+     , acumulador_titulos :: Int
+     , acumulador_aparicoes_copas :: Int
+                                      } deriving (Show)  
+
 toStringCarta :: Carta -> String
 toStringCarta (Carta {tipo = tip, nome = nom, ataque = ata,
  defesa = def, meio = mei, titulos = tit, aparicoes_copas = apa, is_trunfo = is}) = 
@@ -67,25 +75,25 @@ main = do
   putStrLn (" ")
   putStrLn (show(peek pilha_2))
 
-iniciarJogo :: Stack Carta -> Stack Carta -> Int -> Int -> Bool -> String
-iniciarJogo  pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
+iniciarJogo :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Int -> Bool -> String
+iniciarJogo  mediaAtributos pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
   | empty pilha1 = "FIM DE JOGO - PLAYER 1 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
   | empty pilha2 = "FIM DE JOGO - PLAYER 2 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
   | otherwise = do
     unsafeDupablePerformIO (putStrLn ("PLAYER ATUAL: " ++ show(playerAtual) ++ " RODADA ATUAL: " ++ show(totalRodadas)))
     unsafeDupablePerformIO (putStrLn ("PLACAR: P1 " ++ show(size pilha1) ++ " x " ++ show(size pilha2) ++ " P2"))
-    iniciarJogo pilha_1 pilha_2 player_atual (totalRodadas + 1) isTwoPlayers
-  where (pilha_1,pilha_2,player_atual) = jogada pilha1 pilha2 playerAtual isTwoPlayers
+    iniciarJogo media_Atributos pilha_1 pilha_2 player_atual (totalRodadas + 1) isTwoPlayers
+  where (pilha_1,pilha_2,player_atual,media_Atributos) = jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
 
 
-jogada :: Stack Carta -> Stack Carta -> Int -> Bool -> (Stack,Stack,Int) 
-jogada pilha1 pilha2 playerAtual isTwoPlayers
-  | playerAtual == 1 = jogadaAuxiliarPlayer1 pilha1 pilha2
-  | playerAtual == 2 && not isTwoPlayers = jogadaAuxiliarPlayer2 pilha1 pilha2
+jogada :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Bool -> (Stack Carta,Stack Carta,Int,MediaAtributos) 
+jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
+  | playerAtual == 1 = jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2
+  | playerAtual == 2 && not isTwoPlayers = jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2
 
 
-jogadaAuxiliarPlayer1 ::  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int)
-jogadaAuxiliarPlayer1 pilha1 pilha2 = do
+jogadaAuxiliarPlayer1 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos)
+jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
   unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p1)))
@@ -96,12 +104,20 @@ jogadaAuxiliarPlayer1 pilha1 pilha2 = do
   let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha1)) else push cartaPerdida (invertePilha(pilha2))
   
   let pilhaVencedor = invertePilha(pilhaTemp)
+
+  let media_atributos = MediaAtributos {contador =
+     ((contador mediaAtributos ) + 1),
+      acumulador_ataque = ((acumulador_ataque mediaAtributos) + (carta_p1 ataque)),
+      acumulador_defesa = ((acumulador_defesa mediaAtributos ) + (carta_p1 defesa)),
+      acumulador_titulos = ((acumulador_titulos mediaAtributos) + (carta_p1 titulos)),
+      acumulador_aparicoes_copas = ((acumulador_aparicoes_copas mediaAtributos) + (aparicoes_copas carta_p1))
+      }
   
   if comparador > 0 then unsafeDupablePerformIO (putStrLn ("PLAYER 1 - VENCEU A RODADA!")) else unsafeDupablePerformIO (putStrLn ("PLAYER 2 - VENCEU A RODADA!"))
-  if (comparador > 0) then return (pilhaVencedor,pilhaPerdedor,1) else return (pilhaPerdedor,pilhaVencedor,2)
+  if (comparador > 0) then return (pilhaVencedor,pilhaPerdedor,1,media_atributos) else return (pilhaPerdedor,pilhaVencedor,2,media_atributos)
 
-jogadaAuxiliarPlayer2 ::  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int)
-jogadaAuxiliarPlayer2 pilha1 pilha2 = do
+jogadaAuxiliarPlayer2 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos)
+jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
   unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p2)))
@@ -112,9 +128,25 @@ jogadaAuxiliarPlayer2 pilha1 pilha2 = do
   let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha2)) else push cartaPerdida (invertePilha(pilha1))
   
   let pilhaVencedor = invertePilha(pilhaTemp)
+
+  let media_atributos = MediaAtributos {contador =
+    ((contador mediaAtributos ) + 1),
+     acumulador_ataque = ((acumulador_ataque mediaAtributos) + (carta_p2 ataque)),
+     acumulador_defesa = ((acumulador_defesa mediaAtributos ) + (carta_p2 defesa)),
+     acumulador_titulos = ((acumulador_titulos mediaAtributos) + (carta_p2 titulos)),
+     acumulador_aparicoes_copas = ((acumulador_aparicoes_copas mediaAtributos) + (aparicoes_copas carta_p2))
+     }
+ 
   
   if comparador > 0 then unsafeDupablePerformIO (putStrLn ("PLAYER 2 - VENCEU A RODADA!")) else unsafeDupablePerformIO (putStrLn ("PLAYER 1 - VENCEU A RODADA!"))
-  if (comparador > 0) then return (pilhaPerdedor,pilhaVencedor,2) else return (pilhaVencedor,pilhaPerdedor,1)
+  if (comparador > 0) then return (pilhaPerdedor,pilhaVencedor,2,media_atributos) else return (pilhaVencedor,pilhaPerdedor,1,media_atributos)
+
+jogadaAuxiliarBot :: MediaAtributos ->  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos)
+jogadaAuxiliarBot mediaAtributos pilha1 pilha2 = do
+  let carta_p1 = peek pilha1
+  let carta_p2 = peek pilha2
+  unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p2)))
+
 
 jogadaAuxiliar :: Carta -> Carta -> String -> Int 
 jogadaAuxiliar carta1 carta2 atributo 
