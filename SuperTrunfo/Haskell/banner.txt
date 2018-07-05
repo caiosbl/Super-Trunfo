@@ -1,0 +1,25 @@
+
+     " 8@@8@@t  ,@@fi:@@f:  @@@@@@L   @@@@@@L1 t@@@@@@;" 
+     "i@@L;,t1C ,@@Lt:@@f:  @@Lf;@@L, @@LC:::  t@@L,C@Cf" 
+     " L@@L;    ,@@ft:@@f:  @@LL:@@f: @@C;.    t@@L,C@Cf" 
+     "   C@@@0   L@@ft:@@Ci.t@@@@@@L0 t@@@@@Lt ,0@@@@@@fi" 
+     " .,  C@8; ,@@ft:@@f:  @@f8G1.   @@Lf..   t@@fL@@L:" 
+     ";@@Gi8@8f  @@0iG@@f:  @@LL      @@01ii:  t@@L;@@LC" 
+     " .f@@@LC,  .f@@@Cf;   8@LL      8@@@@@fL 1@8L,f@@Li"  
+
+
+     "G@@@@@t:@@@@@i  t@C:t@L: L@@i @@i ,@@@@@t.,8@@@C" 
+     " 10@fL1,@@t:@01 t@Ctt@Lt L@@Ct@@L ,@0Ltt1 C@C;0@C." 
+     "  0@f, ,@@t.@0t t@Ctt@Lt L@@@i@@L ,@81,   C@C:0@f:" 
+     "  0@f, ,@@@@@Lt t@Ctt@Lt L@G8@@@L ,@@@@f: C@C:0@f:" 
+     "  0@f, ,@@10@L1 t@Ctt@Lt L@LC@@@L ,@0t    C@C:0@f:" 
+     "  0@f, ,@@ti@8L i@@f8@L1 L@LiG@@L ,@0t    L@8G@@L," 
+     "  iLG, .tLC 1LL1 .tCLLi  ;ffi.fLC  tfL     ,tCLC,"  
+
+     "   f8@G,  .L@@8;  ,@@@8f.  ,8@C" 
+     "  C@Ct@@1 C@Ci8@f ,@@tL@8: t@@@L" 
+     "  C@C,tLL,C@C:0@L:,@@t @@f G@@@L;" 
+     "  C@C,    C@C:0@f:,@@8@@Cf,@81@Gf"  
+     "  C@C,C0, C@C:0@f:,@@fLL; t@@@@@L"  
+     "  C@L;@@L.C@C1@@L:,@@t    G@Lf0@L;" 
+     "   f@@0Li  t8@GLt ,@8f   ,@@C.t@LL"  

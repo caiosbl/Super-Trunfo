@@ -250,6 +250,10 @@ iniciarCartas = do
     let index_trunfo = randomTrunfo
     let lista_cartas = ((map (mapeiaCartas index_trunfo) (lista))) 
     return lista_cartas !! 0 
+
+banner :: String
+banner = unsafeDupablePerformIO (readFile "selecoes.txt")
+
    
 mapeiaCartas :: [String] -> Int -> Carta
 mapeiaCartas lista indexTrunfo = 
