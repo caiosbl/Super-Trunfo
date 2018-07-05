@@ -103,7 +103,7 @@ jogadaAuxiliar :: Carta -> Carta -> String -> Int
 jogadaAuxiliar carta1 carta2 atributo 
   | (comparaCartas atributo carta1 carta2) == 0 =  if isA carta1 then 1 else -1
   | (comparaCartas atributo carta1 carta2) > 0 = 1
-  | (comparaCartas atributo carta1 carta2) > 0 = -1
+  | (comparaCartas atributo carta1 carta2) < 0 = -1
 
 validaAtributo :: String
 validaAtributo = do
