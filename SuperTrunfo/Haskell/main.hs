@@ -2,6 +2,8 @@
 import System.IO.Unsafe(unsafeDupablePerformIO)
 import System.Random
 import System.Random.Shuffle
+import Control.Concurrent
+import System.Console.ANSI
 
 type Stack a = [a]
  
@@ -58,27 +60,33 @@ toStringCarta (Carta {tipo = tip, nome = nom, ataque = ata,
 main :: IO()
 
 main = do 
+
+  let  isTwoPlayers = False
   let cartas = iniciarCartas
   embaralhadas <- shuffleM cartas
-  
+
+  putStrLn (">>> CARTAS EMBARALHADAS! <<<")
+  threadDelay 1000000
+  putStrLn (">>> PILHAS MONTADAS <<<")
   let lista_1 = take 16 embaralhadas
   let lista_2 = take 16 (reverse embaralhadas)
-
   let pilha_1 = iniciarPilha lista_1
   let pilha_2 = iniciarPilha lista_2
-
+  threadDelay 1000000
   let player_atual = randomPlayerIniciaJogo
-  let  isTwoPlayers = False
+  putStrLn (">>> PLAYER" ++ show(player_atual) ++ " INICIA O JOGO! <<<")
+  threadDelay 3000000
+  clearScreen
+  let mediaAtributos = MediaAtributos { contador = 0, acumulador_ataque = 0, acumulador_defesa = 0 ,
+   acumulador_meio = 0, acumulador_titulos = 0, acumulador_aparicoes_copas = 0 }
 
- 
-  putStrLn (show(peek pilha_1))
-  putStrLn (" ")
-  putStrLn (show(peek pilha_2))
+  iniciarJogo mediaAtributos pilha_1 pilha_2 player_atual 0 isTwoPlayers
+
 
 iniciarJogo :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Int -> Bool -> String
 iniciarJogo  mediaAtributos pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
-  | empty pilha1 = "FIM DE JOGO - PLAYER 1 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
-  | empty pilha2 = "FIM DE JOGO - PLAYER 2 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
+  | empty pilha1 = "FIM DE JOGO - PLAYER 2 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
+  | empty pilha2 = "FIM DE JOGO - PLAYER 1 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
   | otherwise = do
     unsafeDupablePerformIO (putStrLn ("PLAYER ATUAL: " ++ show(playerAtual) ++ " RODADA ATUAL: " ++ show(totalRodadas)))
     unsafeDupablePerformIO (putStrLn ("PLACAR: P1 " ++ show(size pilha1) ++ " x " ++ show(size pilha2) ++ " P2"))
@@ -88,9 +96,18 @@ iniciarJogo  mediaAtributos pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
 
 jogada :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Bool -> (Stack Carta,Stack Carta,Int,MediaAtributos) 
 jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
-  | playerAtual == 1 = jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2
-  | playerAtual == 2 && not isTwoPlayers = jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2
-  | playerAtual == 2 && isTwoPlayers = jogadaAuxiliarBot mediaAtributos pilha1 pilha2
+  | playerAtual == 1 = do 
+    jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2
+    threadDelay 6000000
+    clearScreen
+  | playerAtual == 2 && isTwoPlayers = do 
+    jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2
+    threadDelay 6000000
+    clearScreen
+  | playerAtual == 2 && not isTwoPlayers = do 
+    jogadaAuxiliarBot mediaAtributos pilha1 pilha2
+    threadDelay 6000000
+    clearScreen
 
 
 jogadaAuxiliarPlayer1 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos)
@@ -155,7 +172,10 @@ jogadaAuxiliarBot mediaAtributos pilha1 pilha2 = do
   let atributo = if (is_trunfo carta_p2) then selectAtributoBot mediaAtributos carta_p2 else ""
   let comparador = if (is_trunfo carta_p2) then (if isA carta_p1 then  -1  else  1) else jogadaAuxiliar carta_p2 carta_p1 atributo
   if (is_trunfo carta_p2) then unsafeDupablePerformIO (putStrLn ("É TRUNFO!")) else unsafeDupablePerformIO (putStrLn (""))
-  if (not is_trunfo carta_p2) then unsafeDupablePerformIO (putStrLn ("ATRIBUTO ESCOLHIDO: " ++ atributo)) else (putStrLn (""))
+  if (not is_trunfo carta_p2) then do
+     threadDelay 3000000
+     unsafeDupablePerformIO (putStrLn ("ATRIBUTO ESCOLHIDO: " ++ atributo)) 
+     else (putStrLn (""))
 
 
   let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha1 else pop pilha2
