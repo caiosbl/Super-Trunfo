@@ -93,7 +93,7 @@ jogadaAuxiliar2 pilha1 pilha2 = do
   let pilhaVencedor = invertePilha(pilhaTemp)
   
   if comparador > 0 then unsafeDupablePerformIO (putStrLn ("PLAYER 1 - VENCEU A RODADA!")) else unsafeDupablePerformIO (putStrLn ("PLAYER 2 - VENCEU A RODADA!"))
-  return if (comparador > 0) then (pilhaVencedor,pilhaPerdedor) else (pilhaPerdedor,pilhaVencedor)
+  if (comparador > 0) then return (pilhaVencedor,pilhaPerdedor) else return (pilhaPerdedor,pilhaVencedor)
 
 jogadaAuxiliar :: Carta -> Carta -> String -> Int 
 jogadaAuxiliar carta1 carta2 atributo 
