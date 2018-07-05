@@ -146,7 +146,46 @@ jogadaAuxiliarBot mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
   unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p2)))
+  
+  let atributo = selectAtributoBot mediaAtributos carta_p2
 
+  unsafeDupablePerformIO (putStrLn ("ATRIBUTO ESCOLHIDO: " ++ atributo))
+
+  let comparador = jogadaAuxiliar carta_p2 carta_p1 atributo
+
+  let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha1 else pop pilha2
+  let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha2)) else push cartaPerdida (invertePilha(pilha1))
+  
+  let pilhaVencedor = invertePilha(pilhaTemp)
+
+  let media_atributos = MediaAtributos {contador =
+    ((contador mediaAtributos ) + 1),
+     acumulador_ataque = ((acumulador_ataque mediaAtributos) + (carta_p2 ataque)),
+     acumulador_defesa = ((acumulador_defesa mediaAtributos ) + (carta_p2 defesa)),
+     acumulador_titulos = ((acumulador_titulos mediaAtributos) + (carta_p2 titulos)),
+     acumulador_aparicoes_copas = ((acumulador_aparicoes_copas mediaAtributos) + (aparicoes_copas carta_p2))
+     }
+ 
+  
+  if comparador > 0 then unsafeDupablePerformIO (putStrLn ("PLAYER 2 - VENCEU A RODADA!")) else unsafeDupablePerformIO (putStrLn ("PLAYER 1 - VENCEU A RODADA!"))
+  if (comparador > 0) then return (pilhaPerdedor,pilhaVencedor,2,media_atributos) else return (pilhaVencedor,pilhaPerdedor,1,media_atributos)
+
+selectAtributoBot :: MediaAtributos -> Carta -> String
+selectAtributoBot mediaAtributos carta = do
+  let (media_ataque,media_defesa,media_meio,media_titulos,media_aparicoes) = ((mediaAtributos acumulador_ataque) `div` (contador mediaAtributos),((mediaAtributos acumulador_defesa) `div` (contador mediaAtributos)), ((mediaAtributos acumulador_meio) `div` (contador mediaAtributos)),((mediaAtributos acumulador_titulos) `div` (contador mediaAtributos)),((mediaAtributos acumulador_aparicoes_copa) `div` (contador mediaAtributos)))
+
+  let ataque = (carta ataque) - media_ataque
+  let defesa = (carta defesa) - media_defesa
+  let meio = (carta meio) - media_meio
+  let titulos = (carta titulos) - media_titulos
+  let aparicoes_copas = (carta aparicoes_copas) - media_aparicoes
+  
+  if ataque >= (max defesa meio titulos aparicoes_copas) then return "ATAQUE"
+  else if defesa >=  (max meio titulos aparicoes_copas) then return "DEFESA"
+  else if meio >= (max titulos aparicoes_copas) then return "MEIO"
+  else if titulos > aparicoes_copas then return "TITULOS"
+  else return "APARICOES_COPAS"
+  
 
 jogadaAuxiliar :: Carta -> Carta -> String -> Int 
 jogadaAuxiliar carta1 carta2 atributo 
