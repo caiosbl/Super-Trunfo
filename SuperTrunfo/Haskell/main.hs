@@ -90,6 +90,7 @@ jogada :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Bool -> (Stack 
 jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
   | playerAtual == 1 = jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2
   | playerAtual == 2 && not isTwoPlayers = jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2
+  | playerAtual == 2 && isTwoPlayers = jogadaAuxiliarBot mediaAtributos pilha1 pilha2
 
 
 jogadaAuxiliarPlayer1 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos)
