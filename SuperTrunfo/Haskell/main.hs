@@ -17,6 +17,9 @@ pop (x:xs) = (x,xs)
  
 empty :: Stack a -> Bool
 empty = null
+
+size :: Stack a -> Int
+size = length (x:xs)
  
 peek :: Stack a -> a
 peek []    = error "Stack empty"
@@ -57,8 +60,7 @@ main = do
   let pilha_2 = iniciarPilha lista_2
 
   let player_atual = randomPlayerIniciaJogo
-
-  Bool isTwoPlayers = False
+  let  isTwoPlayers = False
 
  
   putStrLn (show(peek pilha_1))
@@ -69,18 +71,29 @@ iniciarJogo :: Stack Carta -> Stack Carta -> Int -> Int -> Bool -> String
 iniciarJogo  pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
   | empty pilha1 = "FIM DE JOGO - PLAYER 1 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
   | empty pilha2 = "FIM DE JOGO - PLAYER 2 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
-  | playerAtual == 1 = 
+  | playerAtual == 1 = jogada pilha1 pilha2 playerAtual isWtoPlayers
 
 
-jogada :: Stack Carta -> Stack Carta -> Int -> (Stack,Stack) 
-jogada pilha1 pilha2 playerAtual
-  | playerAtual == 1 = 
-    let carta_p1 = peek pilha1
-    let carta_p2 = peek pilha2
-    unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p1)))
-    let atributo = validaAtributo
-    
-    if compara
+jogada :: Stack Carta -> Stack Carta -> Int -> Bool -> (Stack,Stack) 
+jogada pilha1 pilha2 playerAtual isTwoPlayers
+  | playerAtual == 1 = jogadaAuxiliar2 pilha1 pilha2
+
+
+jogadaAuxiliarPlayer1 ::  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta)
+jogadaAuxiliar2 pilha1 pilha2 = do
+  unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p1)))
+  let carta_p1 = peek pilha1
+  let carta_p2 = peek pilha2
+  let atributo = validaAtributo
+  let comparador = jogadaAuxiliar carta_p1 carta_p2 atributo
+
+  let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha2 else pop pilha1
+  let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha1)) else push cartaPerdida (invertePilha(pilha2))
+  
+  let pilhaVencedor = invertePilha(pilhaTemp)
+  
+  if comparador > 0 then unsafeDupablePerformIO (putStrLn ("PLAYER 1 - VENCEU A RODADA!")) else unsafeDupablePerformIO (putStrLn ("PLAYER 2 - VENCEU A RODADA!"))
+  return if (comparador > 0) then (pilhaVencedor,pilhaPerdedor) else (pilhaPerdedor,pilhaVencedor)
 
 jogadaAuxiliar :: Carta -> Carta -> String -> Int 
 jogadaAuxiliar carta1 carta2 atributo 
@@ -88,17 +101,12 @@ jogadaAuxiliar carta1 carta2 atributo
   | (comparaCartas atributo carta1 carta2) > 0 = 1
   | (comparaCartas atributo carta1 carta2) > 0 = -1
 
-
-
-
 validaAtributo :: String
-validaAtributo = 
+validaAtributo = do
   unsafeDupablePerformIO (putStrLn (atributos))
   atributo <- unsafeDupablePerformIO (getLine)
   if checkAtributo atributo then return atributo else return validaAtributo
   
-
-
 checkAtributo :: String -> Bool
 checkAtributo atributo
   | (toUpper atributo) == "ATAQUE" = True
@@ -108,12 +116,8 @@ checkAtributo atributo
   | (toUpper atributo) == "TITULOS" = True
   | otherwise = False
 
-
 atributos :: String
 atributos = "[ATAQUE | DEFESA | MEIO | TITULOS | APARICOES_COPA]"
-
-
-
 
 iniciarPilha :: [Carta] -> Stack Carta
 iniciarPilha lista = iniciarPilhaAuxiliar lista create
