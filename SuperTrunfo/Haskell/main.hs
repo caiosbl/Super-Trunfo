@@ -5,7 +5,7 @@ import System.Random.Shuffle
 type Stack a = [a]
  
 create :: Stack a
-create = []
+create  = []
  
 push :: a -> Stack a -> Stack a
 push = (:)
@@ -48,7 +48,28 @@ main :: IO()
 main = do 
   let cartas = iniciarCartas
   embaralhadas <- shuffleM cartas
-  putStrLn (show(embaralhadas))
+  
+  let lista_1 = take 16 embaralhadas
+  let lista_2 = take 16 (reverse embaralhadas)
+
+  let pilha_1 = iniciarPilha lista_1
+  let pilha_2 = iniciarPilha lista_2
+ 
+
+
+  putStrLn (show(peek pilha_1))
+  putStrLn (" ")
+  putStrLn (show(peek pilha_2))
+
+
+
+iniciarPilha :: [Carta] -> Stack Carta
+iniciarPilha lista = iniciarPilhaAuxiliar lista create
+
+iniciarPilhaAuxiliar :: [Carta] -> Stack Carta -> Stack Carta
+iniciarPilhaAuxiliar lista pilha 
+  |null lista = pilha
+  | otherwise = iniciarPilhaAuxiliar (tail lista) (push (head lista) pilha)
 
 iniciarCartas :: [Carta]
 
