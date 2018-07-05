@@ -273,5 +273,27 @@ randomPlayerIniciaJogo = unsafeDupablePerformIO (getStdRandom (randomR (1,2)))
 
 
 comparaCartas :: String -> Carta -> Carta -> Int
+comparaCartas atributo carta1 carta2 
+  | (toUpper atributo) == "ATAQUE" && (ataque1 - ataque2) > 0 = 1
+  | (toUpper atributo) == "ATAQUE" && (ataque1 - ataque2) < 0 = -1
+  | (toUpper atributo) == "ATAQUE" && (ataque1 - ataque2) == 0 = desempata carta1 carta2
+  | (toUpper atributo) == "DEFESA" && (defesa1 - defesa2) > 0 = 1
+  | (toUpper atributo) == "DEFESA" && (defesa1 - defesa2) < 0 = -1
+  | (toUpper atributo) == "DEFESA" && (defesa1 - defesa2) == 0 = desempata carta1 carta2
+  | (toUpper atributo) == "MEIO" && (meio1 - meio2) > 0 = 1
+  | (toUpper atributo) == "MEIO" && (meio1 - meio2) < 0 = -1
+  | (toUpper atributo) == "MEIO" && (meio1 - meio2) == 0 = desempata carta1 carta2
+  | (toUpper atributo) == "TITULOS" && (titulos1 - titulos2) > 0 = 1
+  | (toUpper atributo) == "TITULOS" && (titulos1 - titulos2) < 0 = -1
+  | (toUpper atributo) == "TITULOS" && (titulos1 - titulos2) == 0 = desempata carta1 carta2
+  | (toUpper atributo) == "APARICOES_COPAS" && (aparicoes_copa1 - aparicoes_copa2) > 0 = 1
+  | (toUpper atributo) == "APARICOES_COPAS" && (aparicoes_copa1 - aparicoes_copa2) < 0 = -1
+  | (toUpper atributo) == "APARICOES_COPAS" && (aparicoes_copa1 - aparicoes_copa2) == 0 = desempata carta1 carta2
+  where (ataque1,ataque2, defesa1,defesa2, meio1,meio2, titulos1,titulos2,aparicoes_copa1,aparicoes_copa2) = ((ataque carta1), (ataque carta2),(defesa carta1),(defesa carta2),(meio carta1),(meio carta2),(titulos carta1),(titulos carta2),(aparicoes_copas carta1),(aparicoes_copas carta2))
+
+desempata :: Carta -> Carta -> Int
+desempata carta1 carta2 = if (tipo carta1) < (tipo carta2) then 1 else -1
+
+
 invertePilha :: Stack Carta -> Stack Carta
 isA :: Carta -> Bool
