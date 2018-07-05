@@ -81,6 +81,7 @@ iniciarJogo  pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
 jogada :: Stack Carta -> Stack Carta -> Int -> Bool -> (Stack,Stack,Int) 
 jogada pilha1 pilha2 playerAtual isTwoPlayers
   | playerAtual == 1 = jogadaAuxiliarPlayer1 pilha1 pilha2
+  | playerAtual == 2 && not isTwoPlayers = jogadaAuxiliarPlayer2 pilha1 pilha2
 
 
 jogadaAuxiliarPlayer1 ::  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int)
