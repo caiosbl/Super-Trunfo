@@ -61,6 +61,10 @@ main :: IO()
 
 main = do 
 
+  putStrLn (banner)
+  threadDelay 5000000
+  clearScreen
+
   let  isTwoPlayers = False
   let cartas = iniciarCartas
   embaralhadas <- shuffleM cartas
