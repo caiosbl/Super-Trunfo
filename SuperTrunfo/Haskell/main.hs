@@ -254,7 +254,6 @@ iniciarCartas = do
 banner :: String
 banner = unsafeDupablePerformIO (readFile "selecoes.txt")
 
-   
 mapeiaCartas :: [String] -> Int -> Carta
 mapeiaCartas lista indexTrunfo = 
   Carta{tipo = (lista) !! 0, 
@@ -294,6 +293,10 @@ comparaCartas atributo carta1 carta2
 desempata :: Carta -> Carta -> Int
 desempata carta1 carta2 = if (tipo carta1) < (tipo carta2) then 1 else -1
 
-
 invertePilha :: Stack Carta -> Stack Carta
+invertePilha pilha = reverse pilha
+
 isA :: Carta -> Bool
+isA carta = if (take 1 (tipo carta)) == "A"
+            then True
+            else False
