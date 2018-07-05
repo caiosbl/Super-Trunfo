@@ -77,6 +77,7 @@ jogada pilha1 pilha2 playerAtual
   | playerAtual == 1 = 
     unsafeDupablePerformIO (putStrLn (toStringCarta (peek pilha1)))
     let atributo = validaAtributo
+    if
 
 
 
@@ -136,6 +137,6 @@ randomPlayerIniciaJogo :: Int
 randomPlayerIniciaJogo = unsafeDupablePerformIO (getStdRandom (randomR (1,2)))
 
 
-comparaCartas :: Carta -> Carta -> Int
+comparaCartas :: String -> Carta -> Carta -> Int
 invertePilha :: Stack Carta -> Stack Carta
 isA :: Carta -> Bool
