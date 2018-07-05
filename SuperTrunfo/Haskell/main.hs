@@ -98,9 +98,11 @@ jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
   unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p1)))
-  let atributo = validaAtributo
-  let comparador = jogadaAuxiliar carta_p1 carta_p2 atributo
-
+  
+  let atributo = if (is_trunfo carta_p1) then validaAtributo else ""
+  let comparador = if (is_trunfo carta_p1) then (if isA carta_p2 then  -1  else  1) else jogadaAuxiliar carta_p1 carta_p2 atributo
+  if (is_trunfo carta_p1) then unsafeDupablePerformIO (putStrLn ("É TRUNFO!")) else unsafeDupablePerformIO (putStrLn (""))
+  
   let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha2 else pop pilha1
   let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha1)) else push cartaPerdida (invertePilha(pilha2))
   
@@ -122,8 +124,10 @@ jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
   unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p2)))
-  let atributo = validaAtributo
-  let comparador = jogadaAuxiliar carta_p2 carta_p1 atributo
+ 
+  let atributo = if (is_trunfo carta_p2) then validaAtributo else ""
+  let comparador = if (is_trunfo carta_p2) then (if isA carta_p1 then  -1  else  1) else jogadaAuxiliar carta_p2 carta_p1 atributo
+  if (is_trunfo carta_p2) then unsafeDupablePerformIO (putStrLn ("É TRUNFO!")) else unsafeDupablePerformIO (putStrLn (""))
 
   let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha1 else pop pilha2
   let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha2)) else push cartaPerdida (invertePilha(pilha1))
@@ -147,12 +151,12 @@ jogadaAuxiliarBot mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
   unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p2)))
-  
-  let atributo = selectAtributoBot mediaAtributos carta_p2
+ 
+  let atributo = if (is_trunfo carta_p2) then selectAtributoBot mediaAtributos carta_p2 else ""
+  let comparador = if (is_trunfo carta_p2) then (if isA carta_p1 then  -1  else  1) else jogadaAuxiliar carta_p2 carta_p1 atributo
+  if (is_trunfo carta_p2) then unsafeDupablePerformIO (putStrLn ("É TRUNFO!")) else unsafeDupablePerformIO (putStrLn (""))
+  if (not is_trunfo carta_p2) then unsafeDupablePerformIO (putStrLn ("ATRIBUTO ESCOLHIDO: " ++ atributo)) else (putStrLn (""))
 
-  unsafeDupablePerformIO (putStrLn ("ATRIBUTO ESCOLHIDO: " ++ atributo))
-
-  let comparador = jogadaAuxiliar carta_p2 carta_p1 atributo
 
   let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha1 else pop pilha2
   let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha2)) else push cartaPerdida (invertePilha(pilha1))
@@ -190,7 +194,6 @@ selectAtributoBot mediaAtributos carta = do
 
 jogadaAuxiliar :: Carta -> Carta -> String -> Int 
 jogadaAuxiliar carta1 carta2 atributo 
-  | (comparaCartas atributo carta1 carta2) == 0 =  if isA carta1 then 1 else -1
   | (comparaCartas atributo carta1 carta2) > 0 = 1
   | (comparaCartas atributo carta1 carta2) < 0 = -1
 
