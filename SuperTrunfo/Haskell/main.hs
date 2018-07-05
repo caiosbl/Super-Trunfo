@@ -71,16 +71,20 @@ iniciarJogo :: Stack Carta -> Stack Carta -> Int -> Int -> Bool -> String
 iniciarJogo  pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
   | empty pilha1 = "FIM DE JOGO - PLAYER 1 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
   | empty pilha2 = "FIM DE JOGO - PLAYER 2 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
-  | playerAtual == 1 = jogada pilha1 pilha2 playerAtual isWtoPlayers
+  | otherwise = do
+    unsafeDupablePerformIO (putStrLn ("PLAYER ATUAL: " ++ show(playerAtual) ++ " RODADA ATUAL: " ++ show(totalRodadas)))
+    unsafeDupablePerformIO (putStrLn ("PLACAR: P1 " ++ show(size pilha1) ++ " x " ++ show(size pilha2) ++ " P2"))
+    iniciarJogo pilha_1 pilha_2 player_atual (totalRodadas + 1) isTwoPlayers
+  where (pilha_1,pilha_2,player_atual) = jogada pilha1 pilha2 playerAtual isTwoPlayers
 
 
-jogada :: Stack Carta -> Stack Carta -> Int -> Bool -> (Stack,Stack) 
+jogada :: Stack Carta -> Stack Carta -> Int -> Bool -> (Stack,Stack,Int) 
 jogada pilha1 pilha2 playerAtual isTwoPlayers
-  | playerAtual == 1 = jogadaAuxiliar2 pilha1 pilha2
+  | playerAtual == 1 = jogadaAuxiliarPlayer1 pilha1 pilha2
 
 
-jogadaAuxiliarPlayer1 ::  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta)
-jogadaAuxiliar2 pilha1 pilha2 = do
+jogadaAuxiliarPlayer1 ::  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int)
+jogadaAuxiliarPlayer1 pilha1 pilha2 = do
   unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p1)))
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
@@ -93,7 +97,7 @@ jogadaAuxiliar2 pilha1 pilha2 = do
   let pilhaVencedor = invertePilha(pilhaTemp)
   
   if comparador > 0 then unsafeDupablePerformIO (putStrLn ("PLAYER 1 - VENCEU A RODADA!")) else unsafeDupablePerformIO (putStrLn ("PLAYER 2 - VENCEU A RODADA!"))
-  if (comparador > 0) then return (pilhaVencedor,pilhaPerdedor) else return (pilhaPerdedor,pilhaVencedor)
+  if (comparador > 0) then return (pilhaVencedor,pilhaPerdedor,1) else return (pilhaPerdedor,pilhaVencedor,2)
 
 jogadaAuxiliar :: Carta -> Carta -> String -> Int 
 jogadaAuxiliar carta1 carta2 atributo 
