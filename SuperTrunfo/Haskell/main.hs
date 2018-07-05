@@ -85,9 +85,9 @@ jogada pilha1 pilha2 playerAtual isTwoPlayers
 
 jogadaAuxiliarPlayer1 ::  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int)
 jogadaAuxiliarPlayer1 pilha1 pilha2 = do
-  unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p1)))
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
+  unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p1)))
   let atributo = validaAtributo
   let comparador = jogadaAuxiliar carta_p1 carta_p2 atributo
 
@@ -98,6 +98,22 @@ jogadaAuxiliarPlayer1 pilha1 pilha2 = do
   
   if comparador > 0 then unsafeDupablePerformIO (putStrLn ("PLAYER 1 - VENCEU A RODADA!")) else unsafeDupablePerformIO (putStrLn ("PLAYER 2 - VENCEU A RODADA!"))
   if (comparador > 0) then return (pilhaVencedor,pilhaPerdedor,1) else return (pilhaPerdedor,pilhaVencedor,2)
+
+jogadaAuxiliarPlayer2 ::  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int)
+jogadaAuxiliarPlayer2 pilha1 pilha2 = do
+  let carta_p1 = peek pilha1
+  let carta_p2 = peek pilha2
+  unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p2)))
+  let atributo = validaAtributo
+  let comparador = jogadaAuxiliar carta_p2 carta_p1 atributo
+
+  let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha1 else pop pilha2
+  let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha2)) else push cartaPerdida (invertePilha(pilha1))
+  
+  let pilhaVencedor = invertePilha(pilhaTemp)
+  
+  if comparador > 0 then unsafeDupablePerformIO (putStrLn ("PLAYER 2 - VENCEU A RODADA!")) else unsafeDupablePerformIO (putStrLn ("PLAYER 1 - VENCEU A RODADA!"))
+  if (comparador > 0) then return (pilhaPerdedor,pilhaVencedor,2) else return (pilhaVencedor,pilhaPerdedor,1)
 
 jogadaAuxiliar :: Carta -> Carta -> String -> Int 
 jogadaAuxiliar carta1 carta2 atributo 
