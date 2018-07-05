@@ -75,9 +75,18 @@ iniciarJogo  pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
 jogada :: Stack Carta -> Stack Carta -> Int -> (Stack,Stack) 
 jogada pilha1 pilha2 playerAtual
   | playerAtual == 1 = 
-    unsafeDupablePerformIO (putStrLn (toStringCarta (peek pilha1)))
+    let carta_p1 = peek pilha1
+    let carta_p2 = peek pilha2
+    unsafeDupablePerformIO (putStrLn (toStringCarta (carta_p1)))
     let atributo = validaAtributo
-    if
+    
+    if compara
+
+jogadaAuxiliar :: Carta -> Carta -> String -> Int 
+jogadaAuxiliar carta1 carta2 atributo 
+  | (comparaCartas atributo carta1 carta2) == 0 =  if isA carta1 then 1 else -1
+  | (comparaCartas atributo carta1 carta2) > 0 = 1
+  | (comparaCartas atributo carta1 carta2) > 0 = -1
 
 
 
