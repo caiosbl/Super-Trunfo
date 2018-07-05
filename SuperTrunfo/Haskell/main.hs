@@ -57,10 +57,53 @@ main = do
   let pilha_2 = iniciarPilha lista_2
 
   let player_atual = randomPlayerIniciaJogo
+
+  Bool isTwoPlayers = False
+
  
   putStrLn (show(peek pilha_1))
   putStrLn (" ")
   putStrLn (show(peek pilha_2))
+
+iniciarJogo :: Stack Carta -> Stack Carta -> Int -> Int -> Bool -> String
+iniciarJogo  pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
+  | empty pilha1 = "FIM DE JOGO - PLAYER 1 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
+  | empty pilha2 = "FIM DE JOGO - PLAYER 2 VENCEU!" ++ "Total de Rodadas: " show(totalRodadas)
+  | playerAtual == 1 = 
+
+
+jogada :: Stack Carta -> Stack Carta -> Int -> (Stack,Stack) 
+jogada pilha1 pilha2 playerAtual
+  | playerAtual == 1 = 
+    unsafeDupablePerformIO (putStrLn (toStringCarta (peek pilha1)))
+    let atributo = validaAtributo
+
+
+
+
+validaAtributo :: String
+validaAtributo = 
+  unsafeDupablePerformIO (putStrLn (atributos))
+  atributo <- unsafeDupablePerformIO (getLine)
+  if checkAtributo atributo then return atributo else return validaAtributo
+  
+
+
+checkAtributo :: String -> Bool
+checkAtributo atributo
+  | (toUpper atributo) == "ATAQUE" = True
+  | (toUpper atributo) == "DEFESA" = True
+  | (toUpper atributo) == "MEIO" = True
+  | (toUpper atributo) == "APARICOES_COPA" = True
+  | (toUpper atributo) == "TITULOS" = True
+  | otherwise = False
+
+
+atributos :: String
+atributos = "[ATAQUE | DEFESA | MEIO | TITULOS | APARICOES_COPA]"
+
+
+
 
 iniciarPilha :: [Carta] -> Stack Carta
 iniciarPilha lista = iniciarPilhaAuxiliar lista create
