@@ -86,18 +86,18 @@ main = do
   iniciarJogo mediaAtributos pilha_1 pilha_2 player_atual 0 isTwoPlayers
 
 
-iniciarJogo ::  MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Int -> Bool -> String -> IO()
-iniciarJogo  mediaAtributos pilha1 pilha2 playerAtual totalRodadas isTwoPlayers io
+iniciarJogo ::  MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Int -> Bool -> String -> [IO()]
+iniciarJogo  mediaAtributos pilha1 pilha2 playerAtual totalRodadas isTwoPlayers 
   | empty pilha1 = "FIM DE JOGO - PLAYER 2 VENCEU! Total de Rodadas: " ++ (show(totalRodadas))
   | empty pilha2 = "FIM DE JOGO - PLAYER 1 VENCEU! Total de Rodadas: " ++ (show(totalRodadas))
   | otherwise = do
     putStrLn ("PLAYER ATUAL: " ++ show(playerAtual) ++ " RODADA ATUAL: " ++ (show(totalRodadas) ++ "\n"
       ++ "PLACAR: P1 " ++ show(size pilha1) ++ " x " ++ (show(size pilha2)) ++ " P2"))
-    iniciarJogo media_Atributos pilha_1 pilha_2 player_atual (totalRodadas + 1) isTwoPlayers io
+    iniciarJogo media_Atributos pilha_1 pilha_2 player_atual (totalRodadas + 1) isTwoPlayers 
   where (pilha_1,pilha_2,player_atual,media_Atributos) = jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
 
 
-jogada :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Bool -> (Stack Carta,Stack Carta,Int,MediaAtributos) 
+jogada :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Bool -> (Stack Carta,Stack Carta,Int,MediaAtributos)  
 jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
   | playerAtual == 1 = do 
     jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2
@@ -113,7 +113,7 @@ jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
     clearScreen
 
 
-jogadaAuxiliarPlayer1 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos)
+jogadaAuxiliarPlayer1 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos) -> [IO()]
 jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
@@ -121,7 +121,7 @@ jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2 = do
   
   let atributo = if (is_trunfo carta_p1) then validaAtributo else ""
   let comparador = if (is_trunfo carta_p1) then (if isA carta_p2 then  -1  else  1) else jogadaAuxiliar carta_p1 carta_p2 atributo
-  if (is_trunfo carta_p1) then putStrLn ("É TRUNFO!")) else putStrLn ("")
+  if (is_trunfo carta_p1) then putStrLn ("É TRUNFO!") else putStrLn ("")
   
   let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha2 else pop pilha1
   let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha1)) else push cartaPerdida (invertePilha(pilha2))
@@ -139,7 +139,7 @@ jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2 = do
   if comparador > 0 then putStrLn ("PLAYER 1 - VENCEU A RODADA!") else putStrLn ("PLAYER 2 - VENCEU A RODADA!")
   if (comparador > 0) then return (pilhaVencedor,pilhaPerdedor,1,media_atributos) else return (pilhaPerdedor,pilhaVencedor,2,media_atributos)
 
-jogadaAuxiliarPlayer2 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos)
+jogadaAuxiliarPlayer2 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos) -> [IO()]
 jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
@@ -166,7 +166,7 @@ jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2 = do
   if comparador > 0 then putStrLn ("PLAYER 2 - VENCEU A RODADA!") else putStrLn ("PLAYER 1 - VENCEU A RODADA!")
   if (comparador > 0) then return (pilhaPerdedor,pilhaVencedor,2,media_atributos) else return (pilhaVencedor,pilhaPerdedor,1,media_atributos)
 
-jogadaAuxiliarBot :: MediaAtributos ->  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos)
+jogadaAuxiliarBot :: MediaAtributos ->  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos) -> [IO()]
 jogadaAuxiliarBot mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
@@ -246,14 +246,14 @@ iniciarCartas = do
     let file = unsafeDupablePerformIO (readFile "selecoes.txt")
     let lista =  ((map ( splitOn ",") (lines file))) 
     let index_trunfo = randomTrunfo
-    let lista_cartas = ((map (mapeiaCarta) (lista))) 
+    let lista_cartas = ((map (mapeiaCarta indexTrunfo)) (lista))
     return lista_cartas !! 0 
 
 banner :: String
 banner = unsafeDupablePerformIO (readFile "selecoes.txt")
 
    
-mapeiaCartas :: [String] -> Carta
+mapeiaCartas :: [Int] -> [String] -> Carta
 mapeiaCartas lista =
   Carta{tipo = (lista) !! 0, 
   nome = (lista) !! 1,
