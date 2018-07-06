@@ -86,7 +86,7 @@ main = do
   iniciarJogo mediaAtributos pilha_1 pilha_2 player_atual 0 isTwoPlayers
 
 
-iniciarJogo ::  MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Int -> Bool -> String -> [IO()]
+iniciarJogo ::  MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Int -> Bool -> IO() String 
 iniciarJogo  mediaAtributos pilha1 pilha2 playerAtual totalRodadas isTwoPlayers 
   | empty pilha1 = "FIM DE JOGO - PLAYER 2 VENCEU! Total de Rodadas: " ++ (show(totalRodadas))
   | empty pilha2 = "FIM DE JOGO - PLAYER 1 VENCEU! Total de Rodadas: " ++ (show(totalRodadas))
@@ -97,7 +97,7 @@ iniciarJogo  mediaAtributos pilha1 pilha2 playerAtual totalRodadas isTwoPlayers
   where (pilha_1,pilha_2,player_atual,media_Atributos) = jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
 
 
-jogada :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Bool -> (Stack Carta,Stack Carta,Int,MediaAtributos)  
+jogada :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Bool -> IO()(Stack Carta,Stack Carta,Int,MediaAtributos)  
 jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
   | playerAtual == 1 = do 
     jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2
@@ -113,7 +113,7 @@ jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
     clearScreen
 
 
-jogadaAuxiliarPlayer1 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos) -> [IO()]
+jogadaAuxiliarPlayer1 ::  MediaAtributos -> Stack Carta -> Stack Carta -> IO()(Stack Carta,Stack Carta,Int,MediaAtributos)
 jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2 = do
   let carta_p1 = peek pilha1
   let carta_p2 = peek pilha2
@@ -215,7 +215,7 @@ selectAtributoBot mediaAtributos carta = do
   else return "APARICOES_COPAS"
   
 
-validaAtributo :: String -> IO()
+validaAtributo :: String -> IO() String
 validaAtributo  = do
   putStrLn (atributos)
   atributo <- unsafeDupablePerformIO (getLine)
