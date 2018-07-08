@@ -13,11 +13,13 @@ main = do
   menu
   
 opcoesMenu :: String
-opcoesMenu = "Escolha uma Opcão: \n1 - Iniciar Jogo - 1P \n2 - Iniciar Jogo 2P \n3 - Créditos\n4 - Sair"
+opcoesMenu = "Escolha uma Opcão: \n1 - Iniciar Jogo - PLAYER1 VS COMPUTADOR \n2 - Iniciar Jogo - PLAYER1 VS PLAYER2 \n3 - Créditos\n4 - Sair"
 
 creditos :: IO()
 creditos = do
-  putStrLn ("Desenvolvido por: \nCaio Sanches\nThallyson Alves\nDomingos Gabriel\n Daniel José")
+  clearScreen
+  putStrLn ("Desenvolvido por: \nCaio Sanches\nThallyson Alves\nDomingos Gabriel\nDaniel José")
+  threadDelay 7000000
   menu
 
 
@@ -31,6 +33,7 @@ menu = do
   opcao <- getLine
   
   if opcao == "1" then do
+    clearScreen
     let cartas = Utils.iniciarCartas
     embaralhadas <- shuffleM cartas
     putStrLn (">>> CARTAS EMBARALHADAS <<<")
@@ -52,6 +55,7 @@ menu = do
     iniciaVsBot mediaAtributos pilha_1 pilha_2 playerAtual 1   
          
   else if opcao == "2" then do
+    clearScreen
     let cartas = Utils.iniciarCartas
     embaralhadas <- shuffleM cartas
     putStrLn (">>> CARTAS EMBARALHADAS <<<")
@@ -85,13 +89,12 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
   else do
     let carta_p1 = Pilha.peek pilha1
     let carta_p2 = Pilha.peek pilha2
-    putStrLn ("[Placar: " ++ show(Pilha.size pilha1) ++ " P1 x " ++ show(Pilha.size pilha2) ++ " P2 ]")
-    putStrLn ("Rodada Atual: " ++ show(rodadaAtual))
-    putStrLn ("Player Atual: " ++ show(playerAtual))
+    putStrLn ("[Placar: P1 " ++ show(Pilha.size pilha1) ++ " x " ++ show(Pilha.size pilha2) ++ " P2 ] " 
+      ++ "[Rodada Atual: " ++ show(rodadaAtual) ++ "] [Player Atual: " ++ show(playerAtual) ++ "]")
     putStrLn ("")
     putStrLn ("[NOVA JOGADA]")
     putStrLn ("")
-    putStrLn ("Carta: ")
+    putStrLn ("Carta PLAYER " ++ show(playerAtual))
   
     if playerAtual == 1 then do    
       putStrLn (Cards.toString (carta_p1))
@@ -101,7 +104,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
         putStrLn ("[EH TRUNFO]")
         if Cards.isA carta_p2 then do
           putStrLn ("")
-          putStrLn ("Carta P2")
+          putStrLn ("Carta PLAYER 2")
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
@@ -112,7 +115,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
         
         else do
           putStrLn ("")
-          putStrLn ("Carta P2")
+          putStrLn ("Carta PLAYER 2")
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
@@ -127,7 +130,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
         let comparador = Cards.compara atributo carta_p1 carta_p2
         if comparador == 1 then do
           putStrLn ("")
-          putStrLn ("Carta P2")
+          putStrLn ("Carta PLAYER 2")
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
@@ -138,7 +141,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
         
         else do
           putStrLn ("")
-          putStrLn ("Carta P2")
+          putStrLn ("Carta PLAYER 2")
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
@@ -157,7 +160,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
         putStrLn ("[EH TRUNFO]")
         if Cards.isA carta_p1 then do
           putStrLn ("")
-          putStrLn ("Carta P1")
+          putStrLn ("Carta PLAYER 1")
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
@@ -167,7 +170,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
           iniciaVsBot newMediaAtributos pilha1_final pilha2_final 1 (rodadaAtual + 1)
         else do
           putStrLn ("")
-          putStrLn ("Carta P1")
+          putStrLn ("Carta PLAYER 1")
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
@@ -177,7 +180,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
           iniciaVsBot newMediaAtributos pilha1_final pilha2_final 2 (rodadaAtual + 1)
       else do
         putStrLn ("")
-        putStrLn ("Carta P1")
+        putStrLn ("Carta PLAYER 1")
         putStrLn(Cards.toString (carta_p1))
         putStrLn ("")
         let atributo =  Utils.escolheAtributo carta_p2 mediaAtributos
@@ -216,13 +219,12 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
   else do
     let carta_p1 = Pilha.peek pilha1
     let carta_p2 = Pilha.peek pilha2
-    putStrLn ("[Placar: " ++ show(Pilha.size pilha1) ++ " P1 x " ++ show(Pilha.size pilha2) ++ " P2 ]")
-    putStrLn ("Rodada Atual: " ++ show(rodadaAtual))
-    putStrLn ("Player Atual: " ++ show(playerAtual))
+    putStrLn ("[Placar: P1 " ++ show(Pilha.size pilha1) ++ " x " ++ show(Pilha.size pilha2) ++ " P2 ] " 
+      ++ "[Rodada Atual: " ++ show(rodadaAtual) ++ "] [Player Atual: " ++ show(playerAtual) ++ "]")
     putStrLn ("")
     putStrLn ("[NOVA JOGADA]")
     putStrLn ("")
-    putStrLn ("Carta: ")
+    putStrLn ("Carta PLAYER " ++ show(playerAtual))
     
     if playerAtual == 1 then do    
       putStrLn (Cards.toString (carta_p1))
@@ -232,7 +234,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
         putStrLn ("[EH TRUNFO]")
         if Cards.isA carta_p2 then do
           putStrLn ("")
-          putStrLn ("Carta P2")
+          putStrLn ("Carta PLAYER 2")
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
@@ -243,7 +245,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
         
         else do
           putStrLn ("")
-          putStrLn ("Carta P2")
+          putStrLn ("Carta PLAYER 2")
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
@@ -258,7 +260,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
         let comparador = Cards.compara atributo carta_p1 carta_p2
         if comparador == 1 then do
           putStrLn ("")
-          putStrLn ("Carta P2")
+          putStrLn ("Carta PLAYER 2")
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
@@ -269,7 +271,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
         
         else do
           putStrLn ("")
-          putStrLn ("Carta P2")
+          putStrLn ("Carta PLAYER 2")
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
@@ -286,7 +288,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
         putStrLn ("[EH TRUNFO]")
         if Cards.isA carta_p1 then do
           putStrLn ("")
-          putStrLn ("Carta P1")
+          putStrLn ("Carta PLAYER 1")
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
@@ -297,7 +299,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
         
         else do
           putStrLn ("")
-          putStrLn ("Carta P1")
+          putStrLn ("Carta PLAYER 1")
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
@@ -309,10 +311,10 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
       else do              
         putStrLn ("Escolha um Atributo " ++ Utils.atributos)
         atributo <- Utils.leAtributo
-        let comparador = Cards.compara atributo carta_p1 carta_p2
+        let comparador = Cards.compara atributo carta_p2 carta_p1
         if comparador == 1 then do
           putStrLn ("")
-          putStrLn ("Carta P1")
+          putStrLn ("Carta PLAYER 1")
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
@@ -323,7 +325,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
         
         else do
           putStrLn ("")
-          putStrLn ("Carta P1")
+          putStrLn ("Carta PLAYER 1")
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
