@@ -20,7 +20,7 @@ cabal install split
 Depois de instalar as dependências, compile o jogo com o seguinte comando:
 
 ```bash
-ghc main.hs -o superTrunfo
+ghc -o superTrunfo  main.hs
 ```
 
 ## Executar
