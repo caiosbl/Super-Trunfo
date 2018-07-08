@@ -1,302 +1,224 @@
-﻿import Data.List.Split
-import System.IO.Unsafe(unsafeDupablePerformIO)
-import System.Random
-import System.Random.Shuffle
+import qualified Utils as Utils
+import qualified Pilha as Pilha
+import qualified Cards as Cards
 import Control.Concurrent
 import System.Console.ANSI
-
-type Stack a = [a]
- 
-create :: Stack a
-create  = []
- 
-push :: a -> Stack a -> Stack a
-push = (:)
- 
-pop :: Stack a -> (a, Stack a)
-pop []     = error "Stack empty"
-pop (x:xs) = (x,xs)
- 
-empty :: Stack a -> Bool
-empty = null
-
-size :: Stack a -> Int
-size pilha = length pilha
- 
-peek :: Stack a -> a
-peek []    = error "Stack empty"
-peek (x:_) = x
-
-data Carta = Carta { tipo :: String  
-                     , nome :: String  
-                     , ataque :: Int  
-                     , defesa :: Int
-                     , meio :: Int
-                     , titulos :: Int
-                     , aparicoes_copas :: Int
-                     , is_trunfo :: Bool
-                     } deriving (Show)  
-
-data MediaAtributos = MediaAtributos { contador  :: Int
-     , acumulador_ataque :: Int 
-     , acumulador_defesa :: Int
-     , acumulador_meio :: Int
-     , acumulador_titulos :: Int
-     , acumulador_aparicoes_copas :: Int
-                                      } deriving (Show)  
-
-toStringCarta :: Carta -> String
-toStringCarta (Carta {tipo = tip, nome = nom, ataque = ata,
- defesa = def, meio = mei, titulos = tit, aparicoes_copas = apa, is_trunfo = is}) = 
-    "Tipo: " ++ tip ++ "\n" ++
-                       "Selecao: " ++ nom ++ "\n" ++
-                       "Ataque: " ++ show(ata) ++ "\n" ++
-                       "Meio: " ++ show(mei) ++ "\n" ++
-                       "Defesa: " ++ show(def) ++ "\n" ++
-                       "Titulos: " ++ show(tit) ++ "\n" ++
-                       "Aparicoes em Copas: " ++  show(apa) ++ "\n" ++
-                       if is then "É TRUNFO" else ""
+import System.Random.Shuffle
 
 main :: IO()
-
-main = do 
-
-  putStrLn (banner)
+main = do
+  putStrLn (Utils.banner)
   threadDelay 5000000
   clearScreen
+  menu
+  
+opcoesMenu :: String
+opcoesMenu = "Escolha uma Opcão: \n1 - Iniciar Jogo - 1P \n2 - Iniciar Jogo 2P \n3 - Créditos\n4 - Sair"
 
-  let  isTwoPlayers = False
-  let cartas = iniciarCartas
-  embaralhadas <- shuffleM cartas
+creditos :: IO()
+creditos = do
+  putStrLn ("Desenvolvido por: \nCaio Sanches\nThallyson Alves\nDomingos Gabriel\n Daniel José")
+  menu
 
-  putStrLn (">>> CARTAS EMBARALHADAS! <<<")
-  threadDelay 1000000
-  putStrLn (">>> PILHAS MONTADAS <<<")
-  let lista_1 = take 16 embaralhadas
-  let lista_2 = take 16 (reverse embaralhadas)
-  let pilha_1 = iniciarPilha lista_1
-  let pilha_2 = iniciarPilha lista_2
-  threadDelay 1000000
-  let player_atual = randomPlayerIniciaJogo
-  putStrLn (">>> PLAYER" ++ show(player_atual) ++ " INICIA O JOGO! <<<")
-  threadDelay 3000000
+
+ 
+menu :: IO()
+menu = do
   clearScreen
-  let mediaAtributos = MediaAtributos { contador = 0, acumulador_ataque = 0, acumulador_defesa = 0 ,
-   acumulador_meio = 0, acumulador_titulos = 0, acumulador_aparicoes_copas = 0}
-  iniciarJogo mediaAtributos pilha_1 pilha_2 player_atual 0 isTwoPlayers
-
-
-iniciarJogo ::  MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Int -> Bool -> IO() String 
-iniciarJogo  mediaAtributos pilha1 pilha2 playerAtual totalRodadas isTwoPlayers 
-  | empty pilha1 = "FIM DE JOGO - PLAYER 2 VENCEU! Total de Rodadas: " ++ (show(totalRodadas))
-  | empty pilha2 = "FIM DE JOGO - PLAYER 1 VENCEU! Total de Rodadas: " ++ (show(totalRodadas))
-  | otherwise = do
-    putStrLn ("PLAYER ATUAL: " ++ show(playerAtual) ++ " RODADA ATUAL: " ++ (show(totalRodadas) ++ "\n"
-      ++ "PLACAR: P1 " ++ show(size pilha1) ++ " x " ++ (show(size pilha2)) ++ " P2"))
-    iniciarJogo media_Atributos pilha_1 pilha_2 player_atual (totalRodadas + 1) isTwoPlayers 
-  where (pilha_1,pilha_2,player_atual,media_Atributos) = jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
-
-
-jogada :: MediaAtributos -> Stack Carta -> Stack Carta -> Int -> Bool -> IO()(Stack Carta,Stack Carta,Int,MediaAtributos)  
-jogada mediaAtributos pilha1 pilha2 playerAtual isTwoPlayers
-  | playerAtual == 1 = do 
-    jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2
-    threadDelay 6000000
-    clearScreen
-  | playerAtual == 2 && isTwoPlayers = do 
-    jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2
-    threadDelay 6000000
-    clearScreen
-  | playerAtual == 2 && not isTwoPlayers = do 
-    jogadaAuxiliarBot mediaAtributos pilha1 pilha2
-    threadDelay 6000000
-    clearScreen
-
-
-jogadaAuxiliarPlayer1 ::  MediaAtributos -> Stack Carta -> Stack Carta -> IO()(Stack Carta,Stack Carta,Int,MediaAtributos)
-jogadaAuxiliarPlayer1 mediaAtributos pilha1 pilha2 = do
-  let carta_p1 = peek pilha1
-  let carta_p2 = peek pilha2
-  putStrLn (toStringCarta (carta_p1))
-  
-  let atributo = if (is_trunfo carta_p1) then validaAtributo else ""
-  let comparador = if (is_trunfo carta_p1) then (if isA carta_p2 then  -1  else  1) else jogadaAuxiliar carta_p1 carta_p2 atributo
-  if (is_trunfo carta_p1) then putStrLn ("É TRUNFO!") else putStrLn ("")
-  
-  let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha2 else pop pilha1
-  let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha1)) else push cartaPerdida (invertePilha(pilha2))
-  
-  let pilhaVencedor = invertePilha(pilhaTemp)
-
-  let media_atributos = MediaAtributos {contador =
-     ((contador mediaAtributos ) + 1),
-      acumulador_ataque = ((acumulador_ataque mediaAtributos) + (carta_p1 ataque)),
-      acumulador_defesa = ((acumulador_defesa mediaAtributos ) + (carta_p1 defesa)),
-      acumulador_titulos = ((acumulador_titulos mediaAtributos) + (carta_p1 titulos)),
-      acumulador_aparicoes_copas = ((acumulador_aparicoes_copas mediaAtributos) + (aparicoes_copas carta_p1))
-      }
-  
-  if comparador > 0 then putStrLn ("PLAYER 1 - VENCEU A RODADA!") else putStrLn ("PLAYER 2 - VENCEU A RODADA!")
-  if (comparador > 0) then return (pilhaVencedor,pilhaPerdedor,1,media_atributos) else return (pilhaPerdedor,pilhaVencedor,2,media_atributos)
-
-jogadaAuxiliarPlayer2 ::  MediaAtributos -> Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos) -> [IO()]
-jogadaAuxiliarPlayer2 mediaAtributos pilha1 pilha2 = do
-  let carta_p1 = peek pilha1
-  let carta_p2 = peek pilha2
-  putStrLn (toStringCarta (carta_p2))
+  putStrLn (opcoesMenu)
  
-  let atributo = if (is_trunfo carta_p2) then validaAtributo else ""
-  let comparador = if (is_trunfo carta_p2) then (if isA carta_p1 then  -1  else  1) else jogadaAuxiliar carta_p2 carta_p1 atributo
-  if (is_trunfo carta_p2) then putStrLn ("É TRUNFO!") else putStrLn ("")
-
-  let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha1 else pop pilha2
-  let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha2)) else push cartaPerdida (invertePilha(pilha1))
+  putStrLn ("Opção: ")
+  opcao <- getLine
   
-  let pilhaVencedor = invertePilha(pilhaTemp)
+  if opcao == "1" then do
+    let cartas = Utils.iniciarCartas
+    embaralhadas <- shuffleM cartas
+    putStrLn (">>> CARTAS EMBARALHADAS <<<")
+    threadDelay 2000000
 
-  let media_atributos = MediaAtributos {contador =
-    ((contador mediaAtributos ) + 1),
-     acumulador_ataque = ((acumulador_ataque mediaAtributos) + (carta_p2 ataque)),
-     acumulador_defesa = ((acumulador_defesa mediaAtributos ) + (carta_p2 defesa)),
-     acumulador_titulos = ((acumulador_titulos mediaAtributos) + (carta_p2 titulos)),
-     acumulador_aparicoes_copas = ((acumulador_aparicoes_copas mediaAtributos) + (aparicoes_copas carta_p2))
-     }
+    let lista_1 = take 16 embaralhadas
+    let lista_2 = take 16 (reverse embaralhadas)
+    let pilha_1 = Utils.iniciarPilha lista_1
+    let pilha_2 = Utils.iniciarPilha lista_2
+    putStrLn (">>> PILHAS MONTADAS <<<")
+    threadDelay 2000000
+    
+    let playerAtual = Utils.randomPlayerIniciaJogo
+    putStrLn (">>> PLAYER " ++ show(playerAtual) ++ " INICIA O JOGO <<<")
+    threadDelay 3000000
+    let mediaAtributos =  Cards.MediaAtributos { Cards.contador = 1,
+    Cards.acumulador_ataque = 0, Cards.acumulador_defesa = 0, Cards.acumulador_meio = 0, Cards.acumulador_titulos = 0, Cards.acumulador_aparicoes_copas = 0}
+    
+    iniciaVsBot mediaAtributos pilha_1 pilha_2 playerAtual 1   
+         
+  else if opcao == "2" then iniciaVsP2
+  else if opcao == "3" then creditos
+  else if opcao == "4" 
+  then clearScreen
+  else  menu
  
-  
-  if comparador > 0 then putStrLn ("PLAYER 2 - VENCEU A RODADA!") else putStrLn ("PLAYER 1 - VENCEU A RODADA!")
-  if (comparador > 0) then return (pilhaPerdedor,pilhaVencedor,2,media_atributos) else return (pilhaVencedor,pilhaPerdedor,1,media_atributos)
-
-jogadaAuxiliarBot :: MediaAtributos ->  Stack Carta -> Stack Carta -> (Stack Carta,Stack Carta,Int,MediaAtributos) -> [IO()]
-jogadaAuxiliarBot mediaAtributos pilha1 pilha2 = do
-  let carta_p1 = peek pilha1
-  let carta_p2 = peek pilha2
-  putStrLn (toStringCarta (carta_p2))
  
-  let atributo = if (is_trunfo carta_p2) then selectAtributoBot mediaAtributos carta_p2 else ""
-  let comparador = if (is_trunfo carta_p2) then (if isA carta_p1 then  -1  else  1) else jogadaAuxiliar carta_p2 carta_p1 atributo
-  if (is_trunfo carta_p2) then putStrLn ("É TRUNFO!") else putStrLn ("")
-  if (not is_trunfo carta_p2) then do
-     threadDelay 3000000
-     putStrLn ("ATRIBUTO ESCOLHIDO: " ++ atributo) 
-     else (putStrLn (""))
-
-
-  let (cartaPerdida,pilhaPerdedor) =  if comparador > 0 then pop pilha1 else pop pilha2
-  let pilhaTemp = if comparador > 0 then push cartaPerdida (invertePilha(pilha2)) else push cartaPerdida (invertePilha(pilha1))
-  
-  let pilhaVencedor = invertePilha(pilhaTemp)
-
-  let media_atributos = MediaAtributos {contador =
-    ((contador mediaAtributos ) + 1),
-     acumulador_ataque = ((acumulador_ataque mediaAtributos) + (carta_p2 ataque)),
-     acumulador_defesa = ((acumulador_defesa mediaAtributos ) + (carta_p2 defesa)),
-     acumulador_titulos = ((acumulador_titulos mediaAtributos) + (carta_p2 titulos)),
-     acumulador_aparicoes_copas = ((acumulador_aparicoes_copas mediaAtributos) + (aparicoes_copas carta_p2))
-     }
  
+iniciaVsBot :: Cards.MediaAtributos -> Pilha.Stack Cards.Carta -> Pilha.Stack Cards.Carta -> Int -> Int -> IO()
+iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
+  clearScreen
   
-  if comparador > 0 then putStrLn ("PLAYER 2 - VENCEU A RODADA!") else putStrLn ("PLAYER 1 - VENCEU A RODADA!")
-  if (comparador > 0) then return (pilhaPerdedor,pilhaVencedor,2,media_atributos) else return (pilhaVencedor,pilhaPerdedor,1,media_atributos)
-
-selectAtributoBot :: MediaAtributos -> Carta -> String
-selectAtributoBot mediaAtributos carta = do
-  let (media_ataque,media_defesa,media_meio,media_titulos,media_aparicoes) = ((mediaAtributos acumulador_ataque) `div` (contador mediaAtributos),((mediaAtributos acumulador_defesa) `div` (contador mediaAtributos)), ((mediaAtributos acumulador_meio) `div` (contador mediaAtributos)),((mediaAtributos acumulador_titulos) `div` (contador mediaAtributos)),((mediaAtributos acumulador_aparicoes_copa) `div` (contador mediaAtributos)))
-
-  let ataque = (carta ataque) - media_ataque
-  let defesa = (carta defesa) - media_defesa
-  let meio = (carta meio) - media_meio
-  let titulos = (carta titulos) - media_titulos
-  let aparicoes_copas = (carta aparicoes_copas) - media_aparicoes
+  if Pilha.empty pilha1 then putStrLn ("FIM DE JOGO - PLAYER 2 VENCEU!! \nTOTAL DE RODADAS: " ++ show(rodadaAtual))
+  else if Pilha.empty pilha2 then putStrLn ("FIM DE JOGO - PLAYER 1 VENCEU!! \nTOTAL DE RODADAS: " ++ show(rodadaAtual))
+  else do
+    let carta_p1 = Pilha.peek pilha1
+    let carta_p2 = Pilha.peek pilha2
+    putStrLn ("[Placar: " ++ show(Pilha.size pilha1) ++ " P1 x " ++ show(Pilha.size pilha2) ++ " P2 ]")
+    putStrLn ("Rodada Atual: " ++ show(rodadaAtual))
+    putStrLn ("Player Atual: " ++ show(playerAtual))
+    putStrLn ("")
+    putStrLn ("[NOVA JOGADA]")
+    putStrLn ("")
+    putStrLn ("Carta: ")
   
-  if ataque >= (max defesa meio titulos aparicoes_copas) then return "ATAQUE"
-  else if defesa >=  (max meio titulos aparicoes_copas) then return "DEFESA"
-  else if meio >= (max titulos aparicoes_copas) then return "MEIO"
-  else if titulos > aparicoes_copas then return "TITULOS"
-  else return "APARICOES_COPAS"
-  
-
-validaAtributo :: String -> IO() String
-validaAtributo  = do
-  putStrLn (atributos)
-  atributo <- unsafeDupablePerformIO (getLine)
-  if checkAtributo atributo then  atributo else  validaAtributo 
-  
-checkAtributo :: String -> Bool
-checkAtributo atributo
-  | (atributo) == "ATAQUE" = True
-  | (atributo) == "DEFESA" = True
-  | (atributo) == "MEIO" = True
-  | (atributo) == "APARICOES_COPA" = True
-  | (atributo) == "TITULOS" = True
-  | otherwise = False
-
-atributos :: String
-atributos = "[ATAQUE | DEFESA | MEIO | TITULOS | APARICOES_COPA]"
-
-iniciarPilha :: [Carta] -> Stack Carta
-iniciarPilha lista = iniciarPilhaAuxiliar lista create
-
-iniciarPilhaAuxiliar :: [Carta] -> Stack Carta -> Stack Carta
-iniciarPilhaAuxiliar lista pilha 
-  |null lista = pilha
-  | otherwise = iniciarPilhaAuxiliar (tail lista) (push (head lista) pilha)
-
-iniciarCartas :: [Carta]
-iniciarCartas = do
-    let file = unsafeDupablePerformIO (readFile "selecoes.txt")
-    let lista =  ((map ( splitOn ",") (lines file))) 
-    let index_trunfo = randomTrunfo
-    let lista_cartas = ((map (mapeiaCarta indexTrunfo)) (lista))
-    return lista_cartas !! 0 
-
-banner :: String
-banner = unsafeDupablePerformIO (readFile "selecoes.txt")
-
+    if playerAtual == 1 then do    
+      putStrLn (Cards.toString (carta_p1))
+      putStrLn ("")
+    
+      if Cards.isTrunfo carta_p1 then do
+        putStrLn ("[EH TRUNFO]")
+        if Cards.isA carta_p2 then do
+          putStrLn ("")
+          putStrLn ("Carta P2")
+          putStrLn(Cards.toString (carta_p2))
+          putStrLn ("")
+          putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
+          let pilha2_temp1 = Pilha.invertePilha pilha2
+          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
+          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
+          threadDelay 6000000
+          iniciaVsBot mediaAtributos pilha1_final pilha2_final 2 (rodadaAtual + 1)
+        
+        else do
+          putStrLn ("")
+          putStrLn ("Carta P2")
+          putStrLn(Cards.toString (carta_p2))
+          putStrLn ("")
+          putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
+          let pilha1_temp1 = Pilha.invertePilha pilha1
+          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
+          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
+          threadDelay 6000000
+          iniciaVsBot mediaAtributos pilha1_final pilha2_final 1 (rodadaAtual + 1)
+        
+      else do              
+        putStrLn ("Escolha um Atributo " ++ Utils.atributos)
+        atributo <- Utils.leAtributo
+        let comparador = Cards.compara atributo carta_p1 carta_p2
+        if comparador == 1 then do
+          putStrLn ("")
+          putStrLn ("Carta P2")
+          putStrLn(Cards.toString (carta_p2))
+          putStrLn ("")
+          putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
+          let pilha1_temp1 = Pilha.invertePilha pilha1
+          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
+          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
+          threadDelay 6000000
+          iniciaVsBot mediaAtributos pilha1_final pilha2_final 1 (rodadaAtual + 1)
+        
+        else do
+          putStrLn ("")
+          putStrLn ("Carta P2")
+          putStrLn(Cards.toString (carta_p2))
+          putStrLn ("")
+          putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
+          let pilha2_temp1 = Pilha.invertePilha pilha2
+          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
+          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
+          threadDelay 6000000
+          iniciaVsBot mediaAtributos pilha1_final pilha2_final 2 (rodadaAtual + 1)
+        
+        
    
-mapeiaCartas :: [Int] -> [String] -> Carta
-mapeiaCartas lista =
-  Carta{tipo = (lista) !! 0, 
-  nome = (lista) !! 1,
-  ataque = read((lista) !! 2),
-  defesa = read((lista) !! 3),
-  meio =  read((lista) !! 4),
-  titulos =  read((lista) !! 5),
-  aparicoes_copas =  read((lista) !! 6), is_trunfo = if (((read(lista !! 0)) !! 7)  == indexTrunfo) then True else False}
+    else do
+      let newMediaAtributos = Cards.atualizaMediaAtributos carta_p2 mediaAtributos
+      putStrLn (Cards.toString (carta_p2))
+      putStrLn ("")
+      if Cards.isTrunfo carta_p2 then do
+        putStrLn ("[EH TRUNFO]")
+        if Cards.isA carta_p1 then do
+          putStrLn ("")
+          putStrLn ("Carta P1")
+          putStrLn(Cards.toString (carta_p1))
+          putStrLn ("")
+          putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
+          let pilha1_temp1 = Pilha.invertePilha pilha1
+          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
+          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
+          threadDelay 6000000
+          iniciaVsBot newMediaAtributos pilha1_final pilha2_final 1 (rodadaAtual + 1)
+        else do
+          putStrLn ("")
+          putStrLn ("Carta P1")
+          putStrLn(Cards.toString (carta_p1))
+          putStrLn ("")
+          putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
+          let pilha2_temp1 = Pilha.invertePilha pilha2
+          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
+          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
+          threadDelay 6000000
+          iniciaVsBot newMediaAtributos pilha1_final pilha2_final 2 (rodadaAtual + 1)
+      else do
+        putStrLn ("")
+        putStrLn ("Carta P1")
+        putStrLn(Cards.toString (carta_p1))
+        putStrLn ("")
+        let atributo =  Utils.escolheAtributo carta_p2 mediaAtributos
+        threadDelay 2000000
+        putStrLn ("ATRIBUTO ESCOLHIDO " ++ atributo)
+        threadDelay 2000000
+        let comparador = Cards.compara atributo carta_p2 carta_p1
+      
+     
+        if comparador == 1 then do
+          putStrLn ("")
+          putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
+          let pilha2_temp1 = Pilha.invertePilha pilha2
+          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
+          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
+          threadDelay 6000000
+          iniciaVsBot newMediaAtributos pilha1_final pilha2_final 2 (rodadaAtual + 1)
+        
+        else do
+          putStrLn ("")
+          putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
+          let pilha1_temp1 = Pilha.invertePilha pilha1
+          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
+          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
+          threadDelay 6000000
+          iniciaVsBot newMediaAtributos pilha1_final pilha2_final 1 (rodadaAtual + 1)
+      
+  
+  
+  
 
-randomTrunfo :: Int
-randomTrunfo = unsafeDupablePerformIO (getStdRandom (randomR (1,32))) 
-
-randomPlayerIniciaJogo :: Int
-randomPlayerIniciaJogo = unsafeDupablePerformIO (getStdRandom (randomR (1,2)))
-
-
-comparaCartas :: String -> Carta -> Carta -> Int
-comparaCartas atributo carta1 carta2 
-  | (atributo) == "ATAQUE" && (ataque1 - ataque2) > 0 = 1
-  | (atributo) == "ATAQUE" && (ataque1 - ataque2) < 0 = -1
-  | (atributo) == "ATAQUE" && (ataque1 - ataque2) == 0 = desempata carta1 carta2
-  | (atributo) == "DEFESA" && (defesa1 - defesa2) > 0 = 1
-  | (atributo) == "DEFESA" && (defesa1 - defesa2) < 0 = -1
-  | (atributo) == "DEFESA" && (defesa1 - defesa2) == 0 = desempata carta1 carta2
-  | (atributo) == "MEIO" && (meio1 - meio2) > 0 = 1
-  | (atributo) == "MEIO" && (meio1 - meio2) < 0 = -1
-  | (atributo) == "MEIO" && (meio1 - meio2) == 0 = desempata carta1 carta2
-  | (atributo) == "TITULOS" && (titulos1 - titulos2) > 0 = 1
-  | (atributo) == "TITULOS" && (titulos1 - titulos2) < 0 = -1
-  | (atributo) == "TITULOS" && (titulos1 - titulos2) == 0 = desempata carta1 carta2
-  | (atributo) == "APARICOES_COPAS" && (aparicoes_copa1 - aparicoes_copa2) > 0 = 1
-  | (atributo) == "APARICOES_COPAS" && (aparicoes_copa1 - aparicoes_copa2) < 0 = -1
-  | (atributo) == "APARICOES_COPAS" && (aparicoes_copa1 - aparicoes_copa2) == 0 = desempata carta1 carta2
-  where (ataque1,ataque2, defesa1,defesa2, meio1,meio2, titulos1,titulos2,aparicoes_copa1,aparicoes_copa2) = ((ataque carta1), (ataque carta2),(defesa carta1),(defesa carta2),(meio carta1),(meio carta2),(titulos carta1),(titulos carta2),(aparicoes_copas carta1),(aparicoes_copas carta2))
-
-desempata :: Carta -> Carta -> Int
-desempata carta1 carta2 = if (tipo carta1) < (tipo carta2) then 1 else -1
+iniciaVsP2 :: IO()
+iniciaVsP2 = do
+  clearScreen
+  putStrLn("y")
+  threadDelay 5000000
+  menu
+  
+ 
+  
 
 
-invertePilha :: Stack Carta -> Stack Carta
-invertePilha pilha = reverse pilha
 
-isA :: Carta -> Bool
-isA carta = if (take 1 (tipo carta)) == "A"
-            then True
-            else False
+
+  
+  
+ 

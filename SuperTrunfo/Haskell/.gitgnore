@@ -1,0 +1,7 @@
+﻿!.gitignore
+!Main.hs
+!Cards.hs
+!Pilha.hs
+!Utils.hs
+!banner.txt
+!selecoes.txt
