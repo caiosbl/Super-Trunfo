@@ -1,5 +1,5 @@
 ﻿!.gitignore
-!Main.hs
+!main.hs
 !Cards.hs
 !Pilha.hs
 !Utils.hs
