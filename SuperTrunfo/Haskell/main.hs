@@ -105,9 +105,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
-          let pilha2_temp1 = Pilha.invertePilha pilha2
-          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
-          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let pilha2_final = ganhaCarta carta_p1 pilha2
           let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
           threadDelay 8000000
           iniciaVsBot mediaAtributos pilha1_final pilha2_final 2 (rodadaAtual + 1)
@@ -118,9 +116,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
-          let pilha1_temp1 = Pilha.invertePilha pilha1
-          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
-          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let pilha1_final = ganhaCarta carta_p2 pilha1
           let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
           threadDelay 8000000
           iniciaVsBot mediaAtributos pilha1_final pilha2_final 1 (rodadaAtual + 1)
@@ -135,9 +131,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
-          let pilha1_temp1 = Pilha.invertePilha pilha1
-          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
-          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let pilha1_final = ganhaCarta carta_p2 pilha1
           let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
           threadDelay 8000000
           iniciaVsBot mediaAtributos pilha1_final pilha2_final 1 (rodadaAtual + 1)
@@ -148,9 +142,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
-          let pilha2_temp1 = Pilha.invertePilha pilha2
-          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
-          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let pilha2_final = ganhaCarta carta_p1 pilha2
           let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
           threadDelay 8000000
           iniciaVsBot mediaAtributos pilha1_final pilha2_final 2 (rodadaAtual + 1)
@@ -169,9 +161,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
-          let pilha1_temp1 = Pilha.invertePilha pilha1
-          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
-          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let pilha1_final = ganhaCarta carta_p2 pilha1
           let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
           threadDelay 8000000
           iniciaVsBot newMediaAtributos pilha1_final pilha2_final 1 (rodadaAtual + 1)
@@ -181,9 +171,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
-          let pilha2_temp1 = Pilha.invertePilha pilha2
-          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
-          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let pilha2_final = ganhaCarta carta_p1 pilha2
           let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
           threadDelay 8000000
           iniciaVsBot newMediaAtributos pilha1_final pilha2_final 2 (rodadaAtual + 1)
@@ -202,9 +190,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
         if comparador == 1 then do
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
-          let pilha2_temp1 = Pilha.invertePilha pilha2
-          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
-          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let pilha2_final = ganhaCarta carta_p1 pilha2
           let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
           threadDelay 8000000
           iniciaVsBot newMediaAtributos pilha1_final pilha2_final 2 (rodadaAtual + 1)
@@ -212,9 +198,7 @@ iniciaVsBot mediaAtributos pilha1 pilha2 playerAtual rodadaAtual = do
         else do
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
-          let pilha1_temp1 = Pilha.invertePilha pilha1
-          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
-          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let pilha1_final = ganhaCarta carta_p2 pilha1
           let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
           threadDelay 8000000
           iniciaVsBot newMediaAtributos pilha1_final pilha2_final 1 (rodadaAtual + 1)
@@ -252,9 +236,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
-          let pilha2_temp1 = Pilha.invertePilha pilha2
-          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
-          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let pilha2_final = ganhaCarta carta_p1 pilha2
           let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
           threadDelay 8000000
           iniciaVsP2 pilha1_final pilha2_final 2 (rodadaAtual + 1)
@@ -265,9 +247,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
-          let pilha1_temp1 = Pilha.invertePilha pilha1
-          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
-          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let pilha1_final = ganhaCarta carta_p2 pilha1
           let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
           threadDelay 8000000
           iniciaVsP2 pilha1_final pilha2_final 1 (rodadaAtual + 1)
@@ -282,9 +262,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
-          let pilha1_temp1 = Pilha.invertePilha pilha1
-          let pilha1_temp2 = Pilha.push carta_p2 pilha1_temp1
-          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let pilha1_final = ganhaCarta carta_p2 pilha1
           let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
           threadDelay 8000000
           iniciaVsP2 pilha1_final pilha2_final 1 (rodadaAtual + 1)
@@ -295,9 +273,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p2))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
-          let pilha2_temp1 = Pilha.invertePilha pilha2
-          let pilha2_temp2 = Pilha.push carta_p1 pilha2_temp1
-          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let pilha2_final = ganhaCarta carta_p1 pilha2
           let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
           threadDelay 8000000
           iniciaVsP2 pilha1_final pilha2_final 2 (rodadaAtual + 1)
@@ -314,9 +290,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
-          let pilha1_temp1 = Pilha.invertePilha pilha1
-          let pilha1_temp2 = Pilha.push carta_p1 pilha1_temp1
-          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let pilha1_final = ganhaCarta carta_p2 pilha1
           let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
           threadDelay 8000000
           iniciaVsP2 pilha1_final pilha2_final 1 (rodadaAtual + 1)
@@ -327,9 +301,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
-          let pilha2_temp1 = Pilha.invertePilha pilha2
-          let pilha2_temp2 = Pilha.push carta_p2 pilha2_temp1
-          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let pilha2_final = ganhaCarta carta_p1 pilha2
           let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
           threadDelay 8000000
           iniciaVsP2 pilha1_final pilha2_final 2 (rodadaAtual + 1)
@@ -344,9 +316,7 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 2 VENCEDOR DA RODADA!]")
-          let pilha2_temp1 = Pilha.invertePilha pilha2
-          let pilha2_temp2 = Pilha.push carta_p2 pilha2_temp1
-          let pilha2_final = Pilha.invertePilha pilha2_temp2
+          let pilha2_final = ganhaCarta carta_p1 pilha2
           let (carta_perdida, pilha1_final)  = Pilha.pop pilha1
           threadDelay 8000000
           iniciaVsP2 pilha1_final pilha2_final 2 (rodadaAtual + 1)
@@ -357,15 +327,20 @@ iniciaVsP2  pilha1 pilha2 playerAtual rodadaAtual = do
           putStrLn(Cards.toString (carta_p1))
           putStrLn ("")
           putStrLn ("[PLAYER 1 VENCEDOR DA RODADA!]")
-          let pilha1_temp1 = Pilha.invertePilha pilha1
-          let pilha1_temp2 = Pilha.push carta_p1 pilha1_temp1
-          let pilha1_final = Pilha.invertePilha pilha1_temp2
+          let pilha1_final = ganhaCarta carta_p2 pilha1
           let (carta_perdida, pilha2_final)  = Pilha.pop pilha2
           threadDelay 8000000
           iniciaVsP2 pilha1_final pilha2_final 1 (rodadaAtual + 1)
         
         
+ganhaCarta :: Cards.Carta -> Pilha.Stack Cards.Carta -> Pilha.Stack Cards.Carta
+ganhaCarta carta pilha = do
+  let (carta_removida,pilha_temp1) = Pilha.pop pilha
   
+  let pilha_temp2 = Pilha.invertePilha pilha_temp1
+  let pilha_temp3 = Pilha.push carta_removida pilha_temp2
+  let pilha_temp4 = Pilha.push carta pilha_temp3
+  Pilha.invertePilha pilha_temp4
  
   
 
