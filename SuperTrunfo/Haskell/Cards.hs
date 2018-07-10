@@ -60,9 +60,9 @@ compara atributo carta1 carta2
   | (atributo) == "TITULOS" && (titulos1 - titulos2) > 0 = 1
   | (atributo) == "TITULOS" && (titulos1 - titulos2) < 0 = -1
   | (atributo) == "TITULOS" && (titulos1 - titulos2) == 0 = desempata carta1 carta2
-  | (atributo) == "APARICOES_COPAS" && (aparicoes_copa1 - aparicoes_copa2) > 0 = 1
-  | (atributo) == "APARICOES_COPAS" && (aparicoes_copa1 - aparicoes_copa2) < 0 = -1
-  | (atributo) == "APARICOES_COPAS" && (aparicoes_copa1 - aparicoes_copa2) == 0 = desempata carta1 carta2
+  | (atributo) == "APARICOES_COPA" && (aparicoes_copa1 - aparicoes_copa2) > 0 = 1
+  | (atributo) == "APARICOES_COPA" && (aparicoes_copa1 - aparicoes_copa2) < 0 = -1
+  | (atributo) == "APARICOES_COPA" && (aparicoes_copa1 - aparicoes_copa2) == 0 = desempata carta1 carta2
   where (ataque1,ataque2, defesa1,defesa2, meio1,meio2, titulos1,titulos2,aparicoes_copa1,aparicoes_copa2) = ((ataque carta1), (ataque carta2),(defesa carta1),(defesa carta2),(meio carta1),(meio carta2),(titulos carta1),(titulos carta2),(aparicoes_copas carta1),(aparicoes_copas carta2))                                     
                                       
 mediaAtaque :: MediaAtributos -> Int
