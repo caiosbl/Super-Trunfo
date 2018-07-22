@@ -1,8 +1,3 @@
-
-read_fis(Stream,[]) :-
-    at_end_of_stream(Stream).
-
-
 read_file(Stream,[]) :-
     at_end_of_stream(Stream).
 
