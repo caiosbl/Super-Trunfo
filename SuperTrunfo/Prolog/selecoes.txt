@@ -6,7 +6,7 @@ A5,Argentina,87,81,80,2,17,5
 A6,Belgica,86,84,85,0,13,6
 A7,Polonia,82,75,79,0,8,7
 A8,Franca,83,85,82,1,15,8
-B1, Espanha,84,86,86,1,15,9
+B1,Espanha,84,86,86,1,15,9
 B2,Suica,74,78,77,0,11,10
 B3,Inglaterra,84,81,81,1,15,11
 B4,Colombia,81,77,78,0,6,12
@@ -14,7 +14,7 @@ B5,Mexico,79,79,76,0,16,13
 B6,Uruguai,86,76,79,2,13,14
 B7,Croacia,76,83,77,0,5,15
 B8,Peru,74,72,71,0,5,16
-C1,Costa Rica,70,70,75,0,5,17
+C1,Costa_Rica,70,70,75,0,5,17
 C2,Suecia,74,73,74,0,12,18
 C3,Tunisia,69,69,70,0,5,19
 C4,Egito,78,72,71,0,3,20
@@ -27,6 +27,6 @@ D2,Nigeria,73,71,70,0,6,26
 D3,Japao,73,72,73,0,6,27
 D4,Marrocos,71,71,73,0,5,28
 D5,Panama,67,68,69,0,1,29
-D6,Coreia do Sul,73,72,69,0,10,30
-D7,Arabia Saudita,70,69,70,0,5,31
+D6,Coreia_do_Sul,73,72,69,0,10,30
+D7,Arabia_Saudita,70,69,70,0,5,31
 D8,Australia,69,73,71,0,5,32

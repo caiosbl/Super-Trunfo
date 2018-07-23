@@ -4,8 +4,6 @@
 
 main :-
     iniciar_cartas(La),
-    map(map_card,La,Cartas),
-    write(Cartas),
-    halt(0). 
+    write(La).
 
 

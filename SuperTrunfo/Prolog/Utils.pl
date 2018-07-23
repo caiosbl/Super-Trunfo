@@ -1,9 +1,10 @@
 :- include('Cards.pl').
 
 
-iniciar_cartas(Cartas) :-
+iniciar_cartas(Cards) :-
     open('selecoes.txt', read, Str),
     read_file(Str,Cartas),
+    map(map_card,Cartas,Cards),
     close(Str). 
 
 map(FunctionName,[H|T],[NH|NT]):-
