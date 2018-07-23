@@ -1,12 +1,11 @@
 :- initialization main.
 :- use_module(library(pio)).
-:- include('Cards.pl').
 :- include('Utils.pl').
 
-
-
 main :-
-    open('selecoes.txt', read, Str),
-    read_file(Str,Lines),
-    close(Str),
-    write(Lines),nl.
+    iniciar_cartas(La),
+    map(map_card,La,Cartas),
+    write(Cartas),
+    halt(0). 
+
+

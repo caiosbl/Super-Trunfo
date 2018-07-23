@@ -1,7 +1,5 @@
 
-
-build_carta(Tipo,Nome,Ataque,Defesa,Meio,Titulos,Aparicoes_copas,Is_trunfo,
-    carta(Tipo,Nome,Ataque,Defesa,Meio,Titulos,Aparicoes_copas,Is_trunfo)).
+build_carta(Tipo,Nome,Ataque,Defesa,Meio,Titulos,Aparicoes_copas,Is_trunfo,carta(Tipo,Nome,Ataque,Defesa,Meio,Titulos,Aparicoes_copas,Is_trunfo)).
 
 get_tipo(carta(Tipo,_,_,_,_,_,_,_),Tipo).
 get_nome(carta(_,Nome,_,_,_,_,_,_),Nome).
