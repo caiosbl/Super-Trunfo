@@ -10,9 +10,69 @@ get_titulos(carta(_,_,_,_,_,Titulos,_,_),Titulos).
 get_aparicoes_copa(carta(_,_,_,_,_,_,Aparicoes_copas,_),Aparicoes_copas).
 get_is_trunfo(carta(_,_,_,_,_,_,_,Is_trunfo),Is_trunfo).
 
+build_acumulador_atributos(Cont,Ac_Ataque,Ac_Defesa,Ac_Meio,Ac_Titulos,Ac_Aparicoes,
+  acumulador_atributos(Cont,Ac_Ataque,Ac_Defesa,Ac_Meio,Ac_Titulos,Ac_Aparicoes)).
 
+get_acu_cont(media_atributos(Cont,_,_,_,_,_),Cont).
+get_acu_ata(media_atributos(_,Ac_Ataque,_,_,_,_),Ac_Ataque).
+get_acu_def(media_atributos(_,_,Ac_Defesa,_,_,_),Ac_Defesa).
+get_acu_mei(media_atributos(_,_,_,Ac_Meio,_,_),Ac_Meio).
+get_acu_tit(media_atributos(_,_,_,_,Ac_Titulos,_),Ac_Titulos).
+get_acu_apa(media_atributos(_,_,_,_,_,Ac_Aparicoes),Ac_Aparicoes).
+
+
+update_acumulador(Acumulador,Carta) :-
+  get_acu_cont(Acumulador,Cont),
+  get_acu_ata(Acumulador,Ata),
+  get_acu_def(Acumulador,Def),
+  get_acu_mei(Acumulador,Mei),
+  get_acu_tit(Acumulador,Tit),
+  get_acu_apa(Acumulador,Apa),
+
+  get_ataque(Carta,Ata_),
+  get_defesa(Carta,Def_),
+  get_meio(Carta,Mei_),
+  get_titulos(Carta,Tit_),
+  get_aparicoes_copa(Carta,Apa_),
+
+  Con is Cont + 1,
+  Ataque is Ata + Ata_,
+  Defesa is Def + Def_,
+  Meio is Mei + Mei_,
+  Titulos is Tit + Tit_,
+  Aparicoes is Apa + Apa_,
+
+  Acumulador = build_acumulador_atributos(Con,Ataque,Defesa,Meio,Titulos,Aparicoes).
+
+
+media_ata(Acumulador,Media) :-
+  get_acu_ata(Acumulador,Ata),
+  get_acu_cont(Acumulador,Cont),
+  Media is Ata / Cont.
+
+
+media_def(Acumulador,Media) :-
+    get_acu_def(Acumulador,Def),
+    get_acu_cont(Acumulador,Cont),
+    Media is Def / Cont.
+
+media_mei(Acumulador,Media) :-
+    get_acu_mei(Acumulador,Mei),
+    get_acu_cont(Acumulador,Cont),
+    Media is Mei / Cont.
+
+media_tit(Acumulador,Media) :-
+    get_acu_tit(Acumulador,Tit),
+    get_acu_cont(Acumulador,Cont),
+    Media is Tit / Cont.
+
+media_apa(Acumulador,Media) :-
+    get_acu_apa(Acumulador,Apa),
+    get_acu_cont(Acumulador,Cont),
+    Media is Apa / Cont.
+
+  
 is_trunfo(carta(_,_,_,_,_,_,_,1)).
-
 
 show_carta(Carta) :-
   write('') ,nl,
