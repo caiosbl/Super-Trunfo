@@ -49,3 +49,10 @@ map_card(List_String,Card1) :-
         nth0(6, List, Aparicoes_copas),
         build_carta(Tipo,Nome,Ataque,Defesa,Meio,Titulos,Aparicoes_copas,0,Card),
         Card1 = Card.
+
+print_n_lines(0):-!. 
+print_n_lines(X):- 
+    integer(X), 
+    Y is X - 1, 
+    nl, 
+    print_n_lines(Y).
