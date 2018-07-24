@@ -3,7 +3,8 @@
 iniciar_cartas(Cards) :-
     open('selecoes.txt', read, Str),
     read_file(Str,Cartas),
-    map(map_card,Cartas,Cards),
+    random(0,32,Index_Trunfo),
+    map(Index_Trunfo,map_card,Cartas,Cards),
     close(Str). 
 
 iniciar_pilhas([H|T],Pilha1,Pilha2) :-
@@ -22,11 +23,11 @@ list_take_aux(Index,[H|T],[NH|NT]) :-
     NH = H,
     list_take_aux(Index_1,T,NT).
     
-map(FunctionName,[H|T],[NH|NT]):-
-   Function=..[FunctionName,H,NH],
+map(Index,FunctionName,[H|T],[NH|NT]):-
+   Function=..[FunctionName,Index,H,NH],
    call(Function),
-   map(FunctionName,T,NT).
-map(_,[],[]).
+   map(Index,FunctionName,T,NT).
+map(_,_,[],[]).
 
 read_file(Stream,[]) :-
     at_end_of_stream(Stream).
@@ -37,7 +38,7 @@ read_file(Stream,[X|L]) :-
     atomic_list_concat(X,' ', String),
     read_file(Stream,L), !.
 
-map_card(List_String,Card1) :-
+map_card(Trunfo_Index,List_String,Card) :-
         nth0(0, List_String, String),
         split_string(String, ',', ' ,', List),
         nth0(0, List, Tipo),
@@ -47,8 +48,11 @@ map_card(List_String,Card1) :-
         nth0(4, List, Meio),
         nth0(5, List, Titulos),
         nth0(6, List, Aparicoes_copas),
-        build_carta(Tipo,Nome,Ataque,Defesa,Meio,Titulos,Aparicoes_copas,0,Card),
-        Card1 = Card.
+        nth0(6, List, Index),
+        (Trunfo_Index == Index) -> Trunfo =  'true' ; Trunfo = 'false',
+        
+      
+        build_carta(Tipo,Nome,Ataque,Defesa,Meio,Titulos,Aparicoes_copas,Trunfo,Card).
 
 print_n_lines(0):-!. 
 print_n_lines(X):- 
