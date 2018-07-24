@@ -5,9 +5,9 @@
 
 main :-
     setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo),
-    write(Pilha1),nl,nl,
-    write(Pilha2),nl,nl,
-    write(Player_Inicia_Jogo).
+    nth0(0, Pilha1, Carta),
+    show_carta(Carta).
+    
 
 
 
