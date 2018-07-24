@@ -48,11 +48,12 @@ map_card(Trunfo_Index,List_String,Card) :-
         nth0(4, List, Meio),
         nth0(5, List, Titulos),
         nth0(6, List, Aparicoes_copas),
-        nth0(6, List, Index),
-        (Trunfo_Index == Index) -> Trunfo =  'true' ; Trunfo = 'false',
-        
-      
+        nth0(7, List, Index),
+        number_string(Index_Number, Index),
+        eh_Trunfo(Index_Number,Trunfo_Index,Trunfo),
         build_carta(Tipo,Nome,Ataque,Defesa,Meio,Titulos,Aparicoes_copas,Trunfo,Card).
+
+eh_Trunfo(Index,IndexCarta,Etrunfo):- (Index == IndexCarta -> Etrunfo = 1 ; Etrunfo = 0).
 
 print_n_lines(0):-!. 
 print_n_lines(X):- 

@@ -7,9 +7,6 @@ main :-
     setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo),
     write(Pilha1),nl,
     write(Pilha2),nl.
-    
-    
-
 
 
 setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo) :-

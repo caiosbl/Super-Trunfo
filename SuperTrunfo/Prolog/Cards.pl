@@ -11,7 +11,7 @@ get_aparicoes_copa(carta(_,_,_,_,_,_,Aparicoes_copas,_),Aparicoes_copas).
 get_is_trunfo(carta(_,_,_,_,_,_,_,Is_trunfo),Is_trunfo).
 
 
-is_trunfo(Carta,Is) :- get_is_trunfo(Carta) == 1 -> Is = true ; Is = false.
+is_trunfo(carta(_,_,_,_,_,_,_,1)).
 
 
 show_carta(Carta) :-
@@ -24,8 +24,7 @@ show_carta(Carta) :-
   get_ataque(Carta,Ataque_),
   get_titulos(Carta,Titulos_),
   get_aparicoes_copa(Carta,Aparicoes_),
-  is_trunfo(Carta,Trunfo),
-
+  Trunfo = is_trunfo(Carta),
   string_concat('Tipo: ', Tipo_, Tipo),
   string_concat('Nome: ', Nome_, Nome),
   string_concat('Defesa: ', Defesa_, Defesa),
