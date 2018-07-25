@@ -6,8 +6,12 @@
 main :-
     setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo),
     top(Pilha1,Top),
-    is_A(Top,Is),
-    write(Is).
+    top(Pilha2,Top1),
+    write(''),nl,
+    write(Top),nl,
+    write(Top1),nl,
+    compara_cartas(Top,Top1,'DEFESA',Comp),
+    write(Comp),nl.
     
 
 setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo) :-

@@ -12,7 +12,6 @@ get_is_trunfo(carta(_,_,_,_,_,_,_,Is_trunfo),Is_trunfo).
 
 show_carta(Carta) :-
     write('') ,nl,
-  
     get_tipo(Carta,Tipo_),
     get_nome(Carta,Nome_),
     get_defesa(Carta,Defesa_),
@@ -29,7 +28,6 @@ show_carta(Carta) :-
     string_concat('Titulos: ',Titulos_, Titulos),
     string_concat('Aparicoes Copas: ',Aparicoes_ ,Aparicoes),
     
-  
     write(Tipo),nl,
     write(Nome),nl,
     write(Defesa),nl,
@@ -41,10 +39,17 @@ show_carta(Carta) :-
 
 is_trunfo(carta(_,_,_,_,_,_,_,1)).
 
+string_equals(StringA,StringB,Equal) :-
+    string_to_atom(StringA, Atom),
+    string_to_atom(StringB, Atom2),
+    ((Atom == Atom2) -> Equal = 1; Equal = 0).
+
 is_A(Carta,Is) :- 
   get_tipo(Carta,Tipo),
   sub_string(Tipo, 0, 1, 1, SubString),
   string_equals('A',SubString,Is).
+
+
 
 
 build_acumulador_atributos(Cont,Ac_Ataque,Ac_Defesa,Ac_Meio,Ac_Titulos,Ac_Aparicoes,
@@ -87,7 +92,6 @@ media_ata(Acumulador,Media) :-
   get_acu_cont(Acumulador,Cont),
   Media is Ata / Cont.
 
-
 media_def(Acumulador,Media) :-
     get_acu_def(Acumulador,Def),
     get_acu_cont(Acumulador,Cont),
@@ -107,3 +111,56 @@ media_apa(Acumulador,Media) :-
     get_acu_apa(Acumulador,Apa),
     get_acu_cont(Acumulador,Cont),
     Media is Apa / Cont.
+
+
+desempata(StringA,StringB,Comparator) :-
+    (StringA @> StringB) -> Comparator = 1 ; Comparator = -1.
+
+compara_cartas(Carta1,Carta2,Atributo,Comparador) :-
+    string_equals(Atributo,'ATAQUE',Ataque_eq),
+    string_equals(Atributo,'DEFESA',Defesa_eq),
+    string_equals(Atributo,'MEIO',Meio_eq),
+    string_equals(Atributo,'TITULOS',Titulos_eq),
+
+    get_ataque(Carta1,Ataque_1),
+    number_string(Ataque1, Ataque_1),
+
+    get_ataque(Carta2,Ataque_2),
+    number_string(Ataque2, Ataque_2),
+
+    get_meio(Carta1,Meio_1),
+    number_string(Meio1, Meio_1),
+
+    get_meio(Carta2,Meio_2),
+    number_string(Meio2, Meio_2),
+
+    get_defesa(Carta1,Defesa_1),
+    number_string(Defesa1, Defesa_1),
+
+    get_defesa(Carta2,Defesa_2),
+    number_string(Defesa2, Defesa_2),
+
+    get_titulos(Carta1,Titulos_1),
+    number_string(Titulos1, Titulos_1),
+
+    get_titulos(Carta2,Titulos_2),
+    number_string(Titulos2, Titulos_2),
+
+    get_aparicoes_copa(Carta1,Aparicoes_1),
+    number_string(Aparicoes1, Aparicoes_1),
+
+    get_aparicoes_copa(Carta2,Aparicoes_2),
+    number_string(Aparicoes2, Aparicoes_2),
+
+    get_tipo(Carta1,Tipo1),
+    get_tipo(Carta2,Tipo2),
+    desempata(Tipo1,Tipo2,Desempate),
+
+(Ataque_eq == 1) -> (((Ataque1 - Ataque2) \= 0) -> Comparador is (Ataque1 - Ataque2) ; Comparador = Desempate)
+; Defesa_eq == 1 -> 
+  ((Defesa1 - Defesa2) \= 0) -> Comparador is (Defesa1 - Defesa2) ; Comparador = Desempate
+; (Meio_eq == 1) -> (((Meio1 - Meio2) \= 0) -> Comparador is (Meio1 - Meio2) ; Comparador = Desempate)
+; (Titulos_eq == 1) -> (((Titulos1 - Titulos2) \= 0) -> Comparador is (Titulos1 - Titulos2) ; Comparador = Desempate)
+; (((Aparicoes1 - Aparicoes2) \= 0) -> Comparador is (Aparicoes1 - Aparicoes2) ; Comparador = Desempate).
+   
+
