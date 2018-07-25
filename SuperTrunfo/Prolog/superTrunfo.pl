@@ -10,7 +10,7 @@ main :-
     write(''),nl,
     write(Top),nl,
     write(Top1),nl,
-    compara_cartas(Top,Top1,'DEFESA',Comp),
+    compara_cartas(Top,Top1,'TITULOS',Comp),
     write(Comp),nl.
     
 

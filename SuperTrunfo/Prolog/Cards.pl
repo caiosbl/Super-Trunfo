@@ -114,7 +114,7 @@ media_apa(Acumulador,Media) :-
 
 
 desempata(StringA,StringB,Comparator) :-
-    (StringA @> StringB) -> Comparator = 1 ; Comparator = -1.
+    (StringA @< StringB) -> Comparator = 1 ; Comparator = -1.
 
 compara_cartas(Carta1,Carta2,Atributo,Comparador) :-
     string_equals(Atributo,'ATAQUE',Ataque_eq),
@@ -156,11 +156,14 @@ compara_cartas(Carta1,Carta2,Atributo,Comparador) :-
     get_tipo(Carta2,Tipo2),
     desempata(Tipo1,Tipo2,Desempate),
 
-(Ataque_eq == 1) -> (((Ataque1 - Ataque2) \= 0) -> Comparador is (Ataque1 - Ataque2) ; Comparador = Desempate)
-; Defesa_eq == 1 -> 
-  ((Defesa1 - Defesa2) \= 0) -> Comparador is (Defesa1 - Defesa2) ; Comparador = Desempate
-; (Meio_eq == 1) -> (((Meio1 - Meio2) \= 0) -> Comparador is (Meio1 - Meio2) ; Comparador = Desempate)
-; (Titulos_eq == 1) -> (((Titulos1 - Titulos2) \= 0) -> Comparador is (Titulos1 - Titulos2) ; Comparador = Desempate)
-; (((Aparicoes1 - Aparicoes2) \= 0) -> Comparador is (Aparicoes1 - Aparicoes2) ; Comparador = Desempate).
+(Ataque_eq == 1 -> compara_cartas_aux(Ataque1,Ataque2,Desempate,Comparador)
+; Defesa_eq == 1 -> compara_cartas_aux(Defesa1,Defesa2,Desempate,Comparador)
+; (Meio_eq == 1) -> compara_cartas_aux(Meio1,Meio2,Desempate,Comparador)
+; (Titulos_eq == 1) -> compara_cartas_aux(Titulos1,Titulos2,Desempate,Comparador)
+; compara_cartas_aux(Aparicoes1,Aparicoes2,Desempate,Comparador)).
    
+
+compara_cartas_aux(Atributo1,Atributo2,Desempata,Comparador) :-
+    Subtracao is Atributo1 - Atributo2,
+   (Subtracao \= 0 -> Comparador is Subtracao ; Comparador is Desempata).
 
