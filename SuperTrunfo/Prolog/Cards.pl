@@ -90,7 +90,7 @@ update_acumulador(Acumulador,Carta) :-
 media_ata(Acumulador,Media) :-
   get_acu_ata(Acumulador,Ata),
   get_acu_cont(Acumulador,Cont),
-  Media is Ata / Cont.
+  Media is Ata div Cont.
 
 media_def(Acumulador,Media) :-
     get_acu_def(Acumulador,Def),
@@ -121,6 +121,7 @@ compara_cartas(Carta1,Carta2,Atributo,Comparador) :-
     string_equals(Atributo,'DEFESA',Defesa_eq),
     string_equals(Atributo,'MEIO',Meio_eq),
     string_equals(Atributo,'TITULOS',Titulos_eq),
+
 
     get_ataque(Carta1,Ataque_1),
     number_string(Ataque1, Ataque_1),
