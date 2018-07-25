@@ -61,3 +61,8 @@ print_n_lines(X):-
     Y is X - 1, 
     nl, 
     print_n_lines(Y).
+
+string_compare(StringA,StringB,Equal) :-
+  string_to_atom(StringA, Atom),
+  string_to_atom(StringB, Atom2),
+  (Atom == Atom2) -> Equal = 1; Equal = 0.

@@ -44,11 +44,7 @@ is_trunfo(carta(_,_,_,_,_,_,_,1)).
 is_A(Carta,Is) :- 
   get_tipo(Carta,Tipo),
   sub_string(Tipo, 0, 1, 1, SubString),
-  write(SubString),
-  string_to_atom(SubString, Atom),
-  string_to_atom('A', Atom2),
-  (Atom == Atom2) -> Is = 1; Is = 0.
-
+  string_compare('A',SubString,Is).
 
 
 build_acumulador_atributos(Cont,Ac_Ataque,Ac_Defesa,Ac_Meio,Ac_Titulos,Ac_Aparicoes,
