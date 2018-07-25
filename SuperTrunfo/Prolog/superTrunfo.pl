@@ -54,9 +54,8 @@ escolhe_atributo_bot(Carta,Acumulador,Atributo) :-
        Dif_Mei is Meio - Media_Mei,
        Dif_Tit is Titulos - Media_Tit,
        Dif_Apa is Aparicoes - Media_Apa,
-
        write(passou),nl,
-      escolhe_atributo_bot_aux(Dif_Ata,Dif_Def,Dif_Mei,Dif_Tit,Dif_Apa,Atributo Atributo).
+      escolhe_atributo_bot_aux(Dif_Ata,Dif_Def,Dif_Mei,Dif_Tit,Dif_Apa,Atributo).
 
 
 escolhe_atributo_bot_aux(Dif_Ata,Dif_Def,Dif_Mei,Dif_Tit,Dif_Apa,Atributo) :-
