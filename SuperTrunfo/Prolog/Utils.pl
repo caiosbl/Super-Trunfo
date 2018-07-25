@@ -62,7 +62,10 @@ print_n_lines(X):-
     nl, 
     print_n_lines(Y).
 
-string_compare(StringA,StringB,Equal) :-
+string_equals(StringA,StringB,Equal) :-
   string_to_atom(StringA, Atom),
   string_to_atom(StringB, Atom2),
   (Atom == Atom2) -> Equal = 1; Equal = 0.
+
+desempata(StringA,StringB,Comparator) :-
+  (StringA @> StringB) -> Comparator = 1 ; Comparator = -1.
