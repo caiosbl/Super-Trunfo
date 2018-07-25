@@ -10,6 +10,47 @@ get_titulos(carta(_,_,_,_,_,Titulos,_,_),Titulos).
 get_aparicoes_copa(carta(_,_,_,_,_,_,Aparicoes_copas,_),Aparicoes_copas).
 get_is_trunfo(carta(_,_,_,_,_,_,_,Is_trunfo),Is_trunfo).
 
+show_carta(Carta) :-
+    write('') ,nl,
+  
+    get_tipo(Carta,Tipo_),
+    get_nome(Carta,Nome_),
+    get_defesa(Carta,Defesa_),
+    get_meio(Carta,Meio_),
+    get_ataque(Carta,Ataque_),
+    get_titulos(Carta,Titulos_),
+    get_aparicoes_copa(Carta,Aparicoes_),
+    Trunfo = is_trunfo(Carta),
+    string_concat('Tipo: ', Tipo_, Tipo),
+    string_concat('Nome: ', Nome_, Nome),
+    string_concat('Defesa: ', Defesa_, Defesa),
+    string_concat('Meio: ', Meio_, Meio),
+    string_concat('Ataque: ', Ataque_, Ataque),
+    string_concat('Titulos: ',Titulos_, Titulos),
+    string_concat('Aparicoes Copas: ',Aparicoes_ ,Aparicoes),
+    
+  
+    write(Tipo),nl,
+    write(Nome),nl,
+    write(Defesa),nl,
+    write(Meio),nl,
+    write(Ataque),nl,
+    write(Titulos),nl,
+    write(Aparicoes),nl,
+    Trunfo -> write('[É TRUNFO]') ; write('').
+
+is_trunfo(carta(_,_,_,_,_,_,_,1)).
+
+is_A(Carta,Is) :- 
+  get_tipo(Carta,Tipo),
+  sub_string(Tipo, 0, 1, 1, SubString),
+  write(SubString),
+  string_to_atom(SubString, Atom),
+  string_to_atom('A', Atom2),
+  (Atom == Atom2) -> Is = 1; Is = 0.
+
+
+
 build_acumulador_atributos(Cont,Ac_Ataque,Ac_Defesa,Ac_Meio,Ac_Titulos,Ac_Aparicoes,
   acumulador_atributos(Cont,Ac_Ataque,Ac_Defesa,Ac_Meio,Ac_Titulos,Ac_Aparicoes)).
 
@@ -70,36 +111,3 @@ media_apa(Acumulador,Media) :-
     get_acu_apa(Acumulador,Apa),
     get_acu_cont(Acumulador,Cont),
     Media is Apa / Cont.
-
-  
-is_trunfo(carta(_,_,_,_,_,_,_,1)).
-
-show_carta(Carta) :-
-  write('') ,nl,
-
-  get_tipo(Carta,Tipo_),
-  get_nome(Carta,Nome_),
-  get_defesa(Carta,Defesa_),
-  get_meio(Carta,Meio_),
-  get_ataque(Carta,Ataque_),
-  get_titulos(Carta,Titulos_),
-  get_aparicoes_copa(Carta,Aparicoes_),
-  Trunfo = is_trunfo(Carta),
-  string_concat('Tipo: ', Tipo_, Tipo),
-  string_concat('Nome: ', Nome_, Nome),
-  string_concat('Defesa: ', Defesa_, Defesa),
-  string_concat('Meio: ', Meio_, Meio),
-  string_concat('Ataque: ', Ataque_, Ataque),
-  string_concat('Titulos: ',Titulos_, Titulos),
-  string_concat('Aparicoes Copas: ',Aparicoes_ ,Aparicoes),
-  
-
-  write(Tipo),nl,
-  write(Nome),nl,
-  write(Defesa),nl,
-  write(Meio),nl,
-  write(Ataque),nl,
-  write(Titulos),nl,
-  write(Aparicoes),nl,
-  Trunfo -> write('[É TRUNFO]') ; write('').
-

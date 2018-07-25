@@ -5,9 +5,10 @@
 
 main :-
     setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo),
-    write(Pilha1),nl,
-    write(Pilha2),nl.
-
+    top(Pilha1,Top),
+    is_A(Top,Is),
+    write(Is).
+    
 
 setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo) :-
     print_n_lines(2),
