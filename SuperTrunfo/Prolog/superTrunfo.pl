@@ -40,21 +40,18 @@ escolhe_atributo_bot(Carta,Acumulador,Atributo) :-
         get_aparicoes_copa(Carta,Aparicoes_),
         number_string(Aparicoes, Aparicoes_),
         
-        write(passou),nl,
-
        media_ata(Acumulador,Media_Ata),
        media_def(Acumulador,Media_Def),
        media_mei(Acumulador,Media_Mei),
        media_tit(Acumulador,Media_Tit),
        media_apa(Acumulador,Media_Apa),
-       write(passou),nl,
 
        Dif_Ata is Ataque - Media_Ata,
        Dif_Def is Defesa - Media_Def,
        Dif_Mei is Meio - Media_Mei,
        Dif_Tit is Titulos - Media_Tit,
        Dif_Apa is Aparicoes - Media_Apa,
-       write(passou),nl,
+
       escolhe_atributo_bot_aux(Dif_Ata,Dif_Def,Dif_Mei,Dif_Tit,Dif_Apa,Atributo).
 
 
@@ -66,12 +63,3 @@ escolhe_atributo_bot_aux(Dif_Ata,Dif_Def,Dif_Mei,Dif_Tit,Dif_Apa,Atributo) :-
     ;Dif_Mei >= Max -> Atributo = 'MEIO'
     ;Dif_Tit >= Max -> Atributo = 'TITULOS'
     ; Atributo = 'APARICOES').
-    
-    
-
-
-
-    
-
-
-

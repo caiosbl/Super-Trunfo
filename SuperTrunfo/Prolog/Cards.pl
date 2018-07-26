@@ -55,12 +55,12 @@ is_A(Carta,Is) :-
 build_acumulador_atributos(Cont,Ac_Ataque,Ac_Defesa,Ac_Meio,Ac_Titulos,Ac_Aparicoes,
   acumulador_atributos(Cont,Ac_Ataque,Ac_Defesa,Ac_Meio,Ac_Titulos,Ac_Aparicoes)).
 
-get_acu_cont(media_atributos(Cont,_,_,_,_,_),Cont).
-get_acu_ata(media_atributos(_,Ac_Ataque,_,_,_,_),Ac_Ataque).
-get_acu_def(media_atributos(_,_,Ac_Defesa,_,_,_),Ac_Defesa).
-get_acu_mei(media_atributos(_,_,_,Ac_Meio,_,_),Ac_Meio).
-get_acu_tit(media_atributos(_,_,_,_,Ac_Titulos,_),Ac_Titulos).
-get_acu_apa(media_atributos(_,_,_,_,_,Ac_Aparicoes),Ac_Aparicoes).
+get_acu_cont(acumulador_atributos(Cont,_,_,_,_,_),Cont).
+get_acu_ata(acumulador_atributos(_,Ac_Ataque,_,_,_,_),Ac_Ataque).
+get_acu_def(acumulador_atributos(_,_,Ac_Defesa,_,_,_),Ac_Defesa).
+get_acu_mei(acumulador_atributos(_,_,_,Ac_Meio,_,_),Ac_Meio).
+get_acu_tit(acumulador_atributos(_,_,_,_,Ac_Titulos,_),Ac_Titulos).
+get_acu_apa(acumulador_atributos(_,_,_,_,_,Ac_Aparicoes),Ac_Aparicoes).
 
 
 update_acumulador(Acumulador,Carta) :-
@@ -90,7 +90,7 @@ update_acumulador(Acumulador,Carta) :-
 media_ata(Acumulador,Media) :-
   get_acu_ata(Acumulador,Ata),
   get_acu_cont(Acumulador,Cont),
-  Media is Ata div Cont.
+  Media is Ata / Cont.
 
 media_def(Acumulador,Media) :-
     get_acu_def(Acumulador,Def),
