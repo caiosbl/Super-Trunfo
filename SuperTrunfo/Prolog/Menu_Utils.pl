@@ -7,7 +7,8 @@ show_banner :-
     imprime(String),
     sleep(5),
     shell(clear).
-   
+
+
 
 imprime([]).
 imprime([H|T]):- write(H),nl, imprime(T).

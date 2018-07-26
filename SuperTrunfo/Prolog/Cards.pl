@@ -88,9 +88,9 @@ update_acumulador(Acumulador,Carta) :-
 
 
 media_ata(Acumulador,Media) :-
-  get_acu_ata(Acumulador,Ata),
-  get_acu_cont(Acumulador,Cont),
-  Media is Ata / Cont.
+   get_acu_ata(Acumulador,Ata),
+   get_acu_cont(Acumulador,Cont),
+   Media is Ata / Cont.
 
 media_def(Acumulador,Media) :-
     get_acu_def(Acumulador,Def),

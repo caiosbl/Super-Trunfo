@@ -4,9 +4,7 @@
 :- include('Pilha.pl').
 :- include('Menu_Utils.pl').
 
-main :-
-    show_banner,
-    write(teste).
+main. 
     
 
 setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo) :-
