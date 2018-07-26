@@ -2,15 +2,11 @@
 :- use_module(library(pio)).
 :- include('Utils.pl').
 :- include('Pilha.pl').
+:- include('Menu_Utils.pl').
 
 main :-
-    setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo),
-    top(Pilha1,Top),
-    write(''),nl,
-    write(Top),nl,
-    build_acumulador_atributos(1,0,0,0,0,0,Acumulador),
-    escolhe_atributo_bot(Top,Acumulador,Atributo),
-    write(Atributo).
+    show_banner,
+    write(teste).
     
 
 setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo) :-
