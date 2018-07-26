@@ -5,8 +5,14 @@ show_banner :-
     read_file(Str,String),
     close(Str),
     imprime(String),
-    sleep(5),
-    shell(clear).
+    sleep(5).
+
+show_opcoes :-
+    write('[1] - INICIAR JOGO 1PLAYER'),nl,
+    write('[2] - INICIAR JOGO 2PLAYERS'),nl,
+    write('[3] - CREDITOS'),nl,
+    write('[4] - SAIR'),nl,
+    write('ESCOLHA UM OPCAO: '),nl.
 
 
 
