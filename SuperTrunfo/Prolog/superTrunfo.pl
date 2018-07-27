@@ -31,68 +31,81 @@ select_opcao(2) .
 select_opcao(3) .
 select_opcao(4) :- halt(0).
 
-inicia_jogo_1p(Pilha1,Pilha2,Player_Atual,Acumulador,Rodada) :-
+inicia_jogo_1p([],_,_,_,Rodada) :- 
+    shell(clear),
     number_string(Rodada,Rodada_String),
-    length(Pilha1, Size1),
+    string_concat('FIM DE JOGO PLAYER 1 VENCEU!!! TOTAL DE RODADAS: ',Rodada_String, P1_Venceu),
+    write(P1_Venceu),nl.
+inicia_jogo_1p(_,[],_,_,Rodada) :- 
+        shell(clear),
+        number_string(Rodada,Rodada_String),
+        string_concat('FIM DE JOGO PLAYER 2 VENCEU!!! TOTAL DE RODADAS: ',Rodada_String, P2_Venceu),
+        write(P2_Venceu),nl.
+
+inicia_jogo_1p(Pilha1,Pilha2,Player_Atual,Acumulador,Rodada) :-
+    length(Pilha1,Size1),
     length(Pilha2,Size2),
+
     number_string(Size1, Placar1),
+    number_string(Rodada,Rodada_String),
+
     number_string(Size2,Placar2),
     number_string(Player_Atual,Player_String),
-    
 
-    string_concat('FIM DE JOGO PLAYER 1 VENCEU!!! TOTAL DE RODADAS: ',Rodada_String, P1_Venceu),
-    string_concat('FIM DE JOGO PLAYER 2 VENCEU!!! TOTAL DE RODADAS: ',Rodada_String, P2_Venceu),
-    string_concat('Placar: P1 ', Placar1,Top1),
-    string_concat(Top1,' x P2 ',Top2),
-    string_concat(Top2,Placar2,Top3),
-    string_concat(Top3,' - Rodada Atual: ',Top4),
-    string_concat(Top4,Rodada_String,Top),
-    
-    (empty(Pilha1) -> write(P2_Venceu),nl
-    ; empty(Pilha2) -> write(P1_Venceu),nl
-    ;
+    nl,
+    write('Placar: P1 '), write(Placar1), write(' X '), write(Placar2), write(' P2 - Rodada Atual: '),write(Rodada_String),
+    write(' - Player Atual: '),write(Player_String),
+    nl,
+
     top(Pilha1,Carta1),
     top(Pilha2,Carta2),
-    write(Top),nl,nl, 
-    write('[Nova Jogada]'),nl,write('Player Atual: '), write(Player_String),nl,
+ 
+    update_acumulador(Acumulador,Carta2,Acumulador_New),
+    write('[Nova Jogada]'),nl,write('Carta Player '), write(Player_String),nl,
     show_carta_aux(Player_Atual,Carta1,Carta2),nl,
+
+    sleep(4),
     
     check_trunfo(Player_Atual,Carta1,Carta2,Is_Trunfo,Comparador),
     (Is_Trunfo == 1 -> Comp = Comparador 
      ; escolhe_atributo(Player_Atual,Atributo,Carta2,Acumulador),
      comparador_aux(Player_Atual,Carta1,Carta2,Atributo,Comp)),nl,
+    
+     sleep(3),
 
-    show_carta_aux(Player_Atual,Carta2,Carta1),nl,
-    ganha_carta(Comp,Pilha1,Pilha2,Player_Atual,NextPlayer),
-    sleep(2),
-    inicia_jogo_1p(Pilha1,Pilha2,NextPlayer,Acumulador,Rodada + 1)).
-
-
-ganha_carta(Comp,Pilha1,Pilha2,1,NextPlayer) :-
-  (Comp > 0 -> write('PLAYER 1 VENCEU A RODADA!!!'),nl,
-  ganha_carta_aux(Pilha1,Pilha2),
-  NextPlayer = 1
-  ; write('PLAYER 2 VENCEU A RODADA!!!'),nl,
-  ganha_carta_aux(Pilha2,Pilha1),
-  NextPlayer = 2
-).
-
-ganha_carta(Comp,Pilha1,Pilha2,2,NextPlayer) :-
-        (Comp > 0 -> write('PLAYER 2 VENCEU A RODADA!!!'),nl,
-        ganha_carta_aux(Pilha2,Pilha1), NextPlayer = 2
-        ; write('PLAYER 1 VENCEU A RODADA!!!'),nl,
-        ganha_carta_aux(Pilha1,Pilha2),NextPlayer = 1
-      ).
+     write('Carta Player Oponente: '),nl,
+     show_carta_aux(Player_Atual,Carta2,Carta1),nl,
+     sleep(3),
+     Rodada_New is Rodada + 1,
+     vencedor(Player_Atual,Comp,Player_Vencedor),
+     troca_cartas(Player_Atual,Pilha1,Pilha2,Pilha1_n,Pilha2_n),
+     length(Pilha1,Le),
+     write(Le),nl,
+     sleep(4),
+     inicia_jogo_1p(Pilha1,Pilha2,Player_Vencedor,Acumulador_New,Rodada_New).
 
 
-ganha_carta_aux(Pilha1,Pilha2) :-
-    pop(Removida,Pilha2,Pilha2),
-    pop(Topo,Pilha1,Pilha1_),
-    reverse(Pilha1_, Pilha1_In),
-    push(Topo,Pilha1_In,Pilha1_In_),
-    push(Removida,Pilha1_In_,Pilha1_A),
-    reverse(Pilha1_A,Pilha1).
-   
+troca_cartas(1,Pilha1,Pilha2,Pilha1_n,Pilha2_n) :-
+        pop(Top,Pilha1,Pilha1_Sem_Top),
+        pop(Removida,Pilha2,Pilha2_n),
+        reverse(Pilha1_Sem_Top, Pilha1_Inverter),
+        push(Top,Pilha1_Inverter,Pilha1_att),
+        push(Removida,Pilha1_att,Pilha1_att2),
+        reverse(Pilha1_att2,Pilha1_n).
+    
+    
+troca_cartas(2,Pilha1,Pilha2,Pilha1_n,Pilha2_n) :-
+     pop(Top,Pilha2,Pilha2_Sem_Top),
+     pop(Removida,Pilha1,Pilha1_n),
+     reverse(Pilha2_Sem_Top, Pilha2_Inverter),
+     push(Top,Pilha2_Inverter,Pilha2_att),
+     push(Removida,Pilha2_att,Pilha2_att2),
+     reverse(Pilha2_att2,Pilha2_n).
+
+vencedor(1,Comp,Vencedor) :-(Comp > 0 -> write('[PLAYER 1 VENCEDOR DA RODADA!]'),nl, Vencedor is 1 ; write('[PLAYER 2 VENCEDOR DA RODADA!]'),nl,Vencedor is 2 ).
+vencedor(2,Comp,Vencedor) :-(Comp > 0 -> write('[PLAYER 2 VENCEDOR DA RODADA!]'),nl,Vencedor is 2 ; write('[PLAYER 1 VENCEDOR DA RODADA!]'),nl,Vencedor is 1 ).
+
+
 
 
 comparador_aux(1,Carta1,Carta2,Atributo,Comparador) :- compara_cartas(Carta1,Carta2,Atributo,Comparador).

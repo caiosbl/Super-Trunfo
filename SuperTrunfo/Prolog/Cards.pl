@@ -35,7 +35,7 @@ show_carta(Carta) :-
     write(Ataque),nl,
     write(Titulos),nl,
     write(Aparicoes),nl,
-    Trunfo -> write('[É TRUNFO]') ; write('').
+    Trunfo -> write('[E TRUNFO]') ; write('').
 
 is_trunfo(carta(_,_,_,_,_,_,_,1)).
 
@@ -63,7 +63,7 @@ get_acu_tit(acumulador_atributos(_,_,_,_,Ac_Titulos,_),Ac_Titulos).
 get_acu_apa(acumulador_atributos(_,_,_,_,_,Ac_Aparicoes),Ac_Aparicoes).
 
 
-update_acumulador(Acumulador,Carta) :-
+update_acumulador(Acumulador,Carta,Acumulador2) :-
   get_acu_cont(Acumulador,Cont),
   get_acu_ata(Acumulador,Ata),
   get_acu_def(Acumulador,Def),
@@ -71,11 +71,16 @@ update_acumulador(Acumulador,Carta) :-
   get_acu_tit(Acumulador,Tit),
   get_acu_apa(Acumulador,Apa),
 
-  get_ataque(Carta,Ata_),
-  get_defesa(Carta,Def_),
-  get_meio(Carta,Mei_),
-  get_titulos(Carta,Tit_),
-  get_aparicoes_copa(Carta,Apa_),
+  get_ataque(Carta,Ata_S),
+  number_string(Ata_,Ata_S),
+  get_defesa(Carta,Def_S),
+  number_string(Def_,Def_S),
+  get_meio(Carta,Mei_S),
+  number_string(Mei_,Mei_S),
+  get_titulos(Carta,Tit_S),
+  number_string(Tit_,Tit_S),
+  get_aparicoes_copa(Carta,Apa_S),
+  number_string(Apa_,Apa_S),
 
   Con is Cont + 1,
   Ataque is Ata + Ata_,
@@ -84,7 +89,7 @@ update_acumulador(Acumulador,Carta) :-
   Titulos is Tit + Tit_,
   Aparicoes is Apa + Apa_,
 
-  Acumulador = build_acumulador_atributos(Con,Ataque,Defesa,Meio,Titulos,Aparicoes).
+  Acumulador2 = build_acumulador_atributos(Con,Ataque,Defesa,Meio,Titulos,Aparicoes).
 
 
 media_ata(Acumulador,Media) :-
