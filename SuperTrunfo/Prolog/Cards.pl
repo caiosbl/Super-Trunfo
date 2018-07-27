@@ -89,7 +89,7 @@ update_acumulador(Acumulador,Carta,Acumulador2) :-
   Titulos is Tit + Tit_,
   Aparicoes is Apa + Apa_,
 
-  Acumulador2 = build_acumulador_atributos(Con,Ataque,Defesa,Meio,Titulos,Aparicoes).
+  Acumulador2 = acumulador_atributos(Con,Ataque,Defesa,Meio,Titulos,Aparicoes).
 
 
 media_ata(Acumulador,Media) :-
