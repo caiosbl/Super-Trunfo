@@ -25,9 +25,11 @@ valida_opcao(4).
 
 select_opcao(1) :- 
 setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo,Acumulador),
-inicia_jogo_1p(Pilha1,Pilha2,2,Acumulador,1).
+inicia_jogo_1p(Pilha1,Pilha2,Player_Inicia_Jogo,Acumulador,1).
 
-select_opcao(2) .
+select_opcao(2) :-
+setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo,Acumulador),
+inicia_jogo_2p(Pilha1,Pilha2,Player_Inicia_Jogo,Acumulador,1).
 select_opcao(3) .
 select_opcao(4) :- halt(0).
 
@@ -80,7 +82,7 @@ inicia_jogo_1p(Pilha1,Pilha2,Player_Atual,Acumulador,Rodada) :-
      sleep(3),
 
     vencedor(Player_Atual,Comp,Player_Vencedor),
-    troca_cartas(Player_Atual,Pilha1,Pilha2,Pilha1_n,Pilha2_n),
+    troca_cartas(Player_Vencedor,Pilha1,Pilha2,Pilha1_n,Pilha2_n),
     sleep(4),
  
 
@@ -89,6 +91,65 @@ inicia_jogo_1p(Pilha1,Pilha2,Player_Atual,Acumulador,Rodada) :-
 
 
     inicia_jogo_1p(Pilha1_n,Pilha2_n,Player_Vencedor,Acumulador_New,Rodada_N).
+
+inicia_jogo_2p([],_,_,_,Rodada) :- 
+    shell(clear),
+    number_string(Rodada,Rodada_String),
+    string_concat('FIM DE JOGO PLAYER 1 VENCEU!!! TOTAL DE RODADAS: ',Rodada_String, P1_Venceu),
+    write(P1_Venceu),nl.
+inicia_jogo_2p(_,[],_,_,Rodada) :- 
+        shell(clear),
+        number_string(Rodada,Rodada_String),
+        string_concat('FIM DE JOGO PLAYER 2 VENCEU!!! TOTAL DE RODADAS: ',Rodada_String, P2_Venceu),
+        write(P2_Venceu),nl.
+
+inicia_jogo_2p(Pilha1,Pilha2,Player_Atual,Acumulador,Rodada) :-
+        shell(clear),
+        length(Pilha1,Size1),
+        length(Pilha2,Size2),
+        number_string(Size1, Placar1),
+        number_string(Rodada,Rodada_String),
+        number_string(Size2,Placar2),
+        number_string(Player_Atual,Player_String),
+        
+    
+        nl,
+        write('Placar: P1 '), write(Placar1), write(' X '), write(Placar2), write(' P2 - Rodada Atual: '),write(Rodada_String),
+        write(' - Player Atual: '),write(Player_String),
+        nl,
+        sleep(1),
+    
+        top(Pilha1,Carta1),
+        top(Pilha2,Carta2),
+        
+        sleep(1),
+    
+        update_acumulador(Acumulador,Carta2,Acumulador_New),
+        write('[Nova Jogada]'),nl,write('Carta Player '), write(Player_String),nl,
+        show_carta_aux(Player_Atual,Carta1,Carta2),nl,
+        sleep(4),
+    
+        check_trunfo(Player_Atual,Carta1,Carta2,Is_Trunfo,Comparador),
+        (Is_Trunfo == 1 -> Comp = Comparador 
+         ; escolhe_atributo(1,Atributo,Carta2,Acumulador),
+         comparador_aux(Player_Atual,Carta1,Carta2,Atributo,Comp)),nl,
+        
+         sleep(3),
+    
+         write('Carta Player Oponente: '),nl,
+         show_carta_aux(Player_Atual,Carta2,Carta1),nl,
+         sleep(3),
+    
+        vencedor(Player_Atual,Comp,Player_Vencedor),
+        troca_cartas(Player_Vencedor,Pilha1,Pilha2,Pilha1_n,Pilha2_n),
+        sleep(4),
+     
+    
+        Rodada_N is Rodada + 1,
+    
+    
+    
+        inicia_jogo_1p(Pilha1_n,Pilha2_n,Player_Vencedor,Acumulador_New,Rodada_N).
 
 
 troca_cartas(1,Pilha1,Pilha2,Pilha1_n,Pilha2_n) :-
