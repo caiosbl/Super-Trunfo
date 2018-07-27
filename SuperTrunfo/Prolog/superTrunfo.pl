@@ -34,12 +34,12 @@ inicia_jogo_2p(Pilha1,Pilha2,Player_Inicia_Jogo,Acumulador,1).
 select_opcao(3) :- show_creditos.
 select_opcao(4) :- halt(0).
 
-inicia_jogo_1p([],_,_,_,Rodada) :- 
+inicia_jogo_1p(_,[],_,_,Rodada) :- 
     shell(clear),
     number_string(Rodada,Rodada_String),
     string_concat('FIM DE JOGO PLAYER 1 VENCEU!!! TOTAL DE RODADAS: ',Rodada_String, P1_Venceu),
     write(P1_Venceu),nl.
-inicia_jogo_1p(_,[],_,_,Rodada) :- 
+inicia_jogo_1p([],_,_,_,Rodada) :- 
         shell(clear),
         number_string(Rodada,Rodada_String),
         string_concat('FIM DE JOGO PLAYER 2 VENCEU!!! TOTAL DE RODADAS: ',Rodada_String, P2_Venceu),
