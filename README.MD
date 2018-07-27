@@ -21,6 +21,7 @@ Projeto para a disciplina de **Paradigmas de Linguagem de Programação** 2017.2
 **Linguagens:** 
 - C++
 - Haskell
+- Prolog
 
  **Versão:** 1.0
  
