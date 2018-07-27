@@ -82,7 +82,7 @@ inicia_jogo_1p(Pilha1,Pilha2,Player_Atual,Acumulador,Rodada) :-
      length(Pilha1,Le),
      write(Le),nl,
      sleep(4),
-     inicia_jogo_1p(Pilha1,Pilha2,Player_Vencedor,Acumulador_New,Rodada_New).
+     inicia_jogo_1p(Pilha1_n,Pilha2_n,Player_Vencedor,Acumulador_New,Rodada_New).
 
 
 troca_cartas(1,Pilha1,Pilha2,Pilha1_n,Pilha2_n) :-
