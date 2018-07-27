@@ -10,6 +10,7 @@ main :-
 
 
 menu :-
+    shell(clear),
     show_opcoes,
     read_opcao(Opcao),
     select_opcao(Opcao).
@@ -30,7 +31,7 @@ inicia_jogo_1p(Pilha1,Pilha2,Player_Inicia_Jogo,Acumulador,1).
 select_opcao(2) :-
 setup_jogo(Pilha1,Pilha2,Player_Inicia_Jogo,Acumulador),
 inicia_jogo_2p(Pilha1,Pilha2,Player_Inicia_Jogo,Acumulador,1).
-select_opcao(3) .
+select_opcao(3) :- show_creditos.
 select_opcao(4) :- halt(0).
 
 inicia_jogo_1p([],_,_,_,Rodada) :- 
@@ -149,7 +150,7 @@ inicia_jogo_2p(Pilha1,Pilha2,Player_Atual,Acumulador,Rodada) :-
     
     
     
-        inicia_jogo_1p(Pilha1_n,Pilha2_n,Player_Vencedor,Acumulador_New,Rodada_N).
+        inicia_jogo_2p(Pilha1_n,Pilha2_n,Player_Vencedor,Acumulador_New,Rodada_N).
 
 
 troca_cartas(1,Pilha1,Pilha2,Pilha1_n,Pilha2_n) :-
@@ -275,4 +276,3 @@ escolhe_atributo_bot_aux(Dif_Ata,Dif_Def,Dif_Mei,Dif_Tit,Dif_Apa,Atributo) :-
     ;Dif_Mei >= Max -> Atributo = 'MEIO'
     ;Dif_Tit >= Max -> Atributo = 'TITULOS'
     ; Atributo = 'APARICOES').
-
