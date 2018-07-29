@@ -5,7 +5,7 @@
 # **SUPER TRUNFO - COPA 2018**
 
 ## Sobre
-Projeto para a disciplina de **Paradigmas de Linguagem de Programação** 2017.2
+Projeto para a disciplina de **Paradigmas de Linguagem de Programação** 2018.1
 
 **Super Trunfo Copa 2018**, jogo com 32 cartas representando as 32 seleções da Copa 2018,  baseado no sorteio das cartas para 2 pilhas de jogadores, sendo um Bot e um Jogador Real ou 2 jogadores Reais, e na disputa de critérios entre a carta do topo do pilha de cada Jogador.
 
